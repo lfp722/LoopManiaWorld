@@ -40,7 +40,7 @@ public class LoopManiaWorld {
     // TODO = add more lists for other entities, for equipped inventory items, etc...
 
     // TODO = expand the range of enemies
-    private List<BasicEnemy> enemies;
+    private List<Enemy> enemies;
 
     // TODO = expand the range of cards
     private List<Card> cardEntities;
@@ -73,7 +73,46 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        //map containing lists of different buildings
     }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public int getWidth() {
         return width;
