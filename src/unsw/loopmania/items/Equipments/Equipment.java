@@ -1,5 +1,8 @@
-package unsw.loopmania.items;
+package unsw.loopmania.items.Equipments;
 import java.lang.Math;
+import javafx.beans.property.SimpleIntegerProperty;
+
+import unsw.loopmania.items.Item;
 public class Equipment extends Item{
     protected boolean isEquipped;
     protected int level;
@@ -13,11 +16,11 @@ public class Equipment extends Item{
         this.levelUpPrice = (int) (Math.pow(100 * this.level, 2) - 150);
     }
 
-    public Equipment(boolean isEquipped, int level){
-        super();
+    public Equipment(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped){
+        super(x, y);
         this.isEquipped = isEquipped;
-        this.level = level;
-        this.ValueInGold = 0;
+        this.level = 1;
+        this.ValueInGold = 250;
     }
 
     public boolean isEquipped() {
@@ -33,7 +36,7 @@ public class Equipment extends Item{
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        this.level += 1;
     }
 
 

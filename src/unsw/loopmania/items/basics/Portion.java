@@ -1,4 +1,6 @@
-package unsw.loopmania.items;
+package unsw.loopmania.items.basics;
+
+import unsw.loopmania.items.Item;
 
 public class Portion extends Item{
     private double recoverRate;

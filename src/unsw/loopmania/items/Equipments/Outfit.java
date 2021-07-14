@@ -1,14 +1,14 @@
-package unsw.loopmania.items;
-
+package unsw.loopmania.items.Equipments;
+import javafx.beans.property.SimpleIntegerProperty;
 public class Outfit extends Equipment {
 
-    private int defense;
-    private double reduceRate;
+    protected int defense;
+    protected double reduceRate;
 
-    public Outfit(boolean isEquipped, int level) {
-        super(isEquipped, level);
+    public Outfit(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
+        super(x,y, isEquipped);
         this.ValueInGold = 250;
-        this.defense = 0;
+        this.defense = 100;
         this.reduceRate = 0;
     }
 
@@ -17,7 +17,7 @@ public class Outfit extends Equipment {
     }
 
     public void setDefense(int defense) {
-        this.defense = defense;
+        this.defense += this.level * 10;
     }
 
     public double getReduceRate() {

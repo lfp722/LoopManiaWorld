@@ -1,11 +1,13 @@
 package unsw.loopmania.items;
+import unsw.loopmania.StaticEntity;
+import javafx.beans.property.SimpleIntegerProperty;
 
-public class Item {
+public class Item extends StaticEntity {
     protected int ValueInGold;
     protected Character owner;
 
-
-    public Item(){
+    public Item(SimpleIntegerProperty x, SimpleIntegerProperty y){
+        super(x, y);
         this.ValueInGold = 0;
         this.owner = null;
     }

@@ -1,10 +1,11 @@
-package unsw.loopmania.items;
+package unsw.loopmania.items.Equipments.outfits;
 
+import unsw.loopmania.items.Equipments.Outfit;
+import javafx.beans.property.SimpleIntegerProperty;
 public class Shield extends Outfit {
 
-    public Shield(boolean isEquipped, int level) {
-        super(isEquipped, level);
-        this.defense = 0;
+    public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
+        super(x,y,isEquipped);
         this.reduceRate = 1 - this.level * 0.15;
     }
 
