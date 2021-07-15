@@ -10,7 +10,7 @@ public class VampireCastle extends Building implements EnemyProducer{
 
     @Override
     public Enemy EnemyProducer(LoopManiaWorld world) {
-        PathPosition pt = new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0, 2)));
+        PathPosition pt = new PathPosition(this.getPathTileNearBuilding(world), world.getOrderedPath());
         int radius = world.getRadiusCampFire();
         Vampire vampire = new Vampire(pt, radius, world.getCycle());
         return vampire;
