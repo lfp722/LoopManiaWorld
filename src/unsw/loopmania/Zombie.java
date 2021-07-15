@@ -57,18 +57,4 @@ public class Zombie extends Enemy implements EnemyCriticalAttack{
         world.getEnemies().add(a);
     }
 
-    /**
-     * a compare helper function to help sort the zomie list
-     * @param a
-     * @param b
-     * @return
-     */
-    public static int compare(Zombie a, Zombie b) {
-        String valA = new String();
-        String valB = new String();
-        valA = String.format("%d", a.getAttribute().getCurHealth().get());
-        valB = String.format("%d", b.getAttribute().getCurHealth().get());
-        return valA.compareTo(valB);
-    }
-
 }

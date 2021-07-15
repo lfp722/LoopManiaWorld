@@ -3,7 +3,7 @@ package unsw.loopmania;
 import java.util.List;
 import java.util.Random;
 
-public class Vampire extends Enemy implements EnemyCriticalAttack{
+public class Vampire extends Enemy implements EnemyCriticalAttack {
     
     private int radusCampfire;
     private int critRateLimit = 90;
