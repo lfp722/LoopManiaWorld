@@ -8,6 +8,10 @@ public class EntityAttribute {
     private SimpleIntegerProperty health;
     private SimpleIntegerProperty cur_health;
 
+    public EntityAttribute() {
+
+    }
+
     public EntityAttribute(int attack, int defence, int health){
         this.attack = new SimpleIntegerProperty();
         this.defence = new SimpleIntegerProperty();
@@ -35,4 +39,8 @@ public class EntityAttribute {
     public SimpleIntegerProperty getCurHealth() {
         return cur_health;
     }
+
+    public EntityAttribute copy(int discount) {
+        return new EntityAttribute(attack.get() / discount + 1, defence.get() / discount + 1, health.get() / discount + 1);
+    } 
 }

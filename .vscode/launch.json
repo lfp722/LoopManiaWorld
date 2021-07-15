@@ -8,10 +8,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch test",
+            "name": "Launch Trial",
             "request": "launch",
-            "mainClass": "test",
-            "projectName": "21T2-cs2511-project_5368489a"
+            "mainClass": "unsw.loopmania.Trial",
+            "projectName": "21T2-cs2511-project_e4eb7446"
         },
         {
             "type": "java",
