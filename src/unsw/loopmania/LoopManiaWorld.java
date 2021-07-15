@@ -8,6 +8,10 @@ import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+
 /**
  * A backend world.
  *
@@ -38,7 +42,7 @@ public class LoopManiaWorld {
     private Character character;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
-
+    private List<Item> items;
     // TODO = expand the range of enemies
     private List<BasicEnemy> enemies;
 
@@ -392,6 +396,22 @@ public class LoopManiaWorld {
     public void removeBuildingEntities(Building building){
         building.destory();
         buildingEntities.remove(building);
+    }
+
+    public JSONObject<Item> getStoreItems(){
+        JSONObject a = new JSONObject();
+        JSONArray b = new JSONArray();
+        for(Item i: items){
+            if(!i.equals(TheOneRing)){
+                JSONObject c = new JSONObject();
+                //need getType();
+                c.put("Name", i.getType());
+                c.put("Gold", i.getValueInGold());
+                b.put(c);
+            }
+        }
+        a.put("Items", b);
+        return a;
     }
 
     
