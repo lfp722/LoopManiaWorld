@@ -1,4 +1,4 @@
-package unsw.loopmania.items.Equipments;
+package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.binding.Bindings;

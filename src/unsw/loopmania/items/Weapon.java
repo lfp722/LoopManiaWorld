@@ -1,11 +1,9 @@
-package unsw.loopmania.items.Equipments;
+package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.BasicEnemy;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.binding.Bindings;
 public class Weapon extends Equipment {
 
-    protected SimpleDoubleProperty damage;
+    protected SimpleIntegerProperty damage;
 
     public Weapon(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
         super(x,y,isEquipped);
@@ -14,7 +12,7 @@ public class Weapon extends Equipment {
         this.damage.bind(Bindings.createDoubleBinding(()->this.nextDamage(),this.level));
     }
 
-    public double getDamage() {
+    public int getDamage() {
         return this.damage.get();
     }
 

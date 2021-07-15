@@ -1,8 +1,8 @@
-package unsw.loopmania.items.Equipments.outfits;
+package unsw.loopmania.items;
 
 import java.lang.Math;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.items.Equipments.Outfit;
+import unsw.loopmania.*;
 
 
 public class Helmet extends Outfit {
@@ -20,7 +20,7 @@ public class Helmet extends Outfit {
 
     public void setCharacterDamage(boolean equiped) {
         if (equiped) {
-            this.ownerOriginalDamage = this.owner.getDamage();
+            this.ownerOriginalDamage = this.owner.getAttr().getAttack();
             this.owner.setDamage(this.ownerOriginalDamage.get() * (0.85 + 0.01 * this.level.get()));
         }
         else {
@@ -37,7 +37,7 @@ public class Helmet extends Outfit {
 
     @Override
     public void unequip() {
-        this.owner.getEquip().unequipHelmet(this);
+        this.owner.getEquip().dropHelmet();
         this.setCharacterDamage(false);
     }
     

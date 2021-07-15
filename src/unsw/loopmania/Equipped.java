@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import unsw.loopmania.items.*;
 
 public class Equipped {
     private Helmet helmet;
@@ -31,7 +32,7 @@ public class Equipped {
             return 0;
         }
         else {
-            return weapon.getAttack();
+            return weapon.getDamage();
         }
     }
 

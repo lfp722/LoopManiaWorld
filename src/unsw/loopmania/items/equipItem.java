@@ -1,4 +1,4 @@
-package unsw.loopmania.items.Equipments;
+package unsw.loopmania.items;
 
 public interface equipItem {
     public void equip();

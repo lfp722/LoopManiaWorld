@@ -28,15 +28,15 @@ public class BattleSimulator implements Simulator{
     }
 
     @Override
-    public void simulate(LoopManiaWorld world) {
+    public List<Enemy> simulate(LoopManiaWorld world) {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
-        List<Enemy> battleEnemies;
+        List<Enemy> battleEnemies = new ArrayList<>();
         boolean isBattle = false;
-        Character character = world.getCharactor();
+        Character character = world.getCharacter();
 
 
-        for (Enemy e: enemies){
+        for (Enemy e: world.getEnemies()){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
             if (isBattle) {
@@ -59,6 +59,7 @@ public class BattleSimulator implements Simulator{
             // due to mutating list we're iterating over
             world.killEnemy(e);
         }
+        
         return defeatedEnemies;
 
     }

@@ -1,6 +1,5 @@
-package unsw.loopmania.items.Equipments.outfits;
+package unsw.loopmania.items;
 
-import unsw.loopmania.items.Equipments.Outfit;
 import javafx.beans.property.SimpleIntegerProperty;
 public class Shield extends Outfit {
 
@@ -21,7 +20,9 @@ public class Shield extends Outfit {
 
     @Override
     public void unequip() {
-        this.owner.getEquip().unequipShield(this);
+        if (this.owner.getEquip().getShield().equals(this)) {
+            this.owner.getEquip().dropShield();
+        }
     }
 
     //Convenient for later change

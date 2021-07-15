@@ -1,5 +1,6 @@
 package unsw.loopmania.items;
-import unsw.loopmania.StaticEntity;
+import unsw.loopmania.*;
+import unsw.loopmania.Character;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Item extends StaticEntity {

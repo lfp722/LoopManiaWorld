@@ -1,9 +1,8 @@
-package unsw.loopmania.items.Equipments;
+package unsw.loopmania.items;
 import java.lang.Math;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import unsw.loopmania.items.Item;
 public class Equipment extends Item implements equipItem{
     protected SimpleBooleanProperty isEquipped;
     protected SimpleIntegerProperty level;
@@ -44,10 +43,9 @@ public class Equipment extends Item implements equipItem{
 
 
     public void equip() {
-        this.owner.getEquip().equip(this);
+
     }
     public void unequip() {
-        this.owner.getEquip().unequip(this);
     }
 
     @Override

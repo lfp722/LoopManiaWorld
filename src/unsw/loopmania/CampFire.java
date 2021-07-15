@@ -1,6 +1,7 @@
 package unsw.loopmania;
 import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.StaticEntity;
 
@@ -10,6 +11,7 @@ public class CampFire extends Building{
     private Character character;
     private LoopManiaWorld world;
     private ArrayList<StaticEntity> entities;
+    private int radius;
 
     public CampFire(SimpleIntegerProperty x, SimpleIntegerProperty y, int radius){
         super(x, y);
@@ -24,8 +26,8 @@ public class CampFire extends Building{
     public void setEntities(SimpleIntegerProperty x, SimpleIntegerProperty y){
         ArrayList<StaticEntity> a = new ArrayList<>();
         int r = this.getRadius();
-        for(int x = this.getX() - r;x <= this.getX() + r; x++){
-            for(int y = this.getY() - r;y <= this.getY() + r; y++){
+        for(int x = this.getX().get() - r;x <= this.getX().get() + r; x++){
+            for(int y = this.getY().get() - r;y <= this.getY().get() + r; y++){
                 if(x*x + y*y <= r*r){
                     StaticEntity b = new StaticEntity(x,y);
                     a.add(b);

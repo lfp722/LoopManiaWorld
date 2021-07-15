@@ -11,6 +11,6 @@ public class CycleGoal implements Goal{
 
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
-        return world.getCycle() == cycle;
+        return world.getCycle().get() == cycle;
     }
 }

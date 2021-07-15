@@ -1,7 +1,6 @@
-package unsw.loopmania.items.rare;
+package unsw.loopmania.items;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.items.Item;
 
 public class TheOneRing extends Item {
     private SimpleDoubleProperty chanceAppearance;

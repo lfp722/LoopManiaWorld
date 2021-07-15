@@ -5,6 +5,8 @@ import java.util.List;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.items.Equipment;
+import unsw.loopmania.items.Item;
 
 /**
  * represents the main character in the backend of the game world
@@ -43,12 +45,12 @@ public class Character extends MovingEntity {
         army.remove(soldier);
     }
 
-    public void equip(Item item) {
-        item.equip(this);
+    public void equip(Equipment item) {
+        item.equip();
     }
 
-    public void unequip(Item item) {
-        item.unequip(this);
+    public void unequip(Equipment item) {
+        item.unequip();
     }
 
     public void attack(Enemy enemy) {
@@ -57,7 +59,7 @@ public class Character extends MovingEntity {
             actualAttack += temp.getAttack();
         }
         enemy.underAttack(actualAttack);
-        equipped.getWeapon().specialEffect(Enemy enemy);
+        equipped.getWeapon().specialEffect(enemy);
     }
 
     public void underAttack(int attack) {
@@ -95,5 +97,9 @@ public class Character extends MovingEntity {
 
     public void addExp(int exp) {
         this.experience.set(this.experience.get()+exp);
+    }
+
+    public Equipped getEquip() {
+        return equipped;
     }
 }

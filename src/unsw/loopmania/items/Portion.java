@@ -1,8 +1,8 @@
-package unsw.loopmania.items.basics;
+package unsw.loopmania.items;
 
-import unsw.loopmania.items.Item;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import unsw.loopmania.Character;
 public class Portion extends Item{
     private SimpleDoubleProperty recoverRate;
 
@@ -22,9 +22,11 @@ public class Portion extends Item{
     }
 
     public void recoverHealth() {
-        this.owner.curHealth.set(this.owner.curHealth.get() + this.owner.maxHealth.get() * this.recoverRate);
-        if (this.owner.curHealth.get() >= this.owner.maxHealth.get()) {
-            this.owner.curHealth.get() = this.owner.maxHealth.get();
+        SimpleIntegerProperty curH = this.owner.getAttr().getCurHealth();
+        SimpleIntegerProperty maxH = this.owner.getAttr().getHealth();
+        curH.set(curH.get() + (int)(maxH.get() * this.recoverRate.get()));
+        if (curH.get() >= maxH.get()) {
+            curH.set(maxH.get());
         }
     }
 
