@@ -67,6 +67,5 @@ public class Staff extends Weapon {
 
     public void reverseEffect() {
         this.owner.enemy.becomeEnemy();
-        return;
     }
 }
