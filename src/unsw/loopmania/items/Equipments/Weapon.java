@@ -1,5 +1,6 @@
 package unsw.loopmania.items.Equipments;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.BasicEnemy;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.binding.Bindings;
 public class Weapon extends Equipment {
@@ -28,5 +29,9 @@ public class Weapon extends Equipment {
     @Override
     public int nextLevelUpPrice() {
         return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
+
+    public void specialEffect(){
+        return;
     }
 }
