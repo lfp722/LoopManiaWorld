@@ -72,4 +72,20 @@ public class Character extends MovingEntity {
     public EntityAttribute getAttr() {
         return attr;
     }
+
+    public Bag getBag() {
+        return bag;
+    }
+
+    public List<Soldier> getArmy() {
+        return army;
+    }
+
+    public int getGold() {
+        return gold.get();
+    }
+
+    public void addGold(int gold) {
+        this.gold.set(this.gold.get()+gold);
+    }
 }

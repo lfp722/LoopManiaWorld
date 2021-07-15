@@ -348,4 +348,8 @@ public class LoopManiaWorld {
 
         return newBuilding;
     }
+
+    public Character getCharacter() {
+        return character;
+    }
 }

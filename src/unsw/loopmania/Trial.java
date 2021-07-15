@@ -5,6 +5,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.lang.Math;
+import java.util.List;
 
 import javax.swing.plaf.synth.SynthStyle;
 
@@ -33,6 +34,7 @@ public class Trial {
         System.out.println(a.level.get());
         System.out.println(a.next_expr.get());
         System.out.println(a.shit.get());
+        System.out.println(a.experience.get());
     }
     
 }
