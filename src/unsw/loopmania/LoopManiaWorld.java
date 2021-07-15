@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.items.Equipments.weapons.Sword;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
