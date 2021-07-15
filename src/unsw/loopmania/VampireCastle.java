@@ -9,12 +9,11 @@ public class VampireCastle extends Building implements EnemyProducer{
     }
 
     @Override
-    public void EnemyProducer(LoopManiaWorld world) {
-        //loop = num of cycle
-        if(loop!=0 && loop%5 == 0){
-            Vampire vampire = new Vampire(1,1,1,1.0,this.location,1,1,1.0);
-            world.addEntity(vampire);
-        }
+    public Enemy EnemyProducer(LoopManiaWorld world) {
+        PathPosition pt = new PathPosition(0, Arrays.asList(new Pair<>(0, 1), new Pair<>(0, 2)));
+        int radius = world.getRadiusCampFire();
+        Vampire vampire = new Vampire(pt, radius, world.getCycle());
+        return vampire;
     }
 
 }
