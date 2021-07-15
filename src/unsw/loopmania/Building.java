@@ -41,4 +41,5 @@ public class Building extends StaticEntity{
         }
         throw new Error("There is no avaliable PathTile nearny this building");
     }
+
 }
