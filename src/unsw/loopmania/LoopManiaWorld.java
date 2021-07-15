@@ -336,9 +336,35 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        // now spawn building
-        Building newBuilding = new Building(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        buildingEntities.add(newBuilding);
+        if(card.getBuildingType().equals(VampireCastle)){
+            VampireCastle newBuilding = new VampireCastle(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals(ZombiePit)){
+            ZombiePit newBuilding = new ZombiePit(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals(Tower)){
+            Tower newBuilding = new Tower(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals(Village)){
+            Village newBuilding = new Village(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals(Barrack)){
+            Barrack newBuilding = new Barrack(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equlas(Trap)){
+            Trap newBuilding = new Trap(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals(CampFire)){
+            CampFire newBuilding = new CampFire(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        
 
         // destroy the card
         card.destroy();
@@ -367,4 +393,6 @@ public class LoopManiaWorld {
         building.destory();
         buildingEntities.remove(building);
     }
+
+    
 }
