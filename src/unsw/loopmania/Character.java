@@ -88,4 +88,12 @@ public class Character extends MovingEntity {
     public void addGold(int gold) {
         this.gold.set(this.gold.get()+gold);
     }
+
+    public int getExp() {
+        return experience.get();
+    }
+
+    public void addExp(int exp) {
+        this.experience.set(this.experience.get()+exp);
+    }
 }

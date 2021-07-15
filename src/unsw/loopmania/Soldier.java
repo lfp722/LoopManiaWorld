@@ -9,11 +9,12 @@ public class Soldier extends StaticEntity{
     private final int inheritRate = 5;
     private Character general;
 
-    public Soldier(SimpleIntegerProperty x, SimpleIntegerProperty y, Character character) {
-        x.bind(character.getX());
+    public Soldier(SimpleIntegerProperty x, SimpleIntegerProperty y, Character ch) {
         super(x, y);
-        attr = character.getAttr().copy(inheritRate);
-        general = character;
+        attr = ch.getAttr().copy(inheritRate);
+        general = ch;
+        x.bind(ch.x());
+        y.bind(ch.y());
     }
     
     public int getAttack() {

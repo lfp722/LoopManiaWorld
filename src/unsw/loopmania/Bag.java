@@ -7,11 +7,7 @@ public class Bag {
     private int limit;
     private Character ch;
 
-    public bag() {
-
-    }
-
-    public add(Item item) {
+    public void add(Item item) {
         if (items.size() == limit) {
             Item popped = items.remove(0);
             items.add(item);
@@ -23,7 +19,7 @@ public class Bag {
         }
     }
 
-    public drop(Item item) {
+    public void drop(Item item) {
         items.remove(item);
     }
 }
