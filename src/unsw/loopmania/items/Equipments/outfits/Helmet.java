@@ -14,8 +14,8 @@ public class Helmet extends Outfit {
     }
 
     @Override
-    public void setReduceRate() {
-        this.reduceRate.set(1 /(Math.sqrt(this.level.get())));
+    public double nextReduceRate() {
+        return (double) 1 /(Math.sqrt(this.level.get()));
     }
 
     public void setCharacterDamage(boolean equiped) {
@@ -40,4 +40,14 @@ public class Helmet extends Outfit {
         this.owner.getEquip().unequipHelmet(this);
         this.setCharacterDamage(false);
     }
+    
+
+    //Convenient for later change
+    /* 
+    @Override
+    
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
+    */
 }

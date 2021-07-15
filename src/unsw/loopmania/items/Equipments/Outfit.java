@@ -1,6 +1,7 @@
 package unsw.loopmania.items.Equipments;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.binding.Bindings;
 public class Outfit extends Equipment {
 
     protected SimpleIntegerProperty defense;
@@ -11,22 +12,29 @@ public class Outfit extends Equipment {
         this.ValueInGold.set(250);
         this.defense.set(100);
         this.reduceRate.set(0);
+
+        this.defense.bind(Bindings.createIntegerBinding(()->this.nextDefense(),this.level));
+        this.reduceRate.bind(Bindings.createDoubleBinding(()->this.nextReduceRate(),this.level));
     }
 
     public int getDefense() {
         return this.defense.get();
     }
 
-    public void setDefense() {
-        this.defense.set(this.defense.get() + this.level.get() * 10);
+    public int nextDefense() {
+        return (int) this.defense.get() + this.level.get() * 10;
     }
 
     public double getReduceRate() {
         return this.reduceRate.get();
     }
 
-    public void setReduceRate() {
-        this.reduceRate.set(0.5);
+    @Override
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
     }
-
+    
+    public double nextReduceRate() {
+        return 0.5;
+    }
 }

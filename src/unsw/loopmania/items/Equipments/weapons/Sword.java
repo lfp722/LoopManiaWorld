@@ -17,8 +17,16 @@ public class Sword extends Weapon {
     public void hit() {
         super.hit();
     }
-
-    public void setDamage() {
-        this.damage.set(this.level.get() + 2);
+    @Override
+    public double nextDamage() {
+        return (double) this.level.get() + 2;
     }
+    //Convenient for later change
+    /* 
+    @Override
+    
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
+    */
 }

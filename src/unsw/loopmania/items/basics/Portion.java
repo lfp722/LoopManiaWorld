@@ -22,9 +22,9 @@ public class Portion extends Item{
     }
 
     public void recoverHealth() {
-        this.owner.curHealth += this.owner.maxHealth * this.recoverRate;
-        if (this.owner.curHealth >= this.owner.maxHealth) {
-            this.owner.curHealth = this.owner.maxHealth;
+        this.owner.curHealth.set(this.owner.curHealth.get() + this.owner.maxHealth.get() * this.recoverRate);
+        if (this.owner.curHealth.get() >= this.owner.maxHealth.get()) {
+            this.owner.curHealth.get() = this.owner.maxHealth.get();
         }
     }
 

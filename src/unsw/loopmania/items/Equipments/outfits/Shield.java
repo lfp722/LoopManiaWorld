@@ -10,8 +10,8 @@ public class Shield extends Outfit {
     }
 
     @Override
-    public void setReduceRate() {
-        this.reduceRate.set(1 - this.level.get() * 0.15);
+    public double nextReduceRate() {
+        return (double) 1 - this.level.get() * 0.15;
     }
 
     @Override
@@ -23,4 +23,13 @@ public class Shield extends Outfit {
     public void unequip() {
         this.owner.getEquip().unequipShield(this);
     }
+
+    //Convenient for later change
+    /* 
+    @Override
+    
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
+    */
 }

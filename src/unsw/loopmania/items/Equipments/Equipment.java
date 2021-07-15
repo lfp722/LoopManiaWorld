@@ -1,7 +1,6 @@
 package unsw.loopmania.items.Equipments;
 import java.lang.Math;
-
-
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import unsw.loopmania.items.Item;
@@ -14,8 +13,8 @@ public class Equipment extends Item{
         return this.levelUpPrice.get();
     }
 
-    public void setLevelUpPrice() {
-        this.levelUpPrice.set((int) Math.pow((100 * this.level.get()),2) - 150);
+    public int nextLevelUpPrice() {
+        return (int) 0;
     }
 
     public Equipment(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped){
@@ -23,6 +22,8 @@ public class Equipment extends Item{
         this.isEquipped.set(isEquipped);
         this.level.set(1);
         this.ValueInGold.set(250);
+
+        this.levelUpPrice.bind(Bindings.createIntegerBinding(()->this.nextLevelUpPrice(),this.level));
     }
 
     public boolean isEquipped() {
@@ -52,7 +53,7 @@ public class Equipment extends Item{
     @Override
     public void use(){
         if (this.owner != null) {
-            if (!isEquipped) {
+            if (!isEquipped.get()) {
                 setEquipped(true);
                 this.equip();
             }

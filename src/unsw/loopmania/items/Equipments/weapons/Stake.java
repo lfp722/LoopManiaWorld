@@ -28,4 +28,18 @@ public class Stake extends Weapon {
         }
     }
 
+
+    @Override
+    public double nextDamage() {
+        return (double) 0.9 * this.level.get() + 1.5;
+    }
+
+    //Convenient for later change
+    /* 
+    @Override
+    
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
+    */
 }

@@ -18,4 +18,13 @@ public class Armour extends Outfit {
     public void unequip() {
         this.owner.getEquip().unequipArmour(this);
     }
+
+    //Convenient for later change
+    /* 
+    @Override
+    
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
+    */
 }
