@@ -340,31 +340,31 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        if(card.getBuildingType().equals(VampireCastle)){
+        if(card.getBuildingType().equals("VampireCastle")){
             VampireCastle newBuilding = new VampireCastle(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals(ZombiePit)){
+        else if(card.getBuildingType().equals("ZombiePit")){
             ZombiePit newBuilding = new ZombiePit(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals(Tower)){
+        else if(card.getBuildingType().equals("Tower")){
             Tower newBuilding = new Tower(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals(Village)){
+        else if(card.getBuildingType().equals("Village")){
             Village newBuilding = new Village(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals(Barrack)){
+        else if(card.getBuildingType().equals("Barrack")){
             Barrack newBuilding = new Barrack(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equlas(Trap)){
+        else if(card.getBuildingType().equlas("Trap")){
             Trap newBuilding = new Trap(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals(CampFire)){
+        else if(card.getBuildingType().equals("CampFire")){
             CampFire newBuilding = new CampFire(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
