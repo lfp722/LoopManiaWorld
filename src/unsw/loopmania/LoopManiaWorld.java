@@ -8,6 +8,10 @@ import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+
 /**
  * A backend world.
  *
@@ -38,7 +42,7 @@ public class LoopManiaWorld {
     private Character character;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
-
+    private List<Item> items;
     // TODO = expand the range of enemies
     private List<BasicEnemy> enemies;
 
@@ -49,7 +53,7 @@ public class LoopManiaWorld {
     private List<Entity> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
-    private List<VampireCastleBuilding> buildingEntities;
+    private List<Building> buildingEntities;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -327,7 +331,7 @@ public class LoopManiaWorld {
      * @param buildingNodeX x index from 0 to width-1 of building to be added
      * @param buildingNodeY y index from 0 to height-1 of building to be added
      */
-    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    public void convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
         Card card = null;
         for (Card c: cardEntities){
@@ -336,20 +340,81 @@ public class LoopManiaWorld {
                 break;
             }
         }
+        if(card.getBuildingType().equals("VampireCastle")){
+            VampireCastle newBuilding = new VampireCastle(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals("ZombiePit")){
+            ZombiePit newBuilding = new ZombiePit(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals("Tower")){
+            Tower newBuilding = new Tower(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals("Village")){
+            Village newBuilding = new Village(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals("Barrack")){
+            Barrack newBuilding = new Barrack(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equlas("Trap")){
+            Trap newBuilding = new Trap(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
+        else if(card.getBuildingType().equals("CampFire")){
+            CampFire newBuilding = new CampFire(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+        }
         
-        // now spawn building
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        buildingEntities.add(newBuilding);
 
         // destroy the card
         card.destroy();
         cardEntities.remove(card);
         shiftCardsDownFromXCoordinate(cardNodeX);
-
-        return newBuilding;
     }
 
-    public Character getCharacter() {
-        return character;
+    /*
+    *getter
+    */
+    public Character getCharacter(){
+        return this.character;
     }
+
+    public List<BasicEnemy> getEnemies(){
+        return this.enemies;
+    }
+
+    public List<Pair<Integer, Integer>> getOrderedPath(){
+        return this.orderedPath;
+    }
+
+    /*
+    *remove building entities
+    */
+
+    public void removeBuildingEntities(Building building){
+        building.destory();
+        buildingEntities.remove(building);
+    }
+
+    public JSONObject<Item> getStoreItems(){
+        JSONObject a = new JSONObject();
+        JSONArray b = new JSONArray();
+        for(Item i: items){
+            if(!i.equals(TheOneRing)){
+                JSONObject c = new JSONObject();
+                //need getType();
+                c.put("Name", i.getType());
+                c.put("Gold", i.getValueInGold());
+                b.put(c);
+            }
+        }
+        a.put("Items", b);
+        return a;
+    }
+
+    
 }
