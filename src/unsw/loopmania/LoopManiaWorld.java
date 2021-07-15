@@ -387,6 +387,10 @@ public class LoopManiaWorld {
         return this.enemies;
     }
 
+    public List<Pair<Integer, Integer>> getOrderedPath(){
+        return this.orderedPath;
+    }
+
     /*
     *remove building entities
     */
