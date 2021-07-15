@@ -28,15 +28,17 @@ public class Building extends StaticEntity{
         this.y = y;
     }
 
-    public PathTile getPathTileNearBuilding(){
-        ArrayList<PathTile> a = new ArrayList<>();
+    public PathTile getPathTileNearBuilding(LoopManiaWorld world){
         int x = this.getX();
         int y = this.getY();
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1;j++){
                 PathTile b = new PathTile(x, y);
+                if(world.getOrderedPath().contains(b)){
+                    return b;
+                }
             }
         }
-        return a;
+        throw new Error("There is no avaliable PathTile nearny this building");
     }
 }
