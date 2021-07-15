@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleIntegerProperty;
  * which doesn't move
  */
 public abstract class Card extends StaticEntity {
-    // TODO = implement other varieties of card than VampireCastleCard
     private Building building;
     private LoopManiaWorld world;
 
@@ -16,7 +15,7 @@ public abstract class Card extends StaticEntity {
     }
 
     public void setBuildingType(Building building){
-        this.building = building;
+        this.building = building.toString();
     }
 
     public Building getBuildingType(){
@@ -24,6 +23,6 @@ public abstract class Card extends StaticEntity {
     }
 
     public void createBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, LoopManiaWorld world){
-        world.convertCardToBuildingByCoordinates(this.getX(), this.getY(), this.getX(), this.getY())
+        world.convertCardToBuildingByCoordinates(this.getX(), this.getY(), SimpleIntegerProperty x, SimpleIntegerProperty y)
     }
 }
