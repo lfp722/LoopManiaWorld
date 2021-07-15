@@ -4,7 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import unsw.loopmania.items.Item;
-public class Equipment extends Item{
+public class Equipment extends Item implements equipItem{
     protected SimpleBooleanProperty isEquipped;
     protected SimpleIntegerProperty level;
     protected SimpleIntegerProperty levelUpPrice;
