@@ -10,7 +10,7 @@ public class Sword extends Weapon {
 
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped) {
         super(x, y, isEquipped);
-        this.damage = this.level + 2;
+        this.damage.set(this.level.get() + 2);
     }
     
     @Override
@@ -19,6 +19,6 @@ public class Sword extends Weapon {
     }
 
     public void setDamage() {
-        this.damage = this.level + 2;
+        this.damage.set(this.level.get() + 2);
     }
 }

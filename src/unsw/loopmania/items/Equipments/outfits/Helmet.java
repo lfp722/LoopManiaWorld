@@ -3,27 +3,29 @@ package unsw.loopmania.items.Equipments.outfits;
 import java.lang.Math;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.Equipments.Outfit;
+
+
 public class Helmet extends Outfit {
-    private int ownerOriginalDamage;
+    private SimpleIntegerProperty ownerOriginalDamage;
     public Helmet(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
         super(x, y, isEquipped);
-        this.ownerOriginalDamage = 0;
-        this.reduceRate = 1 /(Math.sqrt(this.level));
+        this.ownerOriginalDamage.set(0);
+        this.reduceRate.set(1 /(Math.sqrt(this.level.get())));
     }
 
     @Override
     public void setReduceRate() {
-        this.reduceRate = 1 /(Math.sqrt(this.level));
+        this.reduceRate.set(1 /(Math.sqrt(this.level.get())));
     }
 
     public void setCharacterDamage(boolean equiped) {
         if (equiped) {
             this.ownerOriginalDamage = this.owner.getDamage();
-            this.owner.setDamage(this.ownerOriginalDamage * (0.85 + 0.01 * this.level));
+            this.owner.setDamage(this.ownerOriginalDamage.get() * (0.85 + 0.01 * this.level.get()));
         }
         else {
             this.owner.setDamage(this.ownerOriginalDamage);
-            this.ownerOriginalDamage = 0;
+            this.ownerOriginalDamage.set(0);
         }
     }
 

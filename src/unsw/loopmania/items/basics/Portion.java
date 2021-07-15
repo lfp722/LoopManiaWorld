@@ -1,23 +1,24 @@
 package unsw.loopmania.items.basics;
 
 import unsw.loopmania.items.Item;
-
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 public class Portion extends Item{
-    private double recoverRate;
+    private SimpleDoubleProperty recoverRate;
 
-    public Portion(Character owner){
-        super();
-        this.recoverRate = 0.2;
-        this.ValueInGold = 100;
+    public Portion(SimpleIntegerProperty x, SimpleIntegerProperty y,Character owner){
+        super(x,y);
+        this.recoverRate.set(0.2);
+        this.ValueInGold.set(100);
         this.owner = owner;
     }
 
     public double getRecoverRate() {
-        return this.recoverRate;
+        return this.recoverRate.get();
     }
 
-    public void setRecoverRate(float recoverRate) {
-        this.recoverRate = recoverRate;
+    public void setRecoverRate(double recoverRate) {
+        this.recoverRate.set(recoverRate);
     }
 
     public void recoverHealth() {

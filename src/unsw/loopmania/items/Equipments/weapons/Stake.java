@@ -21,10 +21,10 @@ public class Stake extends Weapon {
 
     public void setDamage() {
         if (this.owner.enemey.equals("Vampires")) {
-            this.damage =  3 * this.level + 5;
+            this.damage.set(3 * this.level.get() + 5);
         }
         else {
-            this.damage =  0.9 * this.level + 1.5;
+            this.damage.set(0.9 * this.level.get() + 1.5);
         }
     }
 

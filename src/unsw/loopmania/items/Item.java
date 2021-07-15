@@ -3,12 +3,12 @@ import unsw.loopmania.StaticEntity;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Item extends StaticEntity {
-    protected int ValueInGold;
+    protected SimpleIntegerProperty ValueInGold;
     protected Character owner;
 
     public Item(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
-        this.ValueInGold = 0;
+        this.ValueInGold.set(0);
         this.owner = null;
     }
 
@@ -21,11 +21,11 @@ public class Item extends StaticEntity {
     }
 
     public int getValueInGold() {
-        return this.ValueInGold;
+        return this.ValueInGold.get();
     }
 
     public void setValueInGold(int ValueInGold) {
-        this.ValueInGold = ValueInGold;
+        this.ValueInGold.set(ValueInGold);
     }
 
     public Character getOwner() {

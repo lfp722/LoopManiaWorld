@@ -6,7 +6,7 @@ public class Armour extends Outfit {
 
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
         super(x,y,isEquipped);
-        this.reduceRate = 0.5;
+        this.reduceRate.set(0.5);
     }
 
     @Override

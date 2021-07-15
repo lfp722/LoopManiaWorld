@@ -6,12 +6,12 @@ public class Shield extends Outfit {
 
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
         super(x,y,isEquipped);
-        this.reduceRate = 1 - this.level * 0.15;
+        this.reduceRate.set(1 - this.level.get() * 0.15);
     }
 
     @Override
     public void setReduceRate() {
-        this.reduceRate = 1 - this.level * 0.15;
+        this.reduceRate.set(1 - this.level.get() * 0.15);
     }
 
     @Override
