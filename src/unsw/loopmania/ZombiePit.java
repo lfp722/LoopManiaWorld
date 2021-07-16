@@ -9,8 +9,8 @@ public class ZombiePit extends Building implements EnemyProducer{
 
     @Override
     public Enemy EnemyProducer(LoopManiaWorld world) {
-        PathPosition pt = new PathPosition(this.getPathTileNearBuilding(world), world.getOrderedPath());
-        Zombie zombie = new Zombie(pt, world.getCycle().get());
+        PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
+        Zombie zombie = new Zombie(pt, world.getCycle().intValue());
         return zombie;
     }
 }
