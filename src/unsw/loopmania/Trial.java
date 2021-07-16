@@ -9,11 +9,14 @@ import java.util.List;
 
 import javax.swing.plaf.synth.SynthStyle;
 
+import org.javatuples.Pair;
+
 public class Trial {
     private SimpleIntegerProperty level;
     private SimpleIntegerProperty experience;
     private SimpleIntegerProperty next_expr;
     private SimpleIntegerProperty shit;
+    private boolean m;
 
 
     public Trial() {
@@ -28,6 +31,13 @@ public class Trial {
         next_expr = new SimpleIntegerProperty();
         next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*1000, level));
         shit.bind(Bindings.createIntegerBinding(()->level.get()*2+experience.get()/2000, level, experience));
+        Pair<Integer, Integer> a = new Pair(1,1);
+        Pair<Integer, Integer> b = new Pair(1,2);
+        m = a.equals(b);
+    }
+
+    public boolean getM(){
+        return m;
     }
 
     public static void main(String args[]) {
@@ -36,6 +46,7 @@ public class Trial {
         System.out.println(a.next_expr.get());
         System.out.println(a.shit.get());
         System.out.println(a.experience.get());
+        System.out.println(a.getM());
     }
     
 }

@@ -10,6 +10,9 @@ import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.items.Item;
+import unsw.loopmania.items.Potion;
+import unsw.loopmania.items.Sword;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -67,6 +70,7 @@ public class LoopManiaWorld {
     // private SimpleIntegerProperty maxNumVampire;
     private SimpleIntegerProperty maxNumTotal;
 
+    private List<Item> spawnItems;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -90,6 +94,7 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
+        spawnItems = new ArrayList<>();
         cycle.set(0);
         equippedItems = new Equipped();
         // maxNumSlug.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
@@ -197,15 +202,23 @@ public class LoopManiaWorld {
         return spawningEnemies;
     }
 
-    public List<Enemy> possiblySpawnGold(){
+    public List<Item> possiblySpawnGold(){
         // TODO = expand this very basic version
         Pair<Integer, Integer> pos = possiblyGetGoldPosition();
-        List<Enemy> spawningItems = new ArrayList<>();
+        List<Item> spawningItems = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
+<<<<<<< HEAD
             Item i = new Gold((new PathPosition(indexInPath, orderedPath).getX().get()), (new PathPosition(indexInPath, orderedPath).getY().get()), value);
             nonSpecifiedEntities.add(i);
             spawningItems.add(i);
+=======
+            int value = new Random().nextInt(40)+10;
+            Item i = new Gold((new PathPosition(indexInPath, orderedPath).getX()), (new PathPosition(indexInPath, orderedPath).getY()), value);
+            nonSpecifiedEntities.add(i);
+            spawningItems.add(i);
+            spawnItems.add(i);
+>>>>>>> d30da675d54be37139e0a71098e4167f8f8926e3
         }
         return spawningItems;
     }
@@ -216,9 +229,16 @@ public class LoopManiaWorld {
         List<Item> spawningItems = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
+<<<<<<< HEAD
             Item i = new Potion((new PathPosition(indexInPath, orderedPath).getX().get()), (new PathPosition(indexInPath, orderedPath).getY().get()), value);
             nonSpecifiedEntities.add(i);
             spawningItems.add(i);
+=======
+            Item i = new Potion((new PathPosition(indexInPath, orderedPath).getX()), (new PathPosition(indexInPath, orderedPath).getY()));
+            nonSpecifiedEntities.add(i);
+            spawningItems.add(i);
+            spawnItems.add(i);
+>>>>>>> d30da675d54be37139e0a71098e4167f8f8926e3
         }
         return spawningItems;
     }
@@ -232,29 +252,104 @@ public class LoopManiaWorld {
         enemies.remove(enemy);
     }
 
-    /**
-     * run the expected battles in the world, based on current world state
-     * @return list of enemies which have been killed
-     */
+
+
+
+
+    private void battle(List<Enemy> battleEnemies, List<Enemy> defeatedEnemies, Character ch) {
+        while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
+            for (Building b: getBuildingEntities()) {
+                if (b instanceof Tower) {
+                    Tower a = (Tower) b;
+                    a.attackIfInRadius(this);
+                }
+            }
+            Enemy target = battleEnemies.get(0);
+            for (Soldier s: ch.getArmy()) {
+                s.attack(target);
+            }
+            for (Enemy e: ch.getTranced()) {
+                e.attack(target);
+            }
+
+            ch.attack(target);
+            if (!target.shouldExist().get()) {
+                battleEnemies.remove(target);
+                defeatedEnemies.add(target);
+            }
+
+            for (Enemy e: battleEnemies) {
+                if (ch.getArmy().isEmpty()) {
+                    e.attack(ch);
+                }
+
+                Soldier brave = ch.getArmy().get(0);
+                e.attack(brave, this);
+            }
+        }
+    }
+
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
         List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
-        for (Enemy e: enemies){
+        List<Enemy> battleEnemies = new ArrayList<>();
+        boolean isBattle = false;
+        Character character = getCharacter();
+
+
+        for (Enemy e: getEnemies()){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+            if (isBattle) {
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < e.getSupportRange()){
+                    // fight...
+                    battleEnemies.add(e);
+                }
+            }
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < e.getDetectRange()){
                 // fight...
-                defeatedEnemies.add(e);
+                battleEnemies.add(e);
+                isBattle = true;
             }
         }
+
+        battle(battleEnemies, defeatedEnemies, character);
         for (Enemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
             killEnemy(e);
         }
+        
         return defeatedEnemies;
+
     }
+
+
+
+    // /**
+    //  * run the expected battles in the world, based on current world state
+    //  * @return list of enemies which have been killed
+    //  */
+    // public List<Enemy> runBattles() {
+    //     // TODO = modify this - currently the character automatically wins all battles without any damage!
+    //     List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
+    //     for (Enemy e: enemies){
+    //         // Pythagoras: a^2+b^2 < radius^2 to see if within radius
+    //         // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
+    //         if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+    //             // fight...
+    //             defeatedEnemies.add(e);
+    //         }
+    //     }
+    //     for (Enemy e: defeatedEnemies){
+    //         // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
+    //         // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
+    //         // due to mutating list we're iterating over
+    //         killEnemy(e);
+    //     }
+    //     return defeatedEnemies;
+    // }
 
     /**
      * spawn a card in the world and return the card entity
@@ -709,6 +804,7 @@ public class LoopManiaWorld {
             }
         }
         else if(card.getBuildingType().equals("Trap")){
+<<<<<<< HEAD
             if (!isInPath(new Pair<Integer,Integer>(buildingNodeX, buildingNodeY))) {
                 ifsuccess = false;
             } else {
@@ -719,6 +815,10 @@ public class LoopManiaWorld {
                 shiftCardsDownFromXCoordinate(cardNodeX);
                 return newBuilding;
             }
+=======
+            Trap newBuilding = new Trap(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+            buildingEntities.add(newBuilding);
+>>>>>>> d30da675d54be37139e0a71098e4167f8f8926e3
         }
         else if(card.getBuildingType().equals("CampFire")){
             if (isInPath(new Pair<Integer,Integer>(buildingNodeX, buildingNodeY))) {
@@ -756,21 +856,21 @@ public class LoopManiaWorld {
         buildingEntities.remove(building);
     }
 
-    public JSONObject<Item> getStoreItems(){
-        JSONObject a = new JSONObject();
-        JSONArray b = new JSONArray();
-        for(Item i: items){
-            if(!i.equals(TheOneRing)){
-                JSONObject c = new JSONObject();
-                //need getType();
-                c.put("Name", i.getType());
-                c.put("Gold", i.getValueInGold());
-                b.put(c);
-            }
-        }
-        a.put("Items", b);
-        return a;
-    }
+    // public JSONObject<Item> getStoreItems(){
+    //     JSONObject a = new JSONObject();
+    //     JSONArray b = new JSONArray();
+    //     for(Item i: items){
+    //         if(!i.equals(TheOneRing)){
+    //             JSONObject c = new JSONObject();
+    //             //need getType();
+    //             c.put("Name", i.getType());
+    //             c.put("Gold", i.getValueInGold());
+    //             b.put(c);
+    //         }
+    //     }
+    //     a.put("Items", b);
+    //     return a;
+    // }
 
     public boolean isInPath(Pair<Integer, Integer> p) {
         for (Pair<Integer, Integer> temp: orderedPath) {
@@ -781,6 +881,7 @@ public class LoopManiaWorld {
         return false;
     }
 
+<<<<<<< HEAD
     public boolean ifNearPathTile(Pair<Integer, Integer> p){
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
@@ -794,4 +895,33 @@ public class LoopManiaWorld {
         }
         return false;
     }
+=======
+    public void addGold(int gold) {
+        character.addGold(gold);
+    }
+
+    public void addExp(int exp) {
+        character.addExp(exp);
+    }
+
+    public List<Potion> pickUp() {
+        List<Potion> picked = new ArrayList<>();
+        for (Item temp: spawnItems) {
+            if (temp.getX() == character.getX() && temp.getY() == character.getY()) {
+                if (temp instanceof Gold) {
+                    addGold(temp.getValueInGold());
+                }
+                else {
+                    picked.add((Potion)temp);
+                    spawnItems.remove(temp);
+                    unequippedInventoryItems.add(temp);
+                }
+            }
+        }
+        return picked;
+    }
+
+
+    
+>>>>>>> d30da675d54be37139e0a71098e4167f8f8926e3
 }

@@ -7,19 +7,15 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class Sword extends Weapon {
 
-    public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped) {
-        super(x, y, isEquipped);
-        this.damage.set(this.level.get() + 2);
+    public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x, y);
+        this.damage.set(5);
     }
-    
-    @Override
-    public void hit() {
-        super.hit();
-    }
-    @Override
-    public double nextDamage() {
-        return (double) this.level.get() + 2;
-    }
+
+    // @Override
+    // public double nextDamage() {
+    //     return (double) this.level.get() + 2;
+    // }
     //Convenient for later change
     /* 
     @Override

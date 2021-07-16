@@ -15,12 +15,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class CampFire extends Building{
     private List<Pair<Integer, Integer>> withinRadius;
     private int radius;
-
+    private boolean buffed;
 
     public CampFire(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
         this.radius = 5;
         this.setWithInRange();
+        buffed = false;
     }
 
     public int getRadius(){
@@ -43,9 +44,19 @@ public class CampFire extends Building{
         return this.withinRadius;
     }
 
-    public void buffCharacter(LoopManiaWorld world){
-        if(this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
-            world.getCharacter().setDamage(world.getCharacter().getDamage()*2);
+    @Override
+    public void specialEffect(LoopManiaWorld world){
+        if (world.getCharacter().getCampFireBuff().get() == 2) {
+            buffed = true;
+            return;
+        }
+        if (this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
+            world.getCharacter().getCampFireBuff().set(2);
+            buffed = true;
+        }
+        else if (buffed) {
+            world.getCharacter().getCampFireBuff().set(1);
+            buffed = false;
         }
     }
 

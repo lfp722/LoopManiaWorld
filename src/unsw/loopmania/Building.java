@@ -31,7 +31,10 @@ public class Building extends StaticEntity{
     }
 
     public void specialEffect(LoopManiaWorld world) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> d30da675d54be37139e0a71098e4167f8f8926e3
     }
 
 }

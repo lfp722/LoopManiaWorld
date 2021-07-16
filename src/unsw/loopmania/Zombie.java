@@ -50,6 +50,11 @@ public class Zombie extends Enemy {
     }
 
     @Override
+    public void criticalAttack(Enemy object) {
+        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(10) + 5) / 100);
+    }
+
+    @Override
     public void criticalAttack(Soldier object, LoopManiaWorld world) {
         EntityAttribute attr = object.dead();
         Zombie a = new Zombie(this.getPosition(), cycle, attr);
