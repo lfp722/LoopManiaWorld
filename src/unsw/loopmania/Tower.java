@@ -1,34 +1,33 @@
 package unsw.loopmania;
 import java.util.List;
 
-import unsw.loopmania.BasicEnemy;
-import unsw.loopmania.StaticEntity;
+import javafx.beans.property.SimpleIntegerProperty;
 
-import java.util.ArrayList;
+import org.javatuples.Pair;
 
 public class Tower extends Building{
-    private LoopManiaWorld world;
-    private ArrayList<StaticEntity> entities;
+    private List<Pair<Integer, Integer>> withinRadius;
+    private int damage;
+    private int radius;
 
-    public Tower(SimpleIntegerProperty x, SimpleIntegerProperty y, int damage, int radius){
+
+    public Tower(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
-        this.damage = damage;
-        this.radius = radius;
-        this.entites = setEntities(x,y);
+        this.damage = 20;
+        this.radius = 5;
+        this.setWithInRange();
     }
 
-    public void setEntities(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        ArrayList<StaticEntity> a = new ArrayList<>();
+    public void setWithInRange(){
         int r = this.getRadius();
         for(int x = this.getX() - r;x <= this.getX() + r; x++){
             for(int y = this.getY() - r;y <= this.getY() + r; y++){
                 if(x*x + y*y <= r*r){
-                    StaticEntity b = new StaticEntity(x,y);
-                    a.add(b);
+                    Pair<Integer, Integer> a = new Pair<>(x, y);
+                    this.withinRadius.add(a);
                 }
             }
         }
-        this.entities = b;
     }
 
     public int getRadius(){
@@ -39,15 +38,15 @@ public class Tower extends Building{
         return this.damage;
     }
 
-    public ArrayList<StaticEntity> getEntities(){
-        return this.entities;
+    public List<Pair<Integer, Integer>> getWithInRadius(){
+        return this.withinRadius;
     }
 
     public void attackIfInRadius(LoopManiaWorld world){
-        for(BasicEnemy a: world.getEnemies()){
-            StaticEntity b = new StaticEntity(a.getX(), a.getY());
-            if(this.getEntities().contains(b)){
-                b.setHealth(b.underAttack(this.getDamage()));
+        for(Enemy a: world.getEnemies()){
+            Pair<Integer, Integer> b = new Pair<>(a.getX(), a.getY());
+            if(this.getWithInRadius().contains(b)){
+                a.underAttack(this.getDamage());
             }
         }
     }
