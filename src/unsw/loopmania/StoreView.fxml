@@ -39,7 +39,7 @@
                      <graphic>
                         <ImageView fitHeight="45.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/helmet.png" />
+                              <Image url="@../../images/helmet.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -48,7 +48,7 @@
                      <graphic>
                         <ImageView fitHeight="78.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/armour.png" />
+                              <Image url="@../../images/armour.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -57,7 +57,7 @@
                      <graphic>
                         <ImageView fitHeight="78.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/shield.png" />
+                              <Image url="@../../images/shield.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -70,7 +70,7 @@
                      <graphic>
                         <ImageView fitHeight="45.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/sword.png" />
+                              <Image url="@../../images/basic_sword.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -79,7 +79,7 @@
                      <graphic>
                         <ImageView fitHeight="78.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/stake.png" />
+                              <Image url="@../../images/stake.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -88,7 +88,7 @@
                      <graphic>
                         <ImageView fitHeight="78.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/staff.png" />
+                              <Image url="@../../images/staff.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -99,14 +99,14 @@
                <graphic>
                   <ImageView fitHeight="78.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/portion.png" />
+                        <Image url="@../../images/brilliant_blue_new.png" />
                      </image>
                   </ImageView>
                </graphic>
             </CheckBox>
             <ImageView fitHeight="44.0" fitWidth="49.0" layoutX="479.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@icons/gold.png" />
+                  <Image url="@../../images/gold_pile.png" />
                </image>
             </ImageView>
             <Text layoutX="496.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER">
