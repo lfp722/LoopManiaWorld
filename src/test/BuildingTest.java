@@ -9,6 +9,7 @@ import unsw.loopmania.*;
 
 
 public class BuildingTest {
+    LoopManiaWorld world = new LoopManiaWorld(1, 2, new ArrayList<>());
     //Vampire castle
 
 

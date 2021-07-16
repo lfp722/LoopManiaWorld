@@ -4,9 +4,11 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
+import javafx.util.Pair;
 import unsw.loopmania.Character;
 import unsw.loopmania.EntityAttribute;
 import unsw.loopmania.*;
@@ -18,27 +20,36 @@ public class CharacterTest {
     //The character can be created in correct stats.
     @Test
     public void test_character_attr() {
-        Character c = new Character(0, [0, 0]);
+        List<Pair<Integer, Integer>> orderedPath = new List<Pair<0, 0>>;
+        Character c = new Character(0, orderedPath);
         EntityAttribute characterAttr = c.getAttr();
-        assertEquals(characterAttr.getHealth(), 35);
-        assertEquals(characterAttr.getAttack(), 5);
-        assertEquals(characterAttr.getDefense(), 0);
-        assertEquals(characterAttr.getCurHealth(), 35);
+        int health = characterAttr.getHealth();
+        int attack = characterAttr.getAttack();
+        int defense = characterAttr.getDefense();
+        int CurHealth = characterAttr.getCurHealth();
+        assertEquals(health, 35);
+        assertEquals(attack, 5);
+        assertEquals(defense, 0);
+        assertEquals(CurHealth, 35);
     }
     
     //Soldier can be add and remove
     @Test
     public void test_character_soldier() {
-        Character c = new Character(0);
+        List<Pair<Integer, Integer>> orderedPath = new List<Pair<0, 0>>;
+        Character c = new Character(0, orderedPath);
+        Soldier s1 = new Soldier(0, 0, c);
+        Soldier s2 = new Soldier(0, 0, c);
         int count = c.army.size();
         assertEquals(count, 0);
-        c.addSoldier(1);
-        c.addSoldier(2);
-        assertEquals(count, 2);
-        c.remSoldier(1);
+        c.addSoldier(s1);
         assertEquals(count, 1);
-        c.remSoldier(2);
+        c.addSoldier(s2);
         assertEquals(count, 2);
+        c.remSoldier(s1);
+        assertEquals(count, 1);
+        c.remSoldier(s2);
+        assertEquals(count, 0);
 
     }
     
@@ -49,7 +60,8 @@ public class CharacterTest {
     //The character can move around the path correctly.
     @Test
     public void test_character_move() {
-        Character c = new Character(0);
+        List<Pair<Integer, Integer>> orderedPath = new List<Pair<0, 0>>;
+        Character c = new Character(0, orderedPath);
         assertEquals(c.getX(), 0);
         assertEquals(c.getY(), 0);
         c.moveDownPath();
@@ -73,60 +85,65 @@ public class CharacterTest {
     //Test equip and unequip
     @Test
     public void test_character_equip() {
-        Character c = new Character(0, [0, 0]);
+        List<Pair<Integer, Integer>> orderedPath = new List<Pair<0, 0>>;
+        Character c = new Character(0, orderedPath);
         EntityAttribute characterAttr = c.getAttr();
-        assertEquals(characterAttr.getHealth(), 35);
-        assertEquals(characterAttr.getAttack(), 5);
-        assertEquals(characterAttr.getDefense(), 0);
-        assertEquals(characterAttr.getCurHealth(), 35);
+        int health = characterAttr.getHealth();
+        int attack = characterAttr.getAttack();
+        int defense = characterAttr.getDefense();
+        int CurHealth = characterAttr.getCurHealth();
+        assertEquals(health, 35);
+        assertEquals(attack, 5);
+        assertEquals(defense, 0);
+        assertEquals(CurHealth, 35);
 
         //sword
         Sword sword = new Sword(0, 0, false);
         c.equip(sword);
         int damage_sword = sword.getDamage();
-        assertEquals(characterAttr.getAttack(), 5 + damage_sword);
+        assertEquals(attack, 5 + damage_sword);
         c.unequip(sword);
-        assertEquals(characterAttr.getAttack(), 5);
+        assertEquals(attack, 5);
 
         //stake
         Stake stake = new Stake(0, 0, false);
         c.equip(stake);
         int damage_stake = stake.getDamage();
-        assertEquals(characterAttr.getAttack(), 5 + damage_stake);
+        assertEquals(attack, 5 + damage_stake);
         c.unequip(stake);
-        assertEquals(characterAttr.getAttack(), 5);
+        assertEquals(attack, 5);
 
         //staff
         Staff staff = new Staff(0, 0, false);
         c.equip(staff);
         int damage_staff = staff.getDamage();
-        assertEquals(characterAttr.getAttack(), 5 + damage_staff);
+        assertEquals(attack, 5 + damage_staff);
         c.unequip(staff);
-        assertEquals(characterAttr.getAttack(), 5);
+        assertEquals(attack, 5);
 
         //armour
         Armour armour = new Armour(0, 0, false);
         c.equip(armour);
         int defense_armour = armour.getDefense();
-        assertEquals(characterAttr.getDefense(), 0 + defense_armour);
+        assertEquals(defense, 0 + defense_armour);
         c.unequip(armour);
-        assertEquals(characterAttr.getDefense(), 0);
+        assertEquals(defense, 0);
 
         //helmet
         Helmet helmet = new Helmet(0, 0, false);
         c.equip(helmet);
         int defense_helmet = helmet.getDefense();
-        assertEquals(characterAttr.getDefense(), 0 + defense_helmet);
+        assertEquals(defense, 0 + defense_helmet);
         c.unequip(helmet);
-        assertEquals(characterAttr.getDefense(), 0);
+        assertEquals(defense, 0);
 
         //shield
         Shield shield = new Shield(0, 0, false);
         c.equip(shield);
         int defense_shield = shield.getDefense();
-        assertEquals(characterAttr.getDefense(), 0 + defense_shield);
+        assertEquals(defense, 0 + defense_shield);
         c.unequip(shield);
-        assertEquals(characterAttr.getDefense(), 0);
+        assertEquals(defense, 0);
 
 
 
@@ -135,42 +152,57 @@ public class CharacterTest {
 
     //underAttack and attack
     @Test
-    public void test_character_underAttack() {
-        Character c = new Character(0, [0, 0]);
+    public void test_character_Attack() {
+        List<Pair<Integer, Integer>> orderedPath = new List<Pair<0, 0>>;
+        Character c = new Character(0, orderedPath);
         EntityAttribute characterAttr = c.getAttr();
-        assertEquals(characterAttr.getHealth(), 35);
-        assertEquals(characterAttr.getAttack(), 5);
-        assertEquals(characterAttr.getDefense(), 0);
-        assertEquals(characterAttr.getCurHealth(), 35);
-
-        Vampire vampire = new Vampire(0, [1, 0]);
+        int health = characterAttr.getHealth();
+        int attack = characterAttr.getAttack();
+        int defense = characterAttr.getDefense();
+        int CurHealth = characterAttr.getCurHealth();
+        assertEquals(health, 35);
+        assertEquals(attack, 5);
+        assertEquals(defense, 0);
+        assertEquals(CurHealth, 35);
+        
+        List<Pair<Integer, Integer>> vampire_orderedPath = new List<Pair<1, 0>>;
+        Vampire vampire = new Vampire(0, vampire_orderedPath);
         EntityAttribute vampireAttr = vampireAttr.getAttr();
-        assertEquals(vampireAttr.getHealth(), 32);
-        assertEquals(vampireAttr.getAttack(), 2);
+        int vampire_health = vampireAttr.getHealth();
+        int vampire_attack = vampireAttr.getAttack();
+        int cur_vampire_health = vampireAttr.getCurHealth();
+        assertEquals(vampire_health, 32);
+        assertEquals(vampire_attack, 2);
 
         c.attack(vampire);
-        assertEquals(vampireAttr.getCurHealth(), characterAttr.getAttack());
-        c.underAttack(vampireAttr.getAttack());
-        assertEquals(characterAttr.getCurHealth(), 35 - vampireAttr.getAttack());
+        assertEquals(cur_vampire_health, vampire_health - attack);
     }
 
     //underAttack
     @Test
     public void test_character_underAttack() {
-        Character c = new Character(0, [0, 0]);
+        List<Pair<Integer, Integer>> orderedPath = new List<Pair<0, 0>>;
+        Character c = new Character(0, orderedPath);
         EntityAttribute characterAttr = c.getAttr();
-        assertEquals(characterAttr.getHealth(), 35);
-        assertEquals(characterAttr.getAttack(), 5);
-        assertEquals(characterAttr.getDefense(), 0);
-        assertEquals(characterAttr.getCurHealth(), 35);
-
-        Slug slug = new Slug(0, [1, 0]);
+        int health = characterAttr.getHealth();
+        int attack = characterAttr.getAttack();
+        int defense = characterAttr.getDefense();
+        int CurHealth = characterAttr.getCurHealth();
+        assertEquals(health, 35);
+        assertEquals(attack, 5);
+        assertEquals(defense, 0);
+        assertEquals(CurHealth, 35);
+        
+        List<Pair<Integer, Integer>> slug_orderedPath = new List<Pair<1, 0>>;
+        Slug slug = new Slug(0, slug_orderedPath);
         EntityAttribute slugAttr = slug.getAttr();
-        assertEquals(slugAttr.getHealth(), 3);
-        assertEquals(slugAttr.getAttack(), 2);
+        int slug_health = slugAttr.getHealth();
+        int slug_attack = slugAttr.getAttack();
+        assertEquals(slug_health, 3);
+        assertEquals(slug_attack, 2);
 
-        c.underAttack(slugAttr.getAttack());
-        assertEquals(characterAttr.getCurHealth(), 35 - slugAttr.getAttack());
+        c.underAttack(slug_attack);
+        assertEquals(CurHealth, health - slug_attack);
     }
 
     
