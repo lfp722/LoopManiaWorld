@@ -489,31 +489,31 @@ public class LoopManiaWorld {
                 break;
             }
         }
-        if(card.getBuildingType().equals("VampireCastle")){
+        if(card instanceof VampireCastleCard){
             VampireCastle newBuilding = new VampireCastle(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals("ZombiePit")){
+        else if(card instanceof ZombiePitCard){
             ZombiePit newBuilding = new ZombiePit(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals("Tower")){
+        else if(card instanceof TowerCard){
             Tower newBuilding = new Tower(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals("Village")){
+        else if(card instanceof VillageCard){
             Village newBuilding = new Village(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals("Barrack")){
+        else if(card instanceof BarrackCard){
             Barrack newBuilding = new Barrack(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equlas("Trap")){
+        else if(card instanceof TrapCard){
             Trap newBuilding = new Trap(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
-        else if(card.getBuildingType().equals("CampFire")){
+        else if(card instanceof CampFireCard){
             CampFire newBuilding = new CampFire(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
             buildingEntities.add(newBuilding);
         }
