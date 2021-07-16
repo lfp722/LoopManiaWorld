@@ -3,7 +3,7 @@ package unsw.loopmania;
 import java.util.Random;
 
 
-public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
+public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     private EntityAttribute attribute;
     private int supportRange;
     private int detectRange;
