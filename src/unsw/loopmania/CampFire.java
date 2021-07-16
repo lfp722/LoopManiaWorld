@@ -7,44 +7,46 @@ import unsw.loopmania.StaticEntity;
 
 import java.util.ArrayList;
 
+import org.javatuples.Pair;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class CampFire extends Building{
-    private Character character;
-    private LoopManiaWorld world;
-    private ArrayList<StaticEntity> entities;
+    private List<Pair<Integer, Integer>> withinRadius;
     private int radius;
 
-    public CampFire(SimpleIntegerProperty x, SimpleIntegerProperty y, int radius){
+
+    public CampFire(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
-        this.radius = radius;
-        this.entities = setEntities(x, y);
+        this.radius = 5;
+        this.setWithInRange();
     }
 
     public int getRadius(){
-        return this.getRadius();
+        return this.radius;
     }
 
-    public void setEntities(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        ArrayList<StaticEntity> a = new ArrayList<>();
+    public void setWithInRange(){
         int r = this.getRadius();
         for(int x = this.getX().get() - r;x <= this.getX().get() + r; x++){
             for(int y = this.getY().get() - r;y <= this.getY().get() + r; y++){
                 if(x*x + y*y <= r*r){
-                    StaticEntity b = new StaticEntity(x,y);
-                    a.add(b);
+                    Pair<Integer, Integer> a = new Pair<>(x, y);
+                    this.withinRadius.add(a);
                 }
             }
         }
-        this.entities = b;
     }
 
-    public ArrayList<StaticEntity> getEntities(){
-        return this.entities;
+    public List<Pair<Integer, Integer>> getWithInRange(){
+        return this.withinRadius;
     }
 
     public void buffCharacter(LoopManiaWorld world){
-        StaticEntity c = new StaticEntity(world.getCharacter().getX(), world.getCharacter().getY());
-        if(this.getEntities.contains(c){
+        if(this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
             world.getCharacter().setDamage(world.getCharacter().getDamage()*2);
         }
     }
+
 }
