@@ -134,8 +134,9 @@ public class StoreViewController  {
                 if (n instanceof CheckBox) {
                     CheckBox slot = (CheckBox) n;
                     if (slot.selectedProperty().get() == true) {
+                        ItemProperty item = this.character.getInventory(i,j);
                         this.character.setGold(this.character.getGold() + it.getValueInGold());
-                        this.character.eliminateItem(it);
+                        this.character.eliminateItem(item);
                     }
                 }
             }
@@ -177,10 +178,10 @@ public class StoreViewController  {
     public int setCurPrice(Item it, boolean t) {
         if (t) {
             this.cart.add(it);
-            return this.curPrice.get() - it.getValueInGold();
+            return this.curPrice.get() + it.getValueInGold();
         }
         this.cart.remove(it);
-        return this.curPrice.get() + it.getValueInGold();
+        return this.curPrice.get() - it.getValueInGold();
     }
 
 }
