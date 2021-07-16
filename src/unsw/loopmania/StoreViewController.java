@@ -35,7 +35,6 @@ public class StoreViewController  {
     private StoreSwitcher storeSwitcher;
     private Character character;
     private ArrayList<Item> cart;
-    private ArrayList<Item> sellingCart;
     private SimpleIntegerProperty curPrice;
     @FXML
     private GridPane InventoryGrid;
@@ -86,7 +85,6 @@ public class StoreViewController  {
         this.setGameSwitcher(storeSwitcher);
         this.character = ch;
         this.cart = new ArrayList<>();
-        this.sellingCart = new ArrayList<>();
         this.curPrice.set(0);
     }
     
@@ -113,40 +111,75 @@ public class StoreViewController  {
     public void setCart(ArrayList<Item> cart) {
         this.cart = cart;
     }
-    @FXML
-    public void Sell(ActionEvent event) {
-        for (Item it: this.sellingCart) {
-            this.character.setGold(this.character.getGold() + it.getValueInGold());
-            this.character.eliminateItem(it);
-            
+
+    public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+    
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
         }
-        this.setSellingCart(new ArrayList<>());
+    
+        return result;
     }
 
-    public void setSellingCart(ArrayList<Item> sellingCart) {
-        this.sellingCart = sellingCart;
+    @FXML
+    public void Sell(ActionEvent event) {
+        for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 3; j++) {
+                Node n = getNodeByRowColumnIndex(i, j, this.InventoryGrid);
+                if (n instanceof CheckBox) {
+                    CheckBox slot = (CheckBox) n;
+                    if (slot.selectedProperty().get() == true) {
+                        this.character.setGold(this.character.getGold() + it.getValueInGold());
+                        this.character.eliminateItem(it);
+                    }
+                }
+            }
+        }
+        this.setInventoryGrid();
     }
+
+
+    public void setInventoryGrid(){
+        for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 3; j++) {
+                ItemProperty item = this.character.getInventory(i,j);
+                if (item != null) {
+                    CheckBox checkbox = new CheckBox();
+                    ImageView backgroundImage = new ImageView(item.image);
+                    checkbox.setGraphic(backgroundImage);
+                    checkbox.selectedProperty().bindBidirectional(item);
+                    this.InventoryGrid.add(checkbox, i, j);  
+                }
+			}
+		}
+    }
+
     @FXML
     void initialize() {
         this.InventoryGrid.setAlignment(Pos.CENTER);
-        for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 6; j++) {
-				CheckBox checkbox = new CheckBox();
-                ImageView backgroundImage = new ImageView();
-                checkbox.selectedProperty().bindBidirectional(this.character.getInventory.(i,j).getProperty());
-                this.InventoryGrid.add(checkbox, i, j);  
-			}
-		}
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.armour), this.ItemStore_Armour.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.helmet), this.ItemStore_Helmet.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.portion), this.ItemStore_Portion.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.shield), this.ItemStore_Shield.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.staff), this.ItemStore_Staff.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.stake), this.ItemStore_Stake.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.addCurPrice(this.sword), this.ItemStore_Sword.selectedProperty()));
+        this.setInventoryGrid();
+
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.armour, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.helmet, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.portion, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.shield,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.staff,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.stake,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.sword,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
+        this.curPrice.set(0);
     }
 
-    public int addCurPrice(Item it) {
+    public int setCurPrice(Item it, boolean t) {
+        if (t) {
+            this.cart.add(it);
+            return this.curPrice.get() - it.getValueInGold();
+        }
+        this.cart.remove(it);
         return this.curPrice.get() + it.getValueInGold();
     }
 
