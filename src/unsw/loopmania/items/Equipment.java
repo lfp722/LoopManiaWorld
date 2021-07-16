@@ -4,7 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 public class Equipment extends Item implements equipItem{
-    protected SimpleBooleanProperty isEquipped;
+
     protected SimpleIntegerProperty level;
     protected SimpleIntegerProperty levelUpPrice;
 
@@ -13,24 +13,15 @@ public class Equipment extends Item implements equipItem{
     }
 
     public int nextLevelUpPrice() {
-        return (int) 0;
+        return 0;
     }
 
-    public Equipment(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped){
+    public Equipment(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
-        this.isEquipped.set(isEquipped);
         this.level.set(1);
         this.ValueInGold.set(250);
 
         this.levelUpPrice.bind(Bindings.createIntegerBinding(()->this.nextLevelUpPrice(),this.level));
-    }
-
-    public boolean isEquipped() {
-        return this.isEquipped.get();
-    }
-
-    public void setEquipped(boolean isEquipped) {
-        this.isEquipped.set(isEquipped);
     }
 
     public int getLevel() {
@@ -46,22 +37,6 @@ public class Equipment extends Item implements equipItem{
 
     }
     public void unequip() {
-    }
-
-    @Override
-    public void use(){
-        if (this.owner != null) {
-            if (!isEquipped.get()) {
-                setEquipped(true);
-                this.equip();
-            }
-            else {
-                setEquipped(false);
-                this.unequip();
-            }
-            return;
-        }
-        throw new IllegalArgumentException("Equipment_Error == USE: the owner is not set!");
     }
 
     @Override

@@ -29,6 +29,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import unsw.loopmania.items.*;
+
 import java.util.EnumMap;
 
 import java.io.File;
@@ -234,13 +236,28 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
+            for (Building b: world.getBuildingEntities()) {
+                b.specialEffect(world);
+            }
             List<Enemy> defeatedEnemies = world.runBattles();
+            List<Potion> picked = world.pickUp();
+            for (Item i: picked) {
+                onLoad(i);
+            }
             for (Enemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
             List<Enemy> newEnemies = world.possiblySpawnEnemies();
             for (Enemy newEnemy: newEnemies){
                 onLoad(newEnemy);
+            }
+            List<Item> newGolds = world.possiblySpawnGold();
+            List<Item> newPotions = world.possiblySpawnPotion();
+            for (Item newGold: newGolds) {
+                onLoad(newGold);
+            }
+            for (Item newPotion: newPotions) {
+                onLoadPick(newPotion);
             }
             printThreadingNotes("HANDLED TIMER");
         }));

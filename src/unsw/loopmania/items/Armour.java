@@ -3,9 +3,9 @@ package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
 public class Armour extends Outfit {
 
-    public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
-        super(x,y,isEquipped);
-        this.reduceRate.set(0.5);
+    public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x,y);
+        //this.reduceRate.set(0.5);
     }
 
     @Override

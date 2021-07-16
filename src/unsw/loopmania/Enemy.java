@@ -157,6 +157,18 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
         }
 
     }
+
+
+    public void attack(Enemy object) {
+        if ((new Random()).nextInt(100) < this.critRate) {
+            applyCriticalAttack(object);
+        } else {
+            object.underAttack(this.attribute.getAttack().get());
+        }
+
+    }
+
+
     //add a world as a parametre to satisfy all things to work
     public void attack(Soldier object, LoopManiaWorld world) {
         if ((new Random()).nextInt(100) < this.critRate) {
@@ -227,6 +239,11 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
      * @param object
      */
     public void applyCriticalAttack(Character object) {
+        critical.criticalAttack(object);
+    }
+
+    
+    public void applyCriticalAttack(Enemy object) {
         critical.criticalAttack(object);
     }
 

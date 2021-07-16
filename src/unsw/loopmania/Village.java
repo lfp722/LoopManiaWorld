@@ -16,11 +16,12 @@ public class Village extends Building{
         return this.regenRate;
     }
 
-    public void healCharacter(LoopManiaWorld world){
+    @Override
+    public void specialEffect(LoopManiaWorld world){
         Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
         Pair<Integer, Integer> b = new Pair<>(this.getX(), this.getY());
         if(a.equals(b)){
-            world.getCharacter().setHealth(world.getCharacter().getHealth()+this.getRegenRate());
+            world.getCharacter().heal(regenRate);
         }
     }
 }

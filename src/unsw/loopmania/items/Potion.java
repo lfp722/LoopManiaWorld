@@ -3,23 +3,22 @@ package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.Character;
-public class Portion extends Item{
+public class Potion extends Item{
     private SimpleDoubleProperty recoverRate;
 
-    public Portion(SimpleIntegerProperty x, SimpleIntegerProperty y,Character owner){
+    public Potion(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
         this.recoverRate.set(0.2);
         this.ValueInGold.set(100);
-        this.owner = owner;
     }
 
-    public double getRecoverRate() {
-        return this.recoverRate.get();
-    }
+    // public double getRecoverRate() {
+    //     return this.recoverRate.get();
+    // }
 
-    public void setRecoverRate(double recoverRate) {
-        this.recoverRate.set(recoverRate);
-    }
+    // public void setRecoverRate(double recoverRate) {
+    //     this.recoverRate.set(recoverRate);
+    // }
 
     public void recoverHealth() {
         SimpleIntegerProperty curH = this.owner.getAttr().getCurHealth();

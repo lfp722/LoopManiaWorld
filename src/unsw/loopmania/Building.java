@@ -29,4 +29,7 @@ public class Building extends StaticEntity{
         return enemyProducer.enemyProducer(world);
     }
 
+    public void specialEffect(LoopManiaWorld world) {
+    }
+
 }

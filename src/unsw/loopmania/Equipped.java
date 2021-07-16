@@ -7,20 +7,21 @@ public class Equipped {
     private Shield shield;
     private Weapon weapon;
     private Character ch;
-
-    public Equipped() {        
-    }
+    private int equipDefense = 0;
 
     public void equipHelmet(Helmet helmet) {
         this.helmet = helmet;
+        equipDefense += helmet.getDefense();
     }
 
     public void equipArmour(Armour armour) {
         this.armour = armour;
+        equipDefense += helmet.getDefense();
     }
 
     public void equipShield(Shield shield) {
         this.shield = shield;
+        equipDefense += helmet.getDefense();
     }
 
     public void equipWeapon(Weapon weapon) {
@@ -70,6 +71,16 @@ public class Equipped {
 
     public Armour getArmour() {
         return armour;
+    }
+
+    public void specialAttack(Enemy enemy, Character ch) {
+        if (weapon != null) {
+            weapon.specialEffect(enemy, ch);
+        }
+    }
+
+    public int getDefence() {
+        return equipDefense;
     }
 
 

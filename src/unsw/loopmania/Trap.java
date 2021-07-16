@@ -16,13 +16,15 @@ public class Trap extends Building{
         return this.damage;
     }
 
-    public void doDamage(LoopManiaWorld world){
+    @Override
+    public void specialEffect(LoopManiaWorld world){
         Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
         for(Enemy b: world.getEnemies()){
             Pair<Integer, Integer> c = new Pair<>(b.getX(), b.getY());
             if(a.equals(c)){
                 b.underAttack(this.getDamage());
                 world.removeBuildingEntities(this);
+                this.destroy();
             }
         }
     }

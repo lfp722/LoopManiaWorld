@@ -10,9 +10,9 @@ public class HeroCastle extends Building{
         super(x,y);
     }
     
-    public void openStore(LoopManiaWorld world){
-        if(this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
-            world.openStore();
-        }
-    }
+    // public void openStore(LoopManiaWorld world){
+    //     if(this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
+    //         world.openStore();
+    //     }
+    // }
 }

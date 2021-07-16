@@ -8,8 +8,21 @@ import org.junit.jupiter.api.condition.EnabledIf;
 public class BattleSimulator implements Simulator{
 
     private void battle(List<Enemy> battleEnemies, List<Enemy> defeatedEnemies, Character ch) {
-        while (!battleEnemies.isEmpty()) {
+        while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
+            for (Building b: getBuildingEntities()) {
+                if (b instanceof Tower) {
+                    Tower a = (Tower) b;
+                    a.attackIfInRadius(this);
+                }
+            }
             Enemy target = battleEnemies.get(0);
+            for (Soldier s: ch.getArmy()) {
+                s.attack(target);
+            }
+            for (Enemy e: ch.getTranced()) {
+                e.attack(target);
+            }
+
             ch.attack(target);
             if (!target.shouldExist().get()) {
                 battleEnemies.remove(target);
@@ -22,7 +35,7 @@ public class BattleSimulator implements Simulator{
                 }
 
                 Soldier brave = ch.getArmy().get(0);
-                e.attack(brave);
+                e.attack(brave, this);
             }
         }
     }

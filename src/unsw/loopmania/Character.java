@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.Equipment;
 import unsw.loopmania.items.Item;
@@ -11,16 +12,20 @@ import unsw.loopmania.items.Item;
 /**
  * represents the main character in the backend of the game world
  */
-public class Character extends MovingEntity {
+public class Character extends MovingEntity{
     // TODO = potentially implement relationships between this class and other classes
     private EntityAttribute attr;
     private SimpleIntegerProperty level;
     private SimpleIntegerProperty experience;
     private List<Soldier> army;
+    private List<Enemy> tranced;
     private Bag bag;
     private Equipped equipped;
     private SimpleIntegerProperty gold;
     private SimpleIntegerProperty next_expr;
+    private SimpleIntegerProperty campFireBuff;
+    private SimpleIntegerProperty stakeVampireBuff;
+    private SimpleDoubleProperty debuff;
 
 
     public Character(PathPosition position) {
@@ -30,11 +35,15 @@ public class Character extends MovingEntity {
         level.set(1);
         experience = new SimpleIntegerProperty();
         experience.set(0);
-        army = new ArrayList<Soldier>();
+        army = new ArrayList<>();
         bag = new Bag();
         equipped = new Equipped();
+        campFireBuff.set(1);
+        stakeVampireBuff.set(1);
+        debuff.set(1);
         level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(100).get()), experience));
         next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*100, level));
+        attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
     }
 
     public void addSoldier(Soldier soldier) {
@@ -55,19 +64,22 @@ public class Character extends MovingEntity {
 
     public void attack(Enemy enemy) {
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
-        for (Soldier temp: army) {
-            actualAttack += temp.getAttack();
-        }
+        equipped.specialAttack(enemy, this);
         enemy.underAttack(actualAttack);
-        equipped.getWeapon().specialEffect(enemy);
     }
 
     public void underAttack(int attack) {
+        if (attack <= equipped.getDefence()) {
+            return;
+        }
+        else{
+            attack = attack - equipped.getDefence();
+        }
         if (attack > attr.getCurHealth().get() || attack == attr.getCurHealth().get()) {
             this.destroy();
         }
         else {
-            attr.getCurHealth().subtract(attack);
+            attr.getCurHealth().set(attr.getCurHealth().get() - attack);
         }
     }
 
@@ -102,4 +114,32 @@ public class Character extends MovingEntity {
     public Equipped getEquip() {
         return equipped;
     }
+
+    public void heal(int health) {
+        SimpleIntegerProperty curH = attr.getCurHealth();
+        SimpleIntegerProperty maxH = attr.getHealth();
+        if (curH.get()+health <= maxH.get()) {
+            curH.set(curH.get()+health);
+        }
+        else {
+            curH.set(maxH.get());
+        }
+    }
+
+    public SimpleIntegerProperty getCampFireBuff() {
+        return campFireBuff;
+    }
+
+    public SimpleIntegerProperty getStakeVampireBuff() {
+        return stakeVampireBuff;
+    }
+
+    public SimpleDoubleProperty getDebuff() {
+        return debuff;
+    }
+
+    public List<Enemy> getTranced() {
+        return tranced;
+    }
+
 }

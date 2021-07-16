@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public abstract class Card extends StaticEntity {
     private static final int SimpleIntegerProperty = 0;
-    private Building building;
+    private String building;
     private LoopManiaWorld world;
 
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -19,11 +19,8 @@ public abstract class Card extends StaticEntity {
         this.building = building.toString();
     }
 
-    public Building getBuildingType(){
+    public String getBuildingType(){
         return this.building;
     }
 
-    public void createBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, LoopManiaWorld world){
-        world.convertCardToBuildingByCoordinates(this.getX(), this.getY(), SimpleIntegerProperty x, SimpleIntegerProperty y)
-    }
 }
