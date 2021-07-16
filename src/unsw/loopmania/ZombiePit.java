@@ -10,17 +10,19 @@ public class ZombiePit extends Building {
         super(x,y);
     }
 
-    @Override
-    public void specialEffect(LoopManiaWorld world) {
+
+    public Zombie produceZombie(LoopManiaWorld world) {
 
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
-            return;
+            return null;
         }
         if (((new Random()).nextInt(100)) < 50) {
             PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
             Zombie zombie = new Zombie(pt, world.getCycle().intValue());
             world.getEnemies().add(zombie);
+            return zombie;
         }
+        return null;
         
     }
 }

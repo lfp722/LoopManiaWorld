@@ -10,20 +10,21 @@ public class VampireCastle extends Building {
         super(x,y);
     }
 
-    @Override
-    public void specialEffect(LoopManiaWorld world) {
+    public Vampire produceVampire(LoopManiaWorld world) {
         
         if (world.getCycle().get()%5 != 4) {
-            return;
+            return null;
         }
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
-            return;
+            return null;
         }
         if (((new Random()).nextInt(100)) < 50) {
             PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
             Vampire vampire = new Vampire(pt, world.getCycle().intValue());
             world.getEnemies().add(vampire);
+            return vampire;
         }
+        return null;
         
     }
 

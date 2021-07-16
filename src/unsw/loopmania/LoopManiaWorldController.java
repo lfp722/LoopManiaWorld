@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
+import org.junit.jupiter.engine.execution.ExecutableInvoker.ReflectiveInterceptorCall.VoidMethodInterceptorCall;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -287,6 +288,9 @@ public class LoopManiaWorldController {
                 b.specialEffect(world);
             }
             List<Enemy> defeatedEnemies = world.runBattles();
+            if (!world.getCharacter().shouldExist().get()) {
+                terminate();
+            }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {
                 onLoad(i);
@@ -296,6 +300,14 @@ public class LoopManiaWorldController {
             }
             List<Slug> newEnemies = world.possiblySpawnEnemies();
             for (Slug newEnemy: newEnemies){
+                onLoad(newEnemy);
+            }
+            List<Zombie> newZombies = world.possiblySpawnZombies();
+            for (Zombie newEnemy: newZombies){
+                onLoad(newEnemy);
+            }
+            List<Vampire> newVampires = world.possiblySpawnVampire();
+            for (Vampire newEnemy: newVampires){
                 onLoad(newEnemy);
             }
             List<Gold> newGolds = world.possiblySpawnGold();
@@ -403,6 +415,7 @@ public class LoopManiaWorldController {
         if(enemy instanceof Slug) {
             loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
             loadExp(20 + 100 * this.world.getCycle().get());
+            loadZombieCard();
         } else if (enemy instanceof Vampire) {
             loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
             loadExp(500 + 500 * this.world.getCycle().get());
@@ -478,7 +491,7 @@ public class LoopManiaWorldController {
 
     private void loadZombieCard() {
         // TODO = load more types of card
-        VampireCastleCard vampireCastleCard = world.loadVampireCard();
+        ZombiePitCard vampireCastleCard = world.loadZombieCard();
         onLoad(vampireCastleCard);
     }
 
@@ -703,19 +716,24 @@ public class LoopManiaWorldController {
 
     private void onLoad(Building newBuilding) {
         if (newBuilding instanceof VampireCastle) {
-            newBuilding = (VampireCastle) newBuilding;
+            VampireCastle a = (VampireCastle) newBuilding;
+            onLoad(a);
         } else if (newBuilding instanceof ZombiePit) {
-            newBuilding = (ZombiePit) newBuilding;
+            ZombiePit a = (ZombiePit) newBuilding;
+            onLoad(a);
         } else if (newBuilding instanceof Trap) {
-            newBuilding = (Trap) newBuilding;
+            Trap a = (Trap) newBuilding;
+            onLoad(a);
         } else if (newBuilding instanceof CampFire) {
-            newBuilding = (CampFire) newBuilding;
+            CampFire a = (CampFire) newBuilding;
+            onLoad(a);
         } else if (newBuilding instanceof Barrack) {
-            newBuilding = (Barrack) newBuilding;
-        } else {
-            newBuilding = (Village) newBuilding;
+            Barrack a = (Barrack) newBuilding;
+            onLoad(a);
+        } else if (newBuilding instanceof Village){
+            Village a = (Village) newBuilding;
+            onLoad(a);
         }
-        onLoad(newBuilding);
     }
 
     private void onLoad(VampireCastle building){
