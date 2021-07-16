@@ -24,6 +24,7 @@ public class Trial {
         experience.set(0);
         level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(1000).get()), experience));
         experience.set(5000);
+        experience.set(experience.get() - 2000);
         next_expr = new SimpleIntegerProperty();
         next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*1000, level));
         shit.bind(Bindings.createIntegerBinding(()->level.get()*2+experience.get()/2000, level, experience));

@@ -3,7 +3,6 @@ package unsw.loopmania;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class ZombiePit extends Building implements EnemyProducer{
-    private PathPosition pt;
 
     public ZombiePit(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);

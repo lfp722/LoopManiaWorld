@@ -2,7 +2,7 @@ package unsw.loopmania;
 
 import java.util.Random;
 
-public class Vampire extends Enemy implements EnemyCriticalAttack {
+public class Vampire extends Enemy {
     
     private int radusCampfire;
     private int critRateLimit = 90;
@@ -118,6 +118,11 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
     
     @Override
     public void criticalAttack(Soldier object, LoopManiaWorld world) {
+        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+    }
+
+    @Override
+    public void criticalAttack(Enemy object) {
         object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
     }
 }

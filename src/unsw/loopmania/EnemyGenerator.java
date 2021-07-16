@@ -37,8 +37,7 @@ public class EnemyGenerator implements Generator {
                 return;
             }
             if (((new Random()).nextInt(100)) < 50) {
-                Enemy e = b.applyEnemyProducer(world);
-                world.addEnemy(e);
+                b.specialEffect(world);
             }
         }
     }
@@ -55,8 +54,7 @@ public class EnemyGenerator implements Generator {
                 return;
             }
             if (((new Random()).nextInt(100)) < 50) {
-                Enemy e = b.applyEnemyProducer(world);
-                world.addEnemy(e);
+                b.specialEffect(world);
             }
         }
         return; 

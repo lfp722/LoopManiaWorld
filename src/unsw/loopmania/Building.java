@@ -1,7 +1,8 @@
 package unsw.loopmania;
 
+import org.javatuples.Pair;
+
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.util.Pair;
 
 public class Building extends StaticEntity{
 
@@ -17,7 +18,7 @@ public class Building extends StaticEntity{
                 int x = this.getX() + i;
                 int y = this.getY() + j;
                 Pair<Integer, Integer> a = new Pair<Integer, Integer>(x, y);
-                if(world.getOrderedPath().contains(a)){
+                if(world.isInPath(a)){
                     return a;
                 }
             }
@@ -27,6 +28,10 @@ public class Building extends StaticEntity{
 
     public Enemy applyEnemyProducer(LoopManiaWorld world) {
         return enemyProducer.enemyProducer(world);
+    }
+
+    public void specialEffect(LoopManiaWorld world) {
+
     }
 
 }

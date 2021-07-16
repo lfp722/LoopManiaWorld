@@ -22,7 +22,7 @@ public class BattleSimulator implements Simulator{
                 }
 
                 Soldier brave = ch.getArmy().get(0);
-                e.attack(brave);
+                e.attack(brave, this);
             }
         }
     }

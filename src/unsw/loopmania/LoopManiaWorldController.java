@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import unsw.loopmania.items.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -116,9 +118,31 @@ public class LoopManiaWorldController {
     private Timeline timeline;
 
     private Image vampireCastleCardImage;
-    private Image EnemyImage;
+    private Image towerCardImage;
+    private Image villageCardImage;
+    private Image zombiePitCardImage;
+    private Image trapCardImage;
+    private Image barrackCardImage;
+    private Image campfireCardImage;
     private Image swordImage;
-    private Image basicBuildingImage;
+    private Image slugImage;
+    private Image zombieImage;
+    private Image vampireImage;
+    private Image armourImage;
+    private Image shieldImage;
+    private Image helmetImage;
+    private Image stakeImage;
+    private Image staffImage;
+    private Image goldImage;
+    private Image potionImage;
+    private Image vampireCastleBuildingImage;
+    private Image herosCastleImage;
+    private Image towerImage;
+    private Image villageImage;
+    private Image zombiePitImage;
+    private Image trapImage;
+    private Image barrackImage;
+    private Image campfireImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -166,9 +190,32 @@ public class LoopManiaWorldController {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
-        EnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
+        villageCardImage = new Image((new File("src/images/village_card.png")).toURI().toString());
+        zombiePitCardImage = new Image((new File("src/images/zombie_pit_card.png")).toURI().toString());
+        trapCardImage = new Image((new File("src/images/trap_card.png")).toURI().toString());
+        barrackCardImage = new Image((new File("src/images/barracks_card.png")).toURI().toString());
+        campfireCardImage = new Image((new File("src/images/campfire_card.png")).toURI().toString());
+        slugImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        zombieImage = new Image((new File("src/images/zombie.png")).toURI().toString());
+        vampireImage = new Image((new File("src/images/vampire.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        goldImage = new Image((new File("src/images/gold_pile.png")).toURI().toString());
+        potionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        herosCastleImage = new Image((new File("src/images/heros_castle.png")).toURI().toString());
+        towerImage = new Image((new File("src/images/tower.png")).toURI().toString());
+        villageImage = new Image((new File("src/images/village.png")).toURI().toString());
+        zombiePitImage = new Image((new File("src/images/zombie_pit.png")).toURI().toString());
+        trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
+        barrackImage = new Image((new File("src/images/barracks.png")).toURI().toString());
+        campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -319,6 +366,10 @@ public class LoopManiaWorldController {
         Potion potion = world.addPotion();
         onLoad(potion);
     }
+
+
+
+    
     // /**
     //  * run GUI events after an enemy is defeated, such as spawning items/experience/gold
     //  * @param enemy defeated enemy for which we should react to the death of
@@ -444,8 +495,16 @@ public class LoopManiaWorldController {
         onLoad(campFireCard);
     }
 
+    private void loadGold(int value) {
+        this.world.addGold(value);
+    }
+
+    private void loadExp(int value) {
+        this.world.addExp(value);
+    }
 
 //TODO: complete world methods
+    
 
 
     /**
@@ -456,6 +515,72 @@ public class LoopManiaWorldController {
      */
     private void onLoad(VampireCastleCard vampireCastleCard) {
         ImageView view = new ImageView(vampireCastleCardImage);
+
+        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(ZombiePitCard vampireCastleCard) {
+        ImageView view = new ImageView(zombiePitCardImage);
+
+        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(CampFireCard vampireCastleCard) {
+        ImageView view = new ImageView(campfireCardImage);
+
+        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(BarrackCard vampireCastleCard) {
+        ImageView view = new ImageView(barrackCardImage);
+
+        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(TrapCard vampireCastleCard) {
+        ImageView view = new ImageView(trapCardImage);
+
+        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(TowerCard vampireCastleCard) {
+        ImageView view = new ImageView(towerCardImage);
+
+        // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
+        // note target setOnDragOver and setOnDragEntered defined in initialize method
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+
+        addEntity(vampireCastleCard, view);
+        cards.getChildren().add(view);
+    }
+
+    private void onLoad(VillageCard vampireCastleCard) {
+        ImageView view = new ImageView(villageCardImage);
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
@@ -478,12 +603,78 @@ public class LoopManiaWorldController {
         unequippedInventory.getChildren().add(view);
     }
 
+    private void onLoad(Armour sword) {
+        ImageView view = new ImageView(armourImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(sword, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(Shield sword) {
+        ImageView view = new ImageView(shieldImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(sword, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(Helmet sword) {
+        ImageView view = new ImageView(helmetImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(sword, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(Stake sword) {
+        ImageView view = new ImageView(stakeImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(sword, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(Staff sword) {
+        ImageView view = new ImageView(staffImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(sword, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(Potion potion) {
+        ImageView view = new ImageView(potionImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addEntity(potion, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
     /**
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoad(Enemy enemy) {
-        ImageView view = new ImageView(EnemyImage);
+    private void onLoad(Slug enemy) {
+        ImageView view = new ImageView(slugImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Zombie enemy) {
+        ImageView view = new ImageView(zombieImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Vampire enemy) {
+        ImageView view = new ImageView(vampireImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoadPick(Potion enemy) {
+        ImageView view = new ImageView(potionImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Gold enemy) {
+        ImageView view = new ImageView(goldImage);
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
@@ -492,8 +683,56 @@ public class LoopManiaWorldController {
      * load a building into the GUI
      * @param building
      */
+
+    private void onLoad(Building newBuilding) {
+        if (newBuilding instanceof VampireCastle) {
+            newBuilding = (VampireCastle) newBuilding;
+        } else if (newBuilding instanceof ZombiePit) {
+            newBuilding = (ZombiePit) newBuilding;
+        } else if (newBuilding instanceof Trap) {
+            newBuilding = (Trap) newBuilding;
+        } else if (newBuilding instanceof CampFire) {
+            newBuilding = (CampFire) newBuilding;
+        } else if (newBuilding instanceof Barrack) {
+            newBuilding = (Barrack) newBuilding;
+        } else {
+            newBuilding = (Village) newBuilding;
+        }
+        onLoad(newBuilding);
+    }
+
     private void onLoad(VampireCastle building){
-        ImageView view = new ImageView(basicBuildingImage);
+        ImageView view = new ImageView(vampireCastleBuildingImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Barrack building){
+        ImageView view = new ImageView(barrackImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(ZombiePit building){
+        ImageView view = new ImageView(zombiePitImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Tower building){
+        ImageView view = new ImageView(towerImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Trap building){
+        ImageView view = new ImageView(trapImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(CampFire building){
+        ImageView view = new ImageView(campfireImage);
         addEntity(building, view);
         squares.getChildren().add(view);
     }
@@ -540,7 +779,8 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastle newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
                                 onLoad(newBuilding);
                                 break;
                             case ITEM:
@@ -621,7 +861,7 @@ public class LoopManiaWorldController {
      * @param buildingNodeY the y coordinate of the drop location for the card, where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastle convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    private Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 

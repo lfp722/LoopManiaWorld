@@ -11,6 +11,13 @@
             "name": "Launch Trial",
             "request": "launch",
             "mainClass": "unsw.loopmania.Trial",
+            "projectName": "21T2-cs2511-project_5368489a"
+        },
+        {
+            "type": "java",
+            "name": "Launch Trial",
+            "request": "launch",
+            "mainClass": "unsw.loopmania.Trial",
             "projectName": "21T2-cs2511-project_e4eb7446"
         },
         {

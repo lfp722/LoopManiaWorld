@@ -20,7 +20,7 @@ public class Village extends Building{
         Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
         Pair<Integer, Integer> b = new Pair<>(this.getX(), this.getY());
         if(a.equals(b)){
-            world.getCharacter().setHealth(world.getCharacter().getHealth()+this.getRegenRate());
+            world.getCharacter().setHealth(world.getCharacter().heal(regenRate));
         }
     }
 }

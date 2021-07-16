@@ -1,5 +1,4 @@
 package unsw.loopmania;
-import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Pair;
@@ -15,7 +14,7 @@ public class Trap extends Building{
     public int getDamage(){
         return this.damage;
     }
-
+    //TODO: pass enemy as para
     public void doDamage(LoopManiaWorld world){
         Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
         for(Enemy b: world.getEnemies()){
