@@ -35,6 +35,28 @@ public class PathPosition{
         resetCoordinatesBasedOnPositionInPath();
     }
 
+    public int getCurrentPositionInPath() {
+        return currentPositionInPath;
+    }
+
+
+
+    public void setCurrentPositionInPath(int currentPositionInPath) {
+        this.currentPositionInPath = currentPositionInPath;
+    }
+
+
+
+    public List<Pair<Integer, Integer>> getOrderedPath() {
+        return orderedPath;
+    }
+
+
+
+    public void setOrderedPath(List<Pair<Integer, Integer>> orderedPath) {
+        this.orderedPath = orderedPath;
+    }
+
     /**
      * move forward through the path i.e. clockwise
      */

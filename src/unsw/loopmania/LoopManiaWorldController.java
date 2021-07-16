@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
@@ -115,7 +116,7 @@ public class LoopManiaWorldController {
     private Timeline timeline;
 
     private Image vampireCastleCardImage;
-    private Image basicEnemyImage;
+    private Image EnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
 
@@ -165,7 +166,7 @@ public class LoopManiaWorldController {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
-        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
+        EnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         currentlyDraggedImage = null;
@@ -233,12 +234,12 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
-            for (BasicEnemy e: defeatedEnemies){
+            List<Enemy> defeatedEnemies = world.runBattles();
+            for (Enemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
-            List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
-            for (BasicEnemy newEnemy: newEnemies){
+            List<Enemy> newEnemies = world.possiblySpawnEnemies();
+            for (Enemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
             printThreadingNotes("HANDLED TIMER");
@@ -291,17 +292,161 @@ public class LoopManiaWorldController {
         onLoad(sword);
     }
 
-    /**
-     * run GUI events after an enemy is defeated, such as spawning items/experience/gold
-     * @param enemy defeated enemy for which we should react to the death of
-     */
-    private void reactToEnemyDefeat(BasicEnemy enemy){
-        // react to character defeating an enemy
-        // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadSword();
-        loadVampireCard();
+    private void loadArmour(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Armour armour = world.addUnequippedArmour();
+        onLoad(armour);
     }
+
+    private void loadShield(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Shield shield = world.addUnequippedShield();
+        onLoad(shield);
+    }
+
+    private void loadHelmet(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Helmet helmet = world.addUnequippedHelmet();
+        onLoad(helmet);
+    }
+
+    private void loadPotion(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Potion potion = world.addPotion();
+        onLoad(potion);
+    }
+    // /**
+    //  * run GUI events after an enemy is defeated, such as spawning items/experience/gold
+    //  * @param enemy defeated enemy for which we should react to the death of
+    //  */
+    // private void reactToEnemyDefeat(Enemy enemy){
+    //     // react to character defeating an enemy
+    //     // in starter code, spawning extra card/weapon...
+    //     // TODO = provide different benefits to defeating the enemy based on the type of enemy
+    //     loadSword();
+    //     loadVampireCard();
+    // }
+
+    public void reactToEnemyDefeat(Enemy enemy) {
+        if(enemy instanceof Slug) {
+            loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
+            loadExp(20 + 100 * this.world.getCycle().get());
+        } else if (enemy instanceof Vampire) {
+            loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
+            loadExp(500 + 500 * this.world.getCycle().get());
+            Random random = new Random();
+            int choice = random.nextInt(100);
+            if (choice < 10) {
+                loadSword();
+            }
+            else if (choice < 20) {
+                loadArmour();
+            }
+            else if (choice < 30) {
+                loadShield();
+            }
+            else if (choice < 40) {
+                loadHelmet();
+            }
+            else if (choice < 50) {
+                loadPotion();
+            }
+            else if (choice < 60) {
+                loadCard();
+            }
+        } else if (enemy instanceof Zombie) {
+            loadGold(new Random().nextInt(100)+100+15*world.getCycle().get());
+            loadExp(200+150*world.getCycle().get());
+    
+            Random random = new Random();
+            int choice = random.nextInt(100);
+            if (choice < 5) {
+                loadSword();
+            }
+            else if (choice < 8) {
+                loadArmour();
+            }
+            else if (choice < 10) {
+                loadCard();
+            }
+            else if (choice < 15) {
+                loadPotion();
+            }
+        }
+    }
+
+
+
+
+
+    public void loadCard() {
+        int cardChoice = new Random().nextInt(7);
+        if (cardChoice == 0) {
+            loadVampireCard();
+        }
+        else if (cardChoice == 1) {
+            loadZombieCard();    
+        }
+        else if (cardChoice == 2) {
+            loadVillageCard();    
+        }
+        else if (cardChoice == 3) {
+            loadBarrackCard();    
+        }
+        else if (cardChoice == 4) {
+            loadTowerCard();    
+        }
+        else if (cardChoice == 5) {
+            loadTrapCard();    
+        }
+        else if (cardChoice == 6) {
+            loadCampFireCard();    
+        }
+    }
+
+    private void loadZombieCard() {
+        // TODO = load more types of card
+        VampireCastleCard vampireCastleCard = world.loadVampireCard();
+        onLoad(vampireCastleCard);
+    }
+
+    private void loadVillageCard() {
+        // TODO = load more types of card
+        VillageCard villageCard = world.loadVillageCard();
+        onLoad(villageCard);
+    }
+
+    private void loadBarrackCard() {
+        // TODO = load more types of card
+        BarrackCard barrackCard = world.loadBarrackCard();
+        onLoad(barrackCard);
+    }
+
+    private void loadTowerCard() {
+        // TODO = load more types of card
+        TowerCard towerCard = world.loadTowerCard();
+        onLoad(towerCard);
+    }
+
+    private void loadTrapCard() {
+        // TODO = load more types of card
+        TrapCard trapCard = world.loadTrapCard();
+        onLoad(trapCard);
+    }
+
+    private void loadCampFireCard() {
+        // TODO = load more types of card
+        CampFireCard campFireCard = world.loadCampFireCard();
+        onLoad(campFireCard);
+    }
+
+
+//TODO: complete world methods
+
 
     /**
      * load a vampire castle card into the GUI.
@@ -337,8 +482,8 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param enemy
      */
-    private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
+    private void onLoad(Enemy enemy) {
+        ImageView view = new ImageView(EnemyImage);
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
@@ -347,7 +492,7 @@ public class LoopManiaWorldController {
      * load a building into the GUI
      * @param building
      */
-    private void onLoad(VampireCastleBuilding building){
+    private void onLoad(VampireCastle building){
         ImageView view = new ImageView(basicBuildingImage);
         addEntity(building, view);
         squares.getChildren().add(view);
@@ -395,7 +540,7 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                VampireCastle newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 onLoad(newBuilding);
                                 break;
                             case ITEM:
@@ -476,7 +621,7 @@ public class LoopManiaWorldController {
      * @param buildingNodeY the y coordinate of the drop location for the card, where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    private VampireCastle convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 

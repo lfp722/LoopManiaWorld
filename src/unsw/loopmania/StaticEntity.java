@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.junit.jupiter.api.DisplayNameGenerator.Simple;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -34,5 +36,13 @@ public abstract class StaticEntity extends Entity {
 
     public int getY() {
         return y().get();
+    }
+
+    public SimpleIntegerProperty simpleX() {
+        return (new SimpleIntegerProperty(this.getX()));
+    }
+
+    public SimpleIntegerProperty simpleY() {
+        return (new SimpleIntegerProperty(this.getY()));
     }
 }
