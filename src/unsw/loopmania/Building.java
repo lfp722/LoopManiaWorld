@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Building extends StaticEntity{
 
-    private EnemyProducer enemyProducer;
 
     public Building(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
@@ -24,10 +23,6 @@ public class Building extends StaticEntity{
             }
         }
         throw new Error("No pathtile near this building");
-    }
-
-    public Enemy applyEnemyProducer(LoopManiaWorld world) {
-        return enemyProducer.enemyProducer(world);
     }
 
     public void specialEffect(LoopManiaWorld world) {
