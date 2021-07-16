@@ -1,45 +1,25 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.StaticEntity;
-import java.util.ArrayList;
+import javafx.util.Pair;
 
 public class Building extends StaticEntity{
-    private IntegerProperty x, y;
-    private PathTile pt;
 
     public Building(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
     }
 
-    public SimpleIntegerProperty getX(){
-        return this.x;
-    }
-
-    public SimpleIntegerProperty getY(){
-        return this.y;
-    }
-    
-    public void setX(SimpleIntegerProperty x){
-        this.x = x;
-    }
-
-    public void setY(SimpleIntegerProperty y){
-        this.y = y;
-    }
-
-    public PathTile getPathTileNearBuilding(LoopManiaWorld world){
-        int x = this.getX();
-        int y = this.getY();
+    public Pair<Integer, Integer> getNearestPathTile(LoopManiaWorld world){
         for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1;j++){
-                PathTile b = new PathTile(x, y);
-                if(world.getOrderedPath().contains(b)){
-                    return b;
+            for(int j = -1; j <= 1; j++){
+                int x = this.getX() + i;
+                int y = this.getY() + j;
+                Pair<Integer, Integer> a = new Pair<>(x, y);
+                if(world.getOrderedPath().contains(a)){
+                    return a;
                 }
             }
         }
-        throw new Error("There is no avaliable PathTile nearny this building");
+        throw new Error("No pathtile near this building");
     }
-
 }
