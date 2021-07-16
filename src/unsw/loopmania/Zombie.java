@@ -1,6 +1,5 @@
 package unsw.loopmania;
 
-import java.util.List;
 import java.util.Random;
 
 public class Zombie extends Enemy implements EnemyCriticalAttack{

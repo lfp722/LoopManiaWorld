@@ -2,7 +2,6 @@ package unsw.loopmania;
 
 import java.util.Random;
 
-import unsw.loopmania.Entity;
 
 public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
     private EntityAttribute attribute;
@@ -158,10 +157,10 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
         }
 
     }
-
-    public void attack(Soldier object) {
+    //add a world as a parametre to satisfy all things to work
+    public void attack(Soldier object, LoopManiaWorld world) {
         if ((new Random()).nextInt(100) < this.critRate) {
-            applyCriticalAttack(object);
+            applyCriticalAttack(object, world);
         } else {
             object.underAttack(this.attribute.getAttack().get());
         }
@@ -174,8 +173,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
      * @param damage damage suffered during an attack
      */
     public void underAttack(int damage) {
-        //TODO
-        this.attribute.getCurHealth().set(this.attribute.getHealth().get() - damage);
+        this.attribute.getCurHealth().subtract(damage);
         if (!checkHealth()) {
             destroy();
         }
@@ -204,7 +202,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
      * movement pattern of an enemy
     */
 
-    public void move() {
+    public void move(LoopManiaWorld world) {
         
         int directionChoice = (new Random()).nextInt(2);
         if (directionChoice == 0){
@@ -236,32 +234,32 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
      * 
      * @param object
      */
-    public void applyCriticalAttack(Soldier object) {
-        critical.criticalAttack(object);
+    public void applyCriticalAttack(Soldier object, LoopManiaWorld world) {
+        critical.criticalAttack(object, world);
     }
 
-    /**
-     * TODO: special effect for staff
-     * @return
-     */
-    public void applyStaffEffect() {
-        //destroy the zombie
-        //create an ally with its attribute
-        //add it into ally list
-        destory();
-        Character a = new Character();
+    // /**
+    //  * TODO: special effect for staff
+    //  * @return
+    //  */
+    // public void applyStaffEffect() {
+    //     //destroy the zombie
+    //     //create an ally with its attribute
+    //     //add it into ally list
+    //     destory();
+    //     Character a = new Character();
         
-    }
+    // }
 
-    /**
-     * TODO: after the special effect
-     * @return
-     */
-    public void afterStaffEffect() {
-        //destroy that ally
-        //create a zombie with remaining attribute
-        //add it into enemy list
-    }
+    // /**
+    //  * TODO: after the special effect
+    //  * @return
+    //  */
+    // public void afterStaffEffect() {
+    //     //destroy that ally
+    //     //create a zombie with remaining attribute
+    //     //add it into enemy list
+    // }
 
     /**
      * Helper methods
@@ -286,10 +284,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
         Integer valA = this.getAttribute().getCurHealth().get();
         Integer valB = b.getAttribute().getCurHealth().get();
         return valA.compareTo(valB);
-    }
-
-    public double distanceToCharacter(Character c) {
-        
     }
 
 }

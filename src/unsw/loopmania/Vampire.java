@@ -1,6 +1,5 @@
 package unsw.loopmania;
 
-import java.util.List;
 import java.util.Random;
 
 public class Vampire extends Enemy implements EnemyCriticalAttack {
@@ -55,10 +54,14 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
     //calculate the distance between them and the campfire, 
     //decide the moving direction after that.
     //hint: orderedPath.get(currentPositionInPath).getValue0/1()
-    public boolean spotCampfire() {
-        for (Campfire c: campfireList) {
-            if ((Math.pow(c.getPosition().getX().get() - this.getPosition().getX().get(), 2)
-                     + Math.pow(c.getPosition().getY().get() - this.getPosition().getX().get(), 2))
+    //TODO: confusing in passing world in
+    public boolean spotCampfire(LoopManiaWorld world) {
+        for (Building c: world.getBuildingEntities()) {
+            if (!(c instanceof CampFire)) {
+                continue;
+            }
+            if ((Math.pow(c.getX().get() - this.getPosition().getX().get(), 2)
+                     + Math.pow(c.getY().get() - this.getPosition().getX().get(), 2))
                       > Math.pow(this.getSupportRange(), 2)) {
                 continue;
             }
@@ -76,8 +79,8 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
                 .getValue1();
             int tileCurrentX = this.getPosition().getX().get();
             int tileCurrentY = this.getPosition().getY().get();
-            int fireX = c.getPosition().getX().get();
-            int fireY = c.getPosition().getY().get();
+            int fireX = c.getX().get();
+            int fireY = c.getY().get();
             double distance2Front = Math.pow(tileFrontX - fireX, 2) + Math.pow(tileFrontY - fireY, 2);
             double distance2After = Math.pow(tileAfterX - fireX, 2) + Math.pow(tileAfterY - fireY, 2);
             double distance2Current = Math.pow(tileCurrentX - fireX, 2) + Math.pow(tileCurrentY - fireY, 2);
@@ -86,17 +89,19 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
             } else if (distance2After > distance2Current && distance2Current > distance2Front) {
                 return false;
             } else {
-                return true;
+                continue;
             }
+            
         }
+        return true;
     }
 
     /**
      * move away from campfire if found
      */
     @Override
-    public void move() {
-        if (!spotCampfire()) {
+    public void move(LoopManiaWorld world) {
+        if (!spotCampfire(world)) {
             this.movingDirection = !this.movingDirection;
         } 
         if (this.movingDirection) {
@@ -112,7 +117,7 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
     }
     
     @Override
-    public void criticalAttack(Soldier object) {
+    public void criticalAttack(Soldier object, LoopManiaWorld world) {
         object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
     }
 }

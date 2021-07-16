@@ -6,8 +6,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class EnemyGenerator implements Generator {
-    
-    private SimpleIntegerProperty maxNum;
 
     public EnemyGenerator() {
     }
@@ -36,11 +34,12 @@ public class EnemyGenerator implements Generator {
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
             return;
         }
-        for (Building b: world.getBuildingEntities) {
-            if(b.checkType() != "Zombie Pit") {
+        for (Building b: world.getBuildingEntities()) {
+            //use instanceof here, change later
+            if(!(b instanceof ZombiePit)) {
                 return;
             }
-            if (((new Random()).nextInt(100)) < prob) {
+            if (((new Random()).nextInt(100)) < 50) {
                 Enemy e = b.EnemyProducer(world);
                 world.addEnemy(e);
             }
@@ -54,11 +53,11 @@ public class EnemyGenerator implements Generator {
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
             return;
         }
-        for (Building b: world.getBuildingEntities) {
-            if(b.checkType() != "Vampire Castle") {
+        for (Building b: world.getBuildingEntities()) {
+            if(!(b instanceof VampireCastle)) {
                 return;
             }
-            if (((new Random()).nextInt(100)) < prob) {
+            if (((new Random()).nextInt(100)) < 50) {
                 Enemy e = b.EnemyProducer(world);
                 world.addEnemy(e);
             }
