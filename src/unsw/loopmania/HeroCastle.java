@@ -1,5 +1,6 @@
 package unsw.loopmania;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.StaticEntity;
 
 public class HeroCastle extends Building{
@@ -10,9 +11,7 @@ public class HeroCastle extends Building{
     }
     
     public void openStore(LoopManiaWorld world){
-        StaticEntity c = new StaticEntity(world.getCharacter().getX(), world.getCharacter().getY());
-        StaticEntity castle = new StaticEntity(this.getX(), this.getY());
-        if(c.equals(castle)){
+        if(this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
             world.openStore();
         }
     }
