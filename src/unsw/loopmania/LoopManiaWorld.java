@@ -561,5 +561,14 @@ public class LoopManiaWorld {
         return a;
     }
 
+    public boolean isInPath(Pair<Integer, Integer> p) {
+        for (Pair<Integer, Integer> temp: orderedPath) {
+            if (temp.getValue0().equals(p.getValue0()) && temp.getValue1().equals(p.getValue1())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     
 }

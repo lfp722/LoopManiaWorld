@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * which doesn't move
  */
 public abstract class Card extends StaticEntity {
+    private static final int SimpleIntegerProperty = 0;
     private Building building;
     private LoopManiaWorld world;
 
