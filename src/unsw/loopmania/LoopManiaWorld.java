@@ -248,6 +248,7 @@ public class LoopManiaWorld {
     private void battle(List<Enemy> battleEnemies, List<Enemy> defeatedEnemies, Character ch) {
         System.out.println("Battle started!");
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
+            System.out.println("Still enemy to kill");
             for (Building b: getBuildingEntities()) {
                 if (b instanceof Tower) {
                     Tower a = (Tower) b;
@@ -263,19 +264,22 @@ public class LoopManiaWorld {
             // }
 
             ch.attack(target);
+            System.out.println("Character attack enemy");
             if (!target.shouldExist().get()) {
                 battleEnemies.remove(target);
                 defeatedEnemies.add(target);
+                System.out.println("Enemy defeated");
             }
 
             for (Enemy e: battleEnemies) {
                 if (ch.getArmy().isEmpty()) {
                     e.attack(ch);
-                    continue;
+                    System.out.println("Enemy attack character");
                 }
-
-                Soldier brave = ch.getArmy().get(0);
-                e.attack(brave, this);
+                else{
+                    Soldier brave = ch.getArmy().get(0);
+                    e.attack(brave, this);
+                }
             }
         }
     }
@@ -898,9 +902,13 @@ public class LoopManiaWorld {
                     temp.destroy();
                 }
                 else {
-                    picked.add((Potion)temp);
+
+                    temp.destroy();
+                    Potion owned = new Potion(new SimpleIntegerProperty(temp.getX()) , new SimpleIntegerProperty(temp.getY()));
+                    picked.add(owned);
                     spawnItems.remove(temp);
-                    unequippedInventoryItems.add(temp);
+                    unequippedInventoryItems.add(owned);
+                    
                 }
             }
         }
