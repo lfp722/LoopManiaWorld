@@ -166,12 +166,12 @@ public class StoreViewController  {
         this.setInventoryGrid();
 
         this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.armour, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.helmet, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.portion, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.shield,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.staff,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.stake,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.sword,this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.helmet, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.portion, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.shield,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.staff,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.stake,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.sword,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
         this.curPrice.set(0);
     }
 
