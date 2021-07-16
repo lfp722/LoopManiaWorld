@@ -1,16 +1,15 @@
 package unsw.loopmania;
 import java.util.List;
 
-import unsw.loopmania.BasicEnemy;
-import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.StaticEntity;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Pair;
 
 public class Trap extends Building{
-    private LoopManiaWorld world;
+    private int damage;
 
-    public Trap(SimpleIntegerProperty x, SimpleIntegerProperty y, int damage){
+    public Trap(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
-        this.damage = damage;
+        this.damage = 20;
     }
 
     public int getDamage(){
@@ -18,11 +17,11 @@ public class Trap extends Building{
     }
 
     public void doDamage(LoopManiaWorld world){
-        StaticEntity trap = new StaticEntity(this.getX(), this.getY());
-        for(BasicEnemy b: world.getEnemies()){
-            StaticEntity monster = new StaticEntity(b.getX(), b.getY());
-            if(trap.equals(monster)){
-                b.underAttack();
+        Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
+        for(Enemy b: world.getEnemies()){
+            Pair<Integer, Integer> c = new Pair<>(b.getX(), b.getY());
+            if(a.equals(c)){
+                b.underAttack(this.getDamage());
                 world.removeBuildingEntities(this);
             }
         }
