@@ -9,7 +9,10 @@ public class EntityAttribute {
     private SimpleIntegerProperty cur_health;
 
     public EntityAttribute() {
-
+        this.attack = new SimpleIntegerProperty();
+        this.defence = new SimpleIntegerProperty();
+        this.health = new SimpleIntegerProperty();
+        this.cur_health = new SimpleIntegerProperty();
     }
 
     public EntityAttribute(int attack, int defence, int health){

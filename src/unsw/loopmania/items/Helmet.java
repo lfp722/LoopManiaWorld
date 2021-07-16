@@ -6,10 +6,11 @@ import unsw.loopmania.*;
 
 
 public class Helmet extends Outfit {
-    private SimpleIntegerProperty ownerOriginalDamage;
+    //private SimpleIntegerProperty ownerOriginalDamage;
     public Helmet(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        this.ownerOriginalDamage.set(0);
+        // ownerOriginalDamage
+        // this.ownerOriginalDamage.set(0);
         //this.reduceRate.set(1 /(Math.sqrt(this.level.get())));
     }
 

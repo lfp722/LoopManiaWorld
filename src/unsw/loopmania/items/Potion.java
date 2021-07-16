@@ -8,6 +8,7 @@ public class Potion extends Item{
 
     public Potion(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
+        recoverRate = new SimpleDoubleProperty();
         this.recoverRate.set(0.2);
         this.ValueInGold.set(100);
     }

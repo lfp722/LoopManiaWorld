@@ -22,9 +22,8 @@ public class VampireCastle extends Building {
         if (((new Random()).nextInt(100)) < 50) {
             PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
             Vampire vampire = new Vampire(pt, world.getCycle().intValue());
-            
+            world.getEnemies().add(vampire);
         }
-        
         
     }
 

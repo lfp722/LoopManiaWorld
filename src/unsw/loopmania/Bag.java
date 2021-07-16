@@ -6,19 +6,19 @@ import java.util.List;
 import unsw.loopmania.items.*;
 
 public class Bag {
-    private List<Entity> items;
+    private List<Item> items;
     private int limit;
     private Character ch;
     private int discount = 5;
 
     public Bag() {
-        this.items = new ArrayList<Entity>();
+        this.items = new ArrayList<Item>();
         this.limit = 16;
     }
 
-    public void add(Entity item) {
+    public void add(Item item) {
         if (items.size() == limit) {
-            Entity popped = items.remove(0);
+            Item popped = items.remove(0);
             items.add(item);
             ch.addGold(popped.getValueInGold()/discount);
             ch.addExp(popped.getValueInGold()/discount);
@@ -28,7 +28,7 @@ public class Bag {
         }
     }
 
-    public void remove(Entity item) {
+    public void remove(Item item) {
         items.remove(item);
     }
 

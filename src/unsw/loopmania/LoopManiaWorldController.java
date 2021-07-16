@@ -288,22 +288,22 @@ public class LoopManiaWorldController {
             }
             List<Enemy> defeatedEnemies = world.runBattles();
             List<Potion> picked = world.pickUp();
-            for (Item i: picked) {
+            for (Potion i: picked) {
                 onLoad(i);
             }
             for (Enemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
-            List<Enemy> newEnemies = world.possiblySpawnEnemies();
-            for (Enemy newEnemy: newEnemies){
+            List<Slug> newEnemies = world.possiblySpawnEnemies();
+            for (Slug newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
-            List<Item> newGolds = world.possiblySpawnGold();
-            List<Item> newPotions = world.possiblySpawnPotion();
-            for (Item newGold: newGolds) {
+            List<Gold> newGolds = world.possiblySpawnGold();
+            List<Potion> newPotions = world.possiblySpawnPotion();
+            for (Gold newGold: newGolds) {
                 onLoad(newGold);
             }
-            for (Item newPotion: newPotions) {
+            for (Potion newPotion: newPotions) {
                 onLoadPick(newPotion);
             }
             printThreadingNotes("HANDLED TIMER");

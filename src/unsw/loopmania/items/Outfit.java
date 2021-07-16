@@ -9,6 +9,7 @@ public class Outfit extends Equipment {
     public Outfit(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x,y);
         this.ValueInGold.set(250);
+        defense = new SimpleIntegerProperty();
         this.defense.set(3);
 
         //this.defense.bind(Bindings.createIntegerBinding(()->this.nextDefense(),this.level));

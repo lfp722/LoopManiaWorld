@@ -61,9 +61,4 @@ public class Zombie extends Enemy {
         world.getEnemies().add(a);
     }
 
-    @Override
-    public void criticalAttack(Enemy object) {
-        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(10) + 5) / 100);
-    }
-
 }

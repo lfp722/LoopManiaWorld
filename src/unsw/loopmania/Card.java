@@ -15,11 +15,9 @@ public abstract class Card extends StaticEntity {
         super(x, y);
     }
 
-<<<<<<< HEAD
     public void createBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, LoopManiaWorld world){
         world.convertCardToBuildingByCoordinates(this.getX(), this.getY(), x.intValue(), y.intValue());
     }
-=======
     public void setBuildingType(Building building){
         this.building = building.toString();
     }
@@ -28,5 +26,4 @@ public abstract class Card extends StaticEntity {
         return this.building;
     }
 
->>>>>>> henry
 }

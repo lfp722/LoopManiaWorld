@@ -35,6 +35,11 @@ public class Character extends MovingEntity{
         level.set(1);
         experience = new SimpleIntegerProperty();
         experience.set(0);
+        gold = new SimpleIntegerProperty();
+        next_expr = new SimpleIntegerProperty();
+        campFireBuff = new SimpleIntegerProperty();
+        stakeVampireBuff = new SimpleIntegerProperty();
+        debuff = new SimpleDoubleProperty();
         army = new ArrayList<>();
         bag = new Bag();
         equipped = new Equipped();

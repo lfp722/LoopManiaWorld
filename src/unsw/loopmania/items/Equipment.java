@@ -18,9 +18,11 @@ public class Equipment extends Item implements equipItem{
 
     public Equipment(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
+        level = new SimpleIntegerProperty();
         this.level.set(1);
         this.ValueInGold.set(250);
 
+        levelUpPrice = new SimpleIntegerProperty();
         this.levelUpPrice.bind(Bindings.createIntegerBinding(()->this.nextLevelUpPrice(),this.level));
     }
 

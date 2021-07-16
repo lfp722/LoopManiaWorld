@@ -21,6 +21,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
      */
     public Enemy (PathPosition position, int cycle) {
         super(position);
+        this.attribute = new EntityAttribute();
         this.lv = (new Random()).nextInt(cycle);
     }
 
@@ -52,14 +53,9 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         return detectRange;
     }
     
-    /**
-     * 
-     * @param detectRange
-     */
-    public void setDetectRange(int detectRange) {
-        this.detectRange = detectRange;
+    public void setDetectRange(int d) {
+        this.detectRange = d;
     }
-
     /**
      * 
      * @return
@@ -160,7 +156,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
 
     public void attack(Enemy object) {
         if ((new Random()).nextInt(100) < this.critRate) {
-            applyCriticalAttack(object);
+            criticalAttack(object);
         } else {
             object.underAttack(this.attribute.getAttack().get());
         }
@@ -178,13 +174,13 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
 
     }
 
-    public void attack(Enemy object) {
-        if ((new Random()).nextInt(100) < this.critRate) {
-            criticalAttack(object);
-        } else {
-            object.underAttack(this.attribute.getAttack().get());
-        }
-    }
+    // public void attack(Enemy object) {
+    //     if ((new Random()).nextInt(100) < this.critRate) {
+    //         criticalAttack(object);
+    //     } else {
+    //         object.underAttack(this.attribute.getAttack().get());
+    //     }
+    // }
 
     public void criticalAttack(Character object){
 
@@ -243,35 +239,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
             moveDownPath();
         }
         
-    }
-
-    /**
-     * setter method to change behaviour
-     * @param eca an critical attack behaviour
-     */
-    public void setCriticalAttack(EnemyCriticalAttack eca) {
-        this.critical = eca;
-    }
-
-    /**
-     * 
-     * @param object
-     */
-    public void applyCriticalAttack(Character object) {
-        critical.criticalAttack(object);
-    }
-
-    
-    public void applyCriticalAttack(Enemy object) {
-        critical.criticalAttack(object);
-    }
-
-    /**
-     * 
-     * @param object
-     */
-    public void applyCriticalAttack(Soldier object, LoopManiaWorld world) {
-        critical.criticalAttack(object, world);
     }
 
     // /**

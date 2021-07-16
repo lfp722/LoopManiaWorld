@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import java.util.Random;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class ZombiePit extends Building {
@@ -17,10 +19,8 @@ public class ZombiePit extends Building {
         if (((new Random()).nextInt(100)) < 50) {
             PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
             Zombie zombie = new Zombie(pt, world.getCycle().intValue());
-            
+            world.getEnemies().add(zombie);
         }
-
-        
         
     }
 }
