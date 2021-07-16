@@ -1,23 +1,25 @@
 package unsw.loopmania;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Pair;
 import unsw.loopmania.LoopManiaWorld;
 
 public class Village extends Building{
-    private LoopManiaWorld world;
+    private int regenRate;
 
-    public Village(SimpleIntegerProperty x, SimpleIntegerProperty y, int regenRate){
+    public Village(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
-        this.regenRate = regenRate;
+        this.regenRate = 20;
     }
 
     public int getRegenRate(){
-        return this.getRegenRate();
+        return this.regenRate;
     }
 
     public void healCharacter(LoopManiaWorld world){
-        StaticEntity c = new StaticEntity(world.getCharacter().getX(), world.getCharacter().getY());
-        StaticEntity village = new StaticEntity(this.getX(), this.getY());
-        if(village.equals(c)){
+        Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
+        Pair<Integer, Integer> b = new Pair<>(this.getX(), this.getY());
+        if(a.equals(b)){
             world.getCharacter().setHealth(world.getCharacter().getHealth()+this.getRegenRate());
         }
     }
