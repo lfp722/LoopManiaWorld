@@ -15,8 +15,8 @@ public class Soldier extends StaticEntity{
         y.bind(ch.y());
     }
     
-    public int getAttack() {
-        return attr.getAttack().get();
+    public void attack(Enemy e) {
+        e.underAttack(attr.getAttack().get());
     }
 
     public void underAttack(int attack) {

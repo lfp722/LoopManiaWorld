@@ -3,15 +3,15 @@ package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
 public class Shield extends Outfit {
 
-    public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y,boolean isEquipped) {
-        super(x,y,isEquipped);
-        this.reduceRate.set(1 - this.level.get() * 0.15);
+    public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x,y);
+        //this.reduceRate.set(1 - this.level.get() * 0.15);
     }
 
-    @Override
-    public double nextReduceRate() {
-        return (double) 1 - this.level.get() * 0.15;
-    }
+    // @Override
+    // public double nextReduceRate() {
+    //     return (double) 1 - this.level.get() * 0.15;
+    // }
 
     @Override
     public void equip() {

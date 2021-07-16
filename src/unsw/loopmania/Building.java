@@ -1,11 +1,11 @@
 package unsw.loopmania;
 
+import org.javatuples.Pair;
+
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.util.Pair;
 
 public class Building extends StaticEntity{
 
-    private EnemyProducer enemyProducer;
 
     public Building(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
@@ -17,7 +17,7 @@ public class Building extends StaticEntity{
                 int x = this.getX() + i;
                 int y = this.getY() + j;
                 Pair<Integer, Integer> a = new Pair<Integer, Integer>(x, y);
-                if(world.getOrderedPath().contains(a)){
+                if(world.isInPath(a)){
                     return a;
                 }
             }
@@ -25,8 +25,11 @@ public class Building extends StaticEntity{
         throw new Error("No pathtile near this building");
     }
 
-    public Enemy applyEnemyProducer(LoopManiaWorld world) {
-        return enemyProducer.enemyProducer(world);
+    public void specialEffect(LoopManiaWorld world) {
+<<<<<<< HEAD
+
+=======
+>>>>>>> d30da675d54be37139e0a71098e4167f8f8926e3
     }
 
 }

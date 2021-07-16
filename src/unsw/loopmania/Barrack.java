@@ -8,7 +8,8 @@ public class Barrack extends Building{
         super(x, y);
     }
 
-    public void addSoldier(LoopManiaWorld world){
+    @Override
+    public void specialEffect(LoopManiaWorld world){
         if(world.getCharacter().getX() == this.getX() && world.getCharacter().getY() == this.getY()){
             Soldier soldier = new Soldier(this.simpleX(), this.simpleY(), world.getCharacter());
             world.getCharacter().addSoldier(soldier);

@@ -2,7 +2,7 @@ package unsw.loopmania;
 
 import java.util.Random;
 
-public class Zombie extends Enemy implements EnemyCriticalAttack{
+public class Zombie extends Enemy {
     private int critRateLimit = 90;
     private int cycle;
 
@@ -50,10 +50,20 @@ public class Zombie extends Enemy implements EnemyCriticalAttack{
     }
 
     @Override
+    public void criticalAttack(Enemy object) {
+        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(10) + 5) / 100);
+    }
+
+    @Override
     public void criticalAttack(Soldier object, LoopManiaWorld world) {
         EntityAttribute attr = object.dead();
         Zombie a = new Zombie(this.getPosition(), cycle, attr);
         world.getEnemies().add(a);
+    }
+
+    @Override
+    public void criticalAttack(Enemy object) {
+        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(10) + 5) / 100);
     }
 
 }

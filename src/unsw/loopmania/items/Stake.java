@@ -1,5 +1,6 @@
 package unsw.loopmania.items;
-
+import unsw.loopmania.*;
+import unsw.loopmania.Character;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -7,31 +8,17 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class Stake extends Weapon {
 
-    public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped) {
-        super(x, y, isEquipped);
+    public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x, y);
         //TODO Auto-generated constructor stub
-    }
-    
-    @Override
-    public void hit() {
-        setDamage();
-        super.hit();
-    }
-
-    public void setDamage() {
-        if (this.owner.enemey.equals("Vampires")) {
-            this.damage.set(3 * this.level.get() + 5);
-        }
-        else {
-            this.damage.set(0.9 * this.level.get() + 1.5);
-        }
+        damage.set(4);
     }
 
 
-    @Override
-    public double nextDamage() {
-        return (double) 0.9 * this.level.get() + 1.5;
-    }
+    // @Override
+    // public double nextDamage() {
+    //     return (double) 0.9 * this.level.get() + 1.5;
+    // }
 
     //Convenient for later change
     /* 
@@ -41,4 +28,14 @@ public class Stake extends Weapon {
         return (int) Math.pow((100 * this.level.get()),2) - 150;
     }
     */
+
+    @Override
+    public void specialEffect(Enemy e, Character ch) {
+        if (e instanceof Vampire) {
+            ch.getStakeVampireBuff().set(3);
+        }
+        else {
+            ch.getStakeVampireBuff().set(1);
+        }
+    }
 }
