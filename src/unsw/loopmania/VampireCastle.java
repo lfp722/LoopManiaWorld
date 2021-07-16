@@ -1,6 +1,6 @@
 package unsw.loopmania;
 
-import unsw.loopmania.LoopManiaWorld;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class VampireCastle extends Building implements EnemyProducer{
 
@@ -9,10 +9,9 @@ public class VampireCastle extends Building implements EnemyProducer{
     }
 
     @Override
-    public Enemy EnemyProducer(LoopManiaWorld world) {
+    public Enemy enemyProducer(LoopManiaWorld world) {
         PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
-        int radius = world.getRadiusCampFire();
-        Vampire vampire = new Vampire(pt, radius, world.getCycle().intValue());
+        Vampire vampire = new Vampire(pt, world.getCycle().intValue());
         return vampire;
     }
 

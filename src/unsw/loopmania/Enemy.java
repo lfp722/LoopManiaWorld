@@ -246,7 +246,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy>{
     //     //destroy the zombie
     //     //create an ally with its attribute
     //     //add it into ally list
-    //     destory();
+    //     this.destory();
     //     Character a = new Character();
         
     // }

@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class ZombiePit extends Building implements EnemyProducer{
     private PathPosition pt;
 
@@ -8,7 +10,7 @@ public class ZombiePit extends Building implements EnemyProducer{
     }
 
     @Override
-    public Enemy EnemyProducer(LoopManiaWorld world) {
+    public Enemy enemyProducer(LoopManiaWorld world) {
         PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
         Zombie zombie = new Zombie(pt, world.getCycle().intValue());
         return zombie;

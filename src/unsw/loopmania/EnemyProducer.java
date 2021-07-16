@@ -1,5 +1,5 @@
 package unsw.loopmania;
 
 public interface EnemyProducer {
-    public Enemy EnemyProducer(LoopManiaWorld world);
+    public Enemy enemyProducer(LoopManiaWorld world);
 }

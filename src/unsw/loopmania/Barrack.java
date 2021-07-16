@@ -9,7 +9,7 @@ public class Barrack extends Building{
     }
 
     public void addSoldier(LoopManiaWorld world){
-        if(world.getCharacter().getX().equals(this.getX()) && world.getCharacter().getY().equals(this.getY())){
+        if(world.getCharacter().getX() == this.getX() && world.getCharacter().getY() == this.getY()){
             Soldier soldier = new Soldier(this.getX(), this.getY(), world.getCharacter());
             world.getCharacter().addSoldier(soldier);
         }

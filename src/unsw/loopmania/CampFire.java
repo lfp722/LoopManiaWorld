@@ -29,8 +29,8 @@ public class CampFire extends Building{
 
     public void setWithInRange(){
         int r = this.getRadius();
-        for(int x = this.getX().get() - r;x <= this.getX().get() + r; x++){
-            for(int y = this.getY().get() - r;y <= this.getY().get() + r; y++){
+        for(int x = this.getX() - r;x <= this.getX() + r; x++){
+            for(int y = this.getY() - r;y <= this.getY() + r; y++){
                 if(x*x + y*y <= r*r){
                     Pair<Integer, Integer> a = new Pair<>(x, y);
                     this.withinRadius.add(a);

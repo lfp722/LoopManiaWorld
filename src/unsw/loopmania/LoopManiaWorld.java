@@ -387,7 +387,7 @@ public class LoopManiaWorld {
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
         for (Enemy e: enemies){
-            e.move();
+            e.move(this);
         }
     }
 

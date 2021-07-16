@@ -16,9 +16,9 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
      * @param critRate
      * @param radusCampfire
      */
-    public Vampire(PathPosition position, int radusCampfire, int cycle) {
+    public Vampire(PathPosition position, int cycle) {
         super(position, cycle);
-        this.radusCampfire = radusCampfire;
+        this.radusCampfire = 2;
         if (this.getLv() * 10 > critRateLimit) {
             this.setCritRate(critRateLimit);
         } else {
@@ -60,8 +60,8 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
             if (!(c instanceof CampFire)) {
                 continue;
             }
-            if ((Math.pow(c.getX().get() - this.getPosition().getX().get(), 2)
-                     + Math.pow(c.getY().get() - this.getPosition().getX().get(), 2))
+            if ((Math.pow(c.getX() - this.getPosition().getX().get(), 2)
+                     + Math.pow(c.getY() - this.getPosition().getX().get(), 2))
                       > Math.pow(this.getSupportRange(), 2)) {
                 continue;
             }
@@ -79,8 +79,8 @@ public class Vampire extends Enemy implements EnemyCriticalAttack {
                 .getValue1();
             int tileCurrentX = this.getPosition().getX().get();
             int tileCurrentY = this.getPosition().getY().get();
-            int fireX = c.getX().get();
-            int fireY = c.getY().get();
+            int fireX = c.getX();
+            int fireY = c.getY();
             double distance2Front = Math.pow(tileFrontX - fireX, 2) + Math.pow(tileFrontY - fireY, 2);
             double distance2After = Math.pow(tileAfterX - fireX, 2) + Math.pow(tileAfterY - fireY, 2);
             double distance2Current = Math.pow(tileCurrentX - fireX, 2) + Math.pow(tileCurrentY - fireY, 2);

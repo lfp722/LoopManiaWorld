@@ -2,9 +2,6 @@ package unsw.loopmania;
 
 import java.util.Random;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class EnemyGenerator implements Generator {
 
     public EnemyGenerator() {
@@ -40,7 +37,7 @@ public class EnemyGenerator implements Generator {
                 return;
             }
             if (((new Random()).nextInt(100)) < 50) {
-                Enemy e = b.EnemyProducer(world);
+                Enemy e = b.applyEnemyProducer(world);
                 world.addEnemy(e);
             }
         }
@@ -58,7 +55,7 @@ public class EnemyGenerator implements Generator {
                 return;
             }
             if (((new Random()).nextInt(100)) < 50) {
-                Enemy e = b.EnemyProducer(world);
+                Enemy e = b.applyEnemyProducer(world);
                 world.addEnemy(e);
             }
         }

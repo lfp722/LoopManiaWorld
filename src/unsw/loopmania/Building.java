@@ -5,6 +5,8 @@ import javafx.util.Pair;
 
 public class Building extends StaticEntity{
 
+    private EnemyProducer enemyProducer;
+
     public Building(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
     }
@@ -14,7 +16,7 @@ public class Building extends StaticEntity{
             for(int j = -1; j <= 1; j++){
                 int x = this.getX() + i;
                 int y = this.getY() + j;
-                Pair<Integer, Integer> a = new Pair<>(x, y);
+                Pair<Integer, Integer> a = new Pair<Integer, Integer>(x, y);
                 if(world.getOrderedPath().contains(a)){
                     return a;
                 }
@@ -22,4 +24,9 @@ public class Building extends StaticEntity{
         }
         throw new Error("No pathtile near this building");
     }
+
+    public Enemy applyEnemyProducer(LoopManiaWorld world) {
+        return enemyProducer.enemyProducer(world);
+    }
+
 }
