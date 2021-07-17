@@ -3,6 +3,7 @@ package unsw.loopmania.items;
 import java.lang.Math;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.*;
+import unsw.loopmania.Character;
 
 
 public class Helmet extends Outfit {
@@ -31,16 +32,17 @@ public class Helmet extends Outfit {
     // }
 
     @Override
-    public void equip() {
-        owner.getEquip().equipHelmet(this);
+    public void equip(Character ch) {
+        ch.getEquip().equipHelmet(this);
         //this.setCharacterDamage(true);
-        owner.getDebuff().set(0.8);
+        ch.getDebuff().set(0.8);
         
     }
 
     @Override
-    public void unequip() {
-        this.owner.getEquip().dropHelmet();
+    public void unequip(Character ch) {
+        ch.getEquip().dropHelmet();
+        ch.getDebuff().set(1);
         //this.setCharacterDamage(false);
     }
     

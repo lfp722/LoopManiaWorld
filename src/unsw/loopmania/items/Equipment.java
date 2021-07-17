@@ -2,8 +2,9 @@ package unsw.loopmania.items;
 import java.lang.Math;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Character;
 import javafx.beans.property.SimpleBooleanProperty;
-public class Equipment extends Item implements equipItem{
+public class Equipment extends Item{
 
     protected SimpleIntegerProperty level;
     protected SimpleIntegerProperty levelUpPrice;
@@ -35,10 +36,10 @@ public class Equipment extends Item implements equipItem{
     }
 
 
-    public void equip() {
+    public void equip(Character ch) {
 
     }
-    public void unequip() {
+    public void unequip(Character ch) {
     }
 
     @Override

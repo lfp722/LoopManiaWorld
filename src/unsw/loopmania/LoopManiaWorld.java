@@ -1090,7 +1090,11 @@ public class LoopManiaWorld {
             return;
         }
         battleLock.set(0);
+        List<Entity> copied = new ArrayList<>();
         for (Entity e: unequippedInventoryItems) {
+            copied.add(e);
+        }
+        for (Entity e: copied) {
             if (e.getX() == nodeX && e.getY() == nodeY && e instanceof Potion) {
                 Potion a = (Potion) e;
                 a.recoverHealth(character);
