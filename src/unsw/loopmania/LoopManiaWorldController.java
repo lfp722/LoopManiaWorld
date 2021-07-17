@@ -805,6 +805,9 @@ public class LoopManiaWorldController {
         } else if (newBuilding instanceof HeroCastle) {
             HeroCastle a = (HeroCastle) newBuilding;
             onLoad(a);
+        } else if (newBuilding instanceof Tower) {
+            Tower a = (Tower) newBuilding;
+            onLoad(a);
         }
     }
 
@@ -846,6 +849,12 @@ public class LoopManiaWorldController {
 
     private void onLoad(CampFire building){
         ImageView view = new ImageView(campfireImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Village building){
+        ImageView view = new ImageView(villageImage);
         addEntity(building, view);
         squares.getChildren().add(view);
     }

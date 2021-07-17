@@ -293,12 +293,6 @@ public class LoopManiaWorld {
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
             System.out.println("Still enemy to kill");
-            for (Building b: getBuildingEntities()) {
-                if (b instanceof Tower) {
-                    Tower a = (Tower) b;
-                    a.attackIfInRadius(this);
-                }
-            }
             Enemy target = battleEnemies.get(0);
             for (Soldier s: ch.getArmy()) {
                 s.attack(target);
@@ -350,6 +344,12 @@ public class LoopManiaWorld {
                 // fight...
                 battleEnemies.add(e);
                 isBattle = true;
+            }
+        }
+        for (Building b: getBuildingEntities()) {
+            if (b instanceof Tower) {
+                Tower t = (Tower) b;
+                t.attackIfInRadius(battleEnemies);
             }
         }
 

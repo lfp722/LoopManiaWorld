@@ -20,28 +20,14 @@ public class CampFire extends Building{
     public CampFire(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
         this.radius = 5;
-        this.setWithInRange();
         buffed = false;
     }
 
-    public int getRadius(){
-        return this.radius;
-    }
-
-    public void setWithInRange(){
-        int r = this.getRadius();
-        for(int x = this.getX() - r;x <= this.getX() + r; x++){
-            for(int y = this.getY() - r;y <= this.getY() + r; y++){
-                if(x*x + y*y <= r*r){
-                    Pair<Integer, Integer> a = new Pair<>(x, y);
-                    this.withinRadius.add(a);
-                }
-            }
+    public boolean isInRadius(Entity e) {
+        if (Math.sqrt(Math.pow(this.getX() - e.getX(), 2)+Math.pow(this.getY()-e.getY(), 2)) <= radius) {
+            return true;
         }
-    }
-
-    public List<Pair<Integer, Integer>> getWithInRange(){
-        return this.withinRadius;
+        return false;
     }
 
     @Override
@@ -50,7 +36,7 @@ public class CampFire extends Building{
             buffed = true;
             return;
         }
-        if (this.getX() == world.getCharacter().getX() && this.getY() == world.getCharacter().getY()){
+        if (isInRadius(world.getCharacter())){
             world.getCharacter().getCampFireBuff().set(2);
             buffed = true;
         }
