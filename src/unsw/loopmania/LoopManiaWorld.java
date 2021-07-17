@@ -36,6 +36,9 @@ public class LoopManiaWorld {
     public static final int shieldSlot = 2;
     public static final int armourSlot = 3;
 
+    public static final int soldierHeight = 0;
+    public static final int soldierWidth = 4;
+
     private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
 
     /**
@@ -514,6 +517,14 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(x);
     }
 
+    public void removeSoldier(int index){
+        Soldier c = character.getArmy().get(index);
+        int x = c.getX();
+        c.destroy();
+        character.getArmy().remove(index);
+        shiftSoldiersDownFromXCoordinate(x);
+    }
+
     /**
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
@@ -712,6 +723,14 @@ public class LoopManiaWorld {
      */
     private void shiftCardsDownFromXCoordinate(int x){
         for (Card c: cardEntities){
+            if (c.getX() >= x){
+                c.x().set(c.getX()-1);
+            }
+        }
+    }
+
+    private void shiftSoldiersDownFromXCoordinate(int x){
+        for (Soldier c: character.getArmy()){
             if (c.getX() >= x){
                 c.x().set(c.getX()-1);
             }

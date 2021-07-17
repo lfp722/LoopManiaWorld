@@ -148,6 +148,12 @@ public class LoopManiaWorldController {
     @FXML
     private GridPane unequippedInventory;
 
+    /**
+     * soldier
+     */
+    @FXML
+    private GridPane soldiers;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -263,7 +269,7 @@ public class LoopManiaWorldController {
         trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
         barrackImage = new Image((new File("src/images/barracks.png")).toURI().toString());
         campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
-        soldierImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+        soldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -369,7 +375,16 @@ public class LoopManiaWorldController {
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
             for (Building b: world.getBuildingEntities()) {
-                b.specialEffect(world);
+                if (b instanceof Barrack) {
+                    Barrack a = (Barrack) b;
+                    Soldier s = a.soldierProducer(world);
+                    if(s != null) {
+                        onLoad(s);
+                    }
+                } else {
+                    b.specialEffect(world);
+                }
+                
             }
             List<Enemy> defeatedEnemies = world.runBattles();
             if (!world.getCharacter().shouldExist().get()) {
@@ -813,6 +828,12 @@ public class LoopManiaWorldController {
         ImageView view = new ImageView(goldImage);
         addEntity(enemy, view);
         squares.getChildren().add(view);
+    }
+
+    private void onLoad(Soldier soldier) {
+        ImageView view = new ImageView(soldierImage);
+        addEntity(soldier, view);
+        soldiers.getChildren().add(view);
     }
 
     /**

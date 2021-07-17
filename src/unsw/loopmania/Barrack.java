@@ -8,11 +8,16 @@ public class Barrack extends Building{
         super(x, y);
     }
 
-    @Override
-    public void specialEffect(LoopManiaWorld world){
+    public Soldier soldierProducer(LoopManiaWorld world){
         if(world.getCharacter().getX() == this.getX() && world.getCharacter().getY() == this.getY()){
-            Soldier soldier = new Soldier(this.simpleX(), this.simpleY(), world.getCharacter());
+            if (world.getCharacter().getArmy().size() == LoopManiaWorld.soldierWidth) {
+                world.removeSoldier(0);
+            }
+            Soldier soldier = new Soldier(new SimpleIntegerProperty(world.getCharacter().getArmy().size()), this.simpleY(), world.getCharacter());
             world.getCharacter().addSoldier(soldier);
+            return soldier;
+        } else {
+            return null;
         }
     }
 }
