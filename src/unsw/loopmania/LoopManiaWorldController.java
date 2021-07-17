@@ -236,6 +236,8 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 
+    private StoreSwitcher storeSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -1345,6 +1347,10 @@ public class LoopManiaWorldController {
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
 
+    public void setStoreSwitcher(StoreSwitcher storeSwitcher) {
+        this.storeSwitcher = storeSwitcher;
+    }
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -1354,6 +1360,13 @@ public class LoopManiaWorldController {
         // TODO = possibly set other menu switchers
         pause();
         mainMenuSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToStore() throws IOException {
+        // TODO = possibly set other menu switchers
+        pause();
+        storeSwitcher.switchStore();
     }
 
     /**

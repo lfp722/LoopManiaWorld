@@ -43,6 +43,64 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
+        // load the store
+        StoreViewController storeController = new StoreViewController();
+        FXMLLoader storeLoader = new FXMLLoader(getClass().getResource("StoreView.fxml"));
+        storeLoader.setController(storeController);
+        Parent storeRoot = storeLoader.load();
+
+        // create new scene with the main menu (so we start with the main menu)
+        Scene scene = new Scene(mainMenuRoot);
+        
+        // set functions which are activated when button click to switch menu is pressed
+        // e.g. from main menu to start the game, or from the game to return to main menu
+        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+        mainMenuController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+        mainController.setStoreSwitcher(() -> {
+            mainController.pause();
+            switchToRoot(scene, storeRoot, primaryStage);
+        });
+        storeController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+        
+        // deploy the main onto the stage
+        gameRoot.requestFocus();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    @Override
+    public void stop(){
+        // wrap up activities when exit program
+        mainController.terminate();
+    }
+
+    public void store(Stage storeStage) throws IOException{
+        // set title on top of window bar
+        storeStage.setTitle("Store");
+
+        // prevent human player resizing game window (since otherwise would see white space)
+        // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
+        storeStage.setResizable(false);
+
+        // load the main game
+        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json");
+        mainController = loopManiaLoader.loadController();
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+        gameLoader.setController(mainController);
+        Parent gameRoot = gameLoader.load();
+
+        // load the main menu
+        MainMenuController mainMenuController = new MainMenuController();
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
+        menuLoader.setController(mainMenuController);
+        Parent mainMenuRoot = menuLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
         
@@ -58,12 +116,6 @@ public class LoopManiaApplication extends Application {
         gameRoot.requestFocus();
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    @Override
-    public void stop(){
-        // wrap up activities when exit program
-        mainController.terminate();
     }
 
     /**

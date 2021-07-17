@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import unsw.loopmania.items.*;
+
 import org.json.JSONObject;
 
 
