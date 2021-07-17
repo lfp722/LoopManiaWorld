@@ -143,9 +143,10 @@ public class StoreViewController  {
             }
             this.setCart(new ArrayList<>());
             this.resetCurPrice();
+            this.setInventoryGrid();
         }
         else {
-            throw new RuntimeException("No enough money!");
+            throw new RuntimeException("No enough money for Purchase!");
         }
     }
 
@@ -193,6 +194,9 @@ public class StoreViewController  {
 
     @FXML
     public void Upgrade(ActionEvent event) {
+        if (this.character.getGold() < this.upgradePrice.get()) {
+            throw new RuntimeException("No enough money for Upgrade!");
+        }
         for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
                 Node n = getNodeByRowColumnIndex(i, j, this.InventoryGrid);
@@ -215,6 +219,9 @@ public class StoreViewController  {
 
 
     public void setInventoryGrid(){
+        
+        this.upgradePrice.unbind();
+        this.sellPrice.unbind();
         for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
                 ItemProperty itemProperty = this.character.getInventory(i,j);
@@ -227,32 +234,15 @@ public class StoreViewController  {
                     this.InventoryGrid.add(checkbox, i, j);  
                     
                     Item item = itemProperty.getItem();
-
                     this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(item,checkbox.selectedProperty().get()), checkbox.selectedProperty()));
                     this.sellPrice.bind(Bindings.createIntegerBinding(()->this.setSellPrice(item,checkbox.selectedProperty().get()), checkbox.selectedProperty()));
-                    
-                    this.upgradePrice.set(0);
-                    this.sellPrice.set(0);
                 }
 			}
 		}
-        
+        this.upgradePrice.set(0);
+        this.sellPrice.set(0);
     }
 
-    public int setUpgradePrice(Item item, boolean check) {
-        if (check) {
-            return this.upgradePrice.get() + item.getValueInGold();
-        }
-        return this.upgradePrice.get() - item.getValueInGold();
-    }
-
-    public int setSellPrice(Item item, boolean check) {
-        if (check) {
-            return this.sellPrice.get() + item.getValueInGold();
-        }
-        return this.sellPrice.get() - item.getValueInGold();
-    }
-    
     @FXML
     void initialize() {
         this.InventoryGrid.setAlignment(Pos.CENTER);
@@ -267,5 +257,19 @@ public class StoreViewController  {
         this.cart.remove(it);
         return this.curPrice.get() - it.getValueInGold();
     }
+    
+    public int setUpgradePrice(Item item, boolean check) {
+        if (check) {
+            return this.upgradePrice.get() + item.getValueInGold();
+        }
+        return this.upgradePrice.get() - item.getValueInGold();
+    }
 
+    public int setSellPrice(Item item, boolean check) {
+        if (check) {
+            return this.sellPrice.get() + item.getValueInGold();
+        }
+        return this.sellPrice.get() - item.getValueInGold();
+    }
+    
 }
