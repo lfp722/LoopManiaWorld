@@ -72,9 +72,9 @@ public class Equipped {
         return armour;
     }
 
-    public void specialAttack(Enemy enemy, Character ch) {
+    public void specialAttack(Enemy enemy, LoopManiaWorld world) {
         if (weapon != null) {
-            weapon.specialEffect(enemy, ch);
+            weapon.specialEffect(enemy, world);
         }
     }
 

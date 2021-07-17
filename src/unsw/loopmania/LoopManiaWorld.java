@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import unsw.loopmania.goal.FinalGoal;
 import unsw.loopmania.items.*;
 
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
+    private FinalGoal goal;
+
     /**
      * create the world (constructor)
      * 
@@ -113,6 +116,7 @@ public class LoopManiaWorld {
         // maxNumVampire.set(2);
         maxNumTotal = new SimpleIntegerProperty();
         maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
+        goal = new FinalGoal();
 
         //map containing lists of different buildings
     }
@@ -316,6 +320,36 @@ public class LoopManiaWorld {
                     }
                 }
             }
+
+            if (battleEnemies.isEmpty()) {
+                for (Enemy e: ch.getTranced()) {
+                    e.destroy();
+                    defeatedEnemies.add(e);
+                }
+                ch.getTranced().clear();
+            }
+
+            for (Enemy s: ch.getTranced()) {
+                Enemy target = battleEnemies.get(0);
+                s.attack(target);
+                System.out.println("Tranced enemy attack enemy");
+                if (!target.shouldExist().get()) {
+                    battleEnemies.remove(target);
+                    defeatedEnemies.add(target);
+                    System.out.println("Enemy defeated");
+                    if (battleEnemies.isEmpty()) { 
+                        break; 
+                    }
+                }
+            }
+
+            if (battleEnemies.isEmpty()) {
+                for (Enemy e: ch.getTranced()) {
+                    e.destroy();
+                    defeatedEnemies.add(e);
+                }
+                ch.getTranced().clear();;
+            }
             // for (Enemy e: ch.getTranced()) {
             //     e.attack(target);
             // }
@@ -328,6 +362,14 @@ public class LoopManiaWorld {
                     defeatedEnemies.add(target);
                     System.out.println("Enemy defeated");
                 }
+            }
+
+            if (battleEnemies.isEmpty()) {
+                for (Enemy e: ch.getTranced()) {
+                    e.destroy();
+                    defeatedEnemies.add(e);
+                }
+                ch.getTranced().clear();
             }
             
 
@@ -1140,8 +1182,31 @@ public class LoopManiaWorld {
         battleLock.set(1);
     }
 
+    public void consumePotion() {
+        if (battleLock.get() == 0) {
+            return;
+        }
+        battleLock.set(0);
+        List<Entity> copied = new ArrayList<>();
+        for (Entity e: unequippedInventoryItems) {
+            copied.add(e);
+        }
+        for (Entity e: copied) {
+            if (e instanceof Potion) {
+                Potion a = (Potion) e;
+                a.recoverHealth(character);
+                removeUnequippedInventoryItem(e);
+            }
+        }
+        battleLock.set(1);
+    }
+
     public Equipped getEquip() {
         return equippedItems;
+    }
+
+    public boolean checkGoal() {
+        return goal.checkGoal(this);
     }
 
 

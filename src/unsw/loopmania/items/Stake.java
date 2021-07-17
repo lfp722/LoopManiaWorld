@@ -30,12 +30,12 @@ public class Stake extends Weapon {
     */
 
     @Override
-    public void specialEffect(Enemy e, Character ch) {
+    public void specialEffect(Enemy e, LoopManiaWorld world) {
         if (e instanceof Vampire) {
-            ch.getStakeVampireBuff().set(3);
+            world.getCharacter().getStakeVampireBuff().set(3);
         }
         else {
-            ch.getStakeVampireBuff().set(1);
+            world.getCharacter().getStakeVampireBuff().set(1);
         }
     }
 }

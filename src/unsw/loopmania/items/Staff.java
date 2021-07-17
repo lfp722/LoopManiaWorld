@@ -5,10 +5,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.animation.KeyFrame;
 import javafx.beans.binding.Bindings;
 import java.lang.Math;
+import java.util.Random;
+
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import unsw.loopmania.*;
+import unsw.loopmania.Character;
 /**
  * represents an equipped or unequipped sword in the backend world
  */
@@ -61,10 +64,15 @@ public class Staff extends Weapon {
     //     return (double) this.level.get() * 0.15;
     // }
     
-    // @Override
-    // public void specialEffect(Enemy enemy) {
-    //     enemy.becomeAlly();
-    // }
+    @Override
+    public void specialEffect(Enemy enemy, LoopManiaWorld world) {
+        if (new Random().nextInt(100) > 20) {
+            return;
+        }
+        world.getCharacter().getTranced().add(enemy);
+        world.getEnemies().remove(enemy);
+        System.out.println("You have got an tranced enemy");
+    }
 
     // public void reverseEffect(Enemy enemy) {
     //     enemy.becomeEnemy();

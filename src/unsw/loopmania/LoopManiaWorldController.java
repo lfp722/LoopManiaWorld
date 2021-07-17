@@ -373,6 +373,9 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+            if (world.checkGoal()) {
+                timeline.stop();
+            }
             world.runTickMoves();
             for (Building b: world.getBuildingEntities()) {
                 if (b instanceof Barrack) {
@@ -1328,6 +1331,9 @@ public class LoopManiaWorldController {
             else{
                 pause();
             }
+            break;
+        case H:
+            world.consumePotion();  
             break;
         default:
             break;
