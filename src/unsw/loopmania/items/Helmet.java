@@ -55,16 +55,16 @@ public class Helmet extends Outfit {
     public int nextLevelUpPrice() {
         return (int) Math.pow((100 * this.level.get()),2) - 150;
     }
-    public static void main(String[] args) {
-        Helmet h = new Helmet(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        System.out.println(h.getValueInGold());
-        System.out.println(h.getLevelUpPrice());
-        System.out.println(h.getDefense());
+    // public static void main(String[] args) {
+    //     Helmet h = new Helmet(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+    //     System.out.println(h.getValueInGold());
+    //     System.out.println(h.getLevelUpPrice());
+    //     System.out.println(h.getDefense());
     
-        h.setLevel(2);
-        System.out.println(h.getValueInGold());
-        System.out.println(h.getLevelUpPrice());
-        System.out.println(h.getDefense());
-    }
+    //     h.setLevel(2);
+    //     System.out.println(h.getValueInGold());
+    //     System.out.println(h.getLevelUpPrice());
+    //     System.out.println(h.getDefense());
+    // }
     
 }

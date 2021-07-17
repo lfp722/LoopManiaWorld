@@ -368,25 +368,18 @@ public class StoreViewController  {
             switch (it) {
                 case SWORD:
                     return curPrice.get()+Sword.initialPrice;
-                    break;
                 case STAKE:
                     return curPrice.get()+Stake.initialPrice;
-                    break;
                 case STAFF:
                     return curPrice.get()+Staff.initialPrice;
-                    break;
                 case HELMET:
                     return curPrice.get()+Helmet.initialPrice;
-                    break;
                 case ARMOUR:
                     return curPrice.get()+Armour.initialPrice;
-                    break;
                 case SHIELD:
                     return curPrice.get()+Shield.initialPrice;
-                    break;
                 case POTION:
                     return curPrice.get()+Potion.initialPrice;
-                    break;
                 default:
                     break;
             }
