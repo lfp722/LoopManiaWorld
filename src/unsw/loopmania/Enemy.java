@@ -7,7 +7,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     private EntityAttribute attribute;
     private int supportRange;
     private int detectRange;
-    private PathPosition position;
     private double critRate;
     private int lv;
     private int goldAfterDeath;
@@ -56,13 +55,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     public void setDetectRange(int d) {
         this.detectRange = d;
     }
-    /**
-     * 
-     * @return
-     */
-    public PathPosition getPosition() {
-        return position;
-    }
+    
 
     /**
      * 
@@ -206,23 +199,23 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         }
     }
 
-    /**
-     * 
-     * @param object
-     * @return if an character is in the range of detection
-     */
-    public boolean detect(Character object) {
-        return (Math.pow(object.getX() - this.position.getX().get(), 2) + Math.pow(object.getY() - this.position.getY().get(), 2) < Math.pow(detectRange, 2));
-    }
+    // /**
+    //  * 
+    //  * @param object
+    //  * @return if an character is in the range of detection
+    //  */
+    // public boolean detect(Character object) {
+    //     return (Math.pow(object.getX() - this.getX(), 2) + Math.pow(object.getY() - this.getY(), 2) < Math.pow(detectRange, 2));
+    // }
 
-    /**
-     * 
-     * @param battle
-     * @return if a battle is in the range of support
-     */
-    public boolean ifInSupport(PathPosition battleLocation) {
-        return (Math.pow(battleLocation.getX().get() - this.position.getX().get(), 2) + Math.pow(battleLocation.getY().get() - this.position.getY().get(), 2) < Math.pow(supportRange, 2));
-    }
+    // /**
+    //  * 
+    //  * @param battle
+    //  * @return if a battle is in the range of support
+    //  */
+    // public boolean ifInSupport(PathPosition battleLocation) {
+    //     return (Math.pow(battleLocation.getX().get() - this.getX(), 2) + Math.pow(battleLocation.getY().get() - this.getY(), 2) < Math.pow(supportRange, 2));
+    // }
 
     /** 
      * 

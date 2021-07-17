@@ -190,6 +190,7 @@ public class LoopManiaWorldController {
     private Image trapImage;
     private Image barrackImage;
     private Image campfireImage;
+    private Image soldierImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -262,6 +263,7 @@ public class LoopManiaWorldController {
         trapImage = new Image((new File("src/images/trap.png")).toURI().toString());
         barrackImage = new Image((new File("src/images/barracks.png")).toURI().toString());
         campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
+        soldierImage = new Image((new File("src/images/campfire.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;

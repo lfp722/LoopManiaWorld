@@ -300,21 +300,36 @@ public class LoopManiaWorld {
         }
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
-            Enemy target = battleEnemies.get(0);
             for (Soldier s: ch.getArmy()) {
+                Enemy target = battleEnemies.get(0);
                 s.attack(target);
+                System.out.println("Soldier attack enemy");
+                if (!target.shouldExist().get()) {
+                    battleEnemies.remove(target);
+                    defeatedEnemies.add(target);
+                    System.out.println("Enemy defeated");
+                    if (battleEnemies.isEmpty()) { 
+                        break; 
+                    }
+                }
             }
             // for (Enemy e: ch.getTranced()) {
             //     e.attack(target);
             // }
-
-            ch.attack(target);
-            System.out.println("Character attack enemy");
-            if (!target.shouldExist().get()) {
-                battleEnemies.remove(target);
-                defeatedEnemies.add(target);
-                System.out.println("Enemy defeated");
+            if (!battleEnemies.isEmpty()) {
+                Enemy target = battleEnemies.get(0);
+                ch.attack(target);
+                System.out.println("Character attack enemy");
+                if (!target.shouldExist().get()) {
+                    battleEnemies.remove(target);
+                    defeatedEnemies.add(target);
+                    System.out.println("Enemy defeated");
+                }
             }
+            
+
+    
+            
 
             for (Enemy e: battleEnemies) {
                 if (ch.getArmy().isEmpty()) {
@@ -324,6 +339,7 @@ public class LoopManiaWorld {
                 else{
                     Soldier brave = ch.getArmy().get(0);
                     e.attack(brave, this);
+                    System.out.println("Enemy attack soldier");
                 }
             }
 
@@ -332,6 +348,7 @@ public class LoopManiaWorld {
 
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
+        System.out.println("battle run!");
         if (battleLock.get() == 0) {
             return new ArrayList<>();
         }
