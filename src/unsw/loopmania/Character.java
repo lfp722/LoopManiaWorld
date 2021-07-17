@@ -158,6 +158,9 @@ public class Character extends MovingEntity{
         return gold;
     }
 
+    public SimpleIntegerProperty getNextLvExp() {
+        return next_expr;
+    }
 
 
 

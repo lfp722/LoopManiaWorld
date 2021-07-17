@@ -31,11 +31,13 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
-    public static final int equippedHeight = 0;
+    public static final int equippedHeight = 1;
     public static final int weaponSlot = 0;
     public static final int helmetSlot = 1;
     public static final int shieldSlot = 2;
-    public static final int armourSlot = 3;
+    public static final int armourSlot = 1;
+
+    public static final int helmetHeight = 0;
 
     public static final int soldierHeight = 0;
     public static final int soldierWidth = 4;
@@ -1127,7 +1129,7 @@ public class LoopManiaWorld {
                 old.destroy();
                 equippedItems.dropHelmet();
             }
-            Helmet newHelmet = new Helmet(new SimpleIntegerProperty(helmetSlot), new SimpleIntegerProperty(equippedHeight));
+            Helmet newHelmet = new Helmet(new SimpleIntegerProperty(helmetSlot), new SimpleIntegerProperty(helmetHeight));
             equippedItems.equipHelmet(newHelmet);
             removeUnequippedInventoryItem(item);
             return newHelmet;
@@ -1196,6 +1198,7 @@ public class LoopManiaWorld {
                 Potion a = (Potion) e;
                 a.recoverHealth(character);
                 removeUnequippedInventoryItem(e);
+                break;
             }
         }
         battleLock.set(1);

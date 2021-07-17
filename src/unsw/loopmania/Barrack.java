@@ -13,7 +13,7 @@ public class Barrack extends Building{
             if (world.getCharacter().getArmy().size() == LoopManiaWorld.soldierWidth) {
                 world.removeSoldier(0);
             }
-            Soldier soldier = new Soldier(new SimpleIntegerProperty(world.getCharacter().getArmy().size()), this.simpleY(), world.getCharacter());
+            Soldier soldier = new Soldier(new SimpleIntegerProperty(world.getCharacter().getArmy().size()), new SimpleIntegerProperty(LoopManiaWorld.soldierHeight), world.getCharacter());
             world.getCharacter().addSoldier(soldier);
             return soldier;
         } else {
