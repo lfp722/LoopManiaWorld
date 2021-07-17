@@ -44,7 +44,6 @@ public class Equipment extends Item implements equipItem{
 
     public void setLevel() {
         this.level.set(this.level.get()+1);
-
     }
 
 

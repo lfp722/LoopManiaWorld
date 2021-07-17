@@ -36,20 +36,40 @@ public class StoreViewController  {
     private StoreSwitcher storeSwitcher;
     private Character character;
     private ArrayList<Item> cart;
-    private SimpleIntegerProperty curPrice;
-    private SimpleIntegerProperty upgradePrice;
-    private SimpleIntegerProperty characterGold;
+    
+    
+
     @FXML
     private GridPane InventoryGrid;
 
     @FXML
     private Text Num_Gold;
 
+    private SimpleIntegerProperty characterGold;
+
+
+    @FXML
+    private Text Num_Purchase;
+    
+    private SimpleIntegerProperty curPrice;
+
+
+    @FXML
+    private Text Num_Sell;
+    
+    private SimpleIntegerProperty sellPrice;
+
+    @FXML
+    private Text Num_Upgrade;
+
+    private SimpleIntegerProperty upgradePrice;
 
     @FXML
     private Button Button_Sell;
     @FXML
     private Button Button_Buy;
+    @FXML
+    private Button Button_Upgrade;
 
     @FXML
     private CheckBox ItemStore_Portion;
@@ -92,7 +112,25 @@ public class StoreViewController  {
         this.setGameSwitcher(storeSwitcher);
         this.character = ch;
         this.cart = new ArrayList<>();
+
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.armour, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.helmet, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.portion, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.shield,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.staff,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.stake,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
+        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.sword,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
         this.curPrice.set(0);
+
+        this.Num_Purchase.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.curPrice.get()), this.curPrice));
+        
+        this.Num_Upgrade.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.upgradePrice.get()), this.upgradePrice));
+        this.Num_Sell.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.sellPrice.get()), this.sellPrice));
+        
+        this.characterGold.bindBidirectional(this.character.getGoldProperty());
+        this.Num_Gold.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.character.getGold()), this.characterGold));
+
+
     }
     
     
@@ -144,12 +182,12 @@ public class StoreViewController  {
                     if (slot.selectedProperty().get() == true) {
                         ItemProperty item = this.character.getInventory(i,j);
                         Item it = item.getItem();
-                        this.character.setGold(this.character.getGold() + it.getValueInGold());
                         this.character.eliminateItem(item);
                     }
                 }
             }
         }
+        this.character.setGold(this.character.getGold() + this.sellPrice.get());
         this.setInventoryGrid();
     }
 
@@ -165,13 +203,13 @@ public class StoreViewController  {
                         Item item = itemProperty.getItem();
                         if (item instanceof Equipment) {
                             Equipment equipment = (Equipment) item;
-                            this.character.setGold(this.character.getGold() - equipment.getLevelUpPrice());
                             equipment.setLevel();
                         }
                     }
                 }
             }
         }
+        this.character.setGold(this.character.getGold() - this.upgradePrice.get());
         this.setInventoryGrid();
     }
 
@@ -179,32 +217,46 @@ public class StoreViewController  {
     public void setInventoryGrid(){
         for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
-                ItemProperty item = this.character.getInventory(i,j);
-                if (item != null) {
+                ItemProperty itemProperty = this.character.getInventory(i,j);
+                if (itemProperty != null) {
                     CheckBox checkbox = new CheckBox();
-                    ImageView backgroundImage = new ImageView(item.image);
+                    ImageView backgroundImage = new ImageView(itemProperty.getImage());
                     checkbox.setGraphic(backgroundImage);
-                    checkbox.selectedProperty().bindBidirectional(item);
+                    checkbox.selectedProperty().bindBidirectional(itemProperty);
                     this.InventoryGrid.getChildren().remove(i, j);
                     this.InventoryGrid.add(checkbox, i, j);  
+                    
+                    Item item = itemProperty.getItem();
+
+                    this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(item,checkbox.selectedProperty().get()), checkbox.selectedProperty()));
+                    this.sellPrice.bind(Bindings.createIntegerBinding(()->this.setSellPrice(item,checkbox.selectedProperty().get()), checkbox.selectedProperty()));
+                    
+                    this.upgradePrice.set(0);
+                    this.sellPrice.set(0);
                 }
 			}
 		}
+        
     }
 
+    public int setUpgradePrice(Item item, boolean check) {
+        if (check) {
+            return this.upgradePrice.get() + item.getValueInGold();
+        }
+        return this.upgradePrice.get() - item.getValueInGold();
+    }
+
+    public int setSellPrice(Item item, boolean check) {
+        if (check) {
+            return this.sellPrice.get() + item.getValueInGold();
+        }
+        return this.sellPrice.get() - item.getValueInGold();
+    }
+    
     @FXML
     void initialize() {
         this.InventoryGrid.setAlignment(Pos.CENTER);
         this.setInventoryGrid();
-
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.armour, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.helmet, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.portion, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.shield,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.staff,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.stake,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(this.sword,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
-        this.curPrice.set(0);
     }
 
     public int setCurPrice(Item it, boolean t) {
