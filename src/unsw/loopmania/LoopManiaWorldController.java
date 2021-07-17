@@ -14,6 +14,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -21,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -32,6 +35,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import javafx.util.converter.IntegerStringConverter;
 import unsw.loopmania.items.*;
 
 import java.util.EnumMap;
@@ -75,6 +79,30 @@ enum DRAGGABLE_TYPE{
  *     This is run on the JavaFX application thread when it has enough time.
  */
 public class LoopManiaWorldController {
+
+    @FXML
+    private Label maxHealth;
+
+    @FXML
+    private Label curHealth;
+
+    @FXML
+    private Label attack;
+
+    @FXML
+    private Label defence;
+
+    @FXML
+    private Label gold;
+
+    @FXML
+    private Label level;
+
+    @FXML
+    private Label experience;
+
+    @FXML
+    private Label cycle;
 
     /**
      * squares gridpane includes path images, enemies, character, empty grass, buildings
@@ -272,7 +300,45 @@ public class LoopManiaWorldController {
         draggedEntity.setVisible(false);
         draggedEntity.setOpacity(0.7);
         anchorPaneRoot.getChildren().add(draggedEntity);
+        setLabel();
+        onLoad(world.getHeroCastle());
     }
+
+
+
+
+
+    public void setLabel() {
+        //String h = Integer.toString(world.getCharacter().getAttr().getCurHealth().get()).concat("/").concat(Integer.toString(world.getCharacter().getAttr().getHealth().get()));
+        //health.setText(h);
+        StringBinding curH = world.getCharacter().getAttr().getCurHealth().asString("HP: %d");
+        StringBinding maxH = world.getCharacter().getAttr().getHealth().asString("MaxHP: %d");
+        curHealth.textProperty().bind(curH);
+        maxHealth.textProperty().bind(maxH);
+        //String a = Integer.toString(world.getCharacter().getAttr().getAttack().get());
+        //attack.setText(a);
+        // String d = Integer.toString(world.getCharacter().getAttr().getDefence().get());
+        // defence.setText(d);
+
+        StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
+        StringBinding d = world.getCharacter().getAttr().getHealth().asString("Defence: %d");
+        attack.textProperty().bind(a);
+        defence.textProperty().bind(d);
+
+        StringBinding l = world.getCharacter().getLevel().asString("Lv: %d");
+        StringBinding e = world.getCharacter().getExperience().asString("Exp: %d");
+        level.textProperty().bind(l);
+        experience.textProperty().bind(e);
+
+        StringBinding g = world.getCharacter().getG().asString("Gold: %d");
+        gold.textProperty().bind(g);
+
+        StringBinding c = world.getCycle().asString("Cycle: %d");
+        cycle.textProperty().bind(c);
+
+    }
+
+
 
     /**
      * create and run the timer
@@ -335,7 +401,8 @@ public class LoopManiaWorldController {
     }
 
     public void terminate(){
-        pause();
+        //pause();
+        timeline.stop();
     }
 
     /**
@@ -733,11 +800,20 @@ public class LoopManiaWorldController {
         } else if (newBuilding instanceof Village){
             Village a = (Village) newBuilding;
             onLoad(a);
+        } else if (newBuilding instanceof HeroCastle) {
+            HeroCastle a = (HeroCastle) newBuilding;
+            onLoad(a);
         }
     }
 
     private void onLoad(VampireCastle building){
         ImageView view = new ImageView(vampireCastleBuildingImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(HeroCastle building){
+        ImageView view = new ImageView(herosCastleImage);
         addEntity(building, view);
         squares.getChildren().add(view);
     }

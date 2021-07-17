@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.image.ImageView?>
@@ -100,6 +101,15 @@
 
             <!-- clicking this button returns the human player to the main menu -->
             <Button text="Exit to Main Menu" onAction="#switchToMainMenu"/>
+
+            <Label fx:id="curHealth" layoutX="6.0" layoutY="42.0" text="Health:" />
+            <Label fx:id="maxHealth" layoutX="73.0" layoutY="42.0" text="Label" />
+            <Label fx:id="attack" layoutX="5.0" layoutY="72.0" text="Attack: " />
+            <Label fx:id="defence" layoutX="73.0" layoutY="72.0" text="Label" />
+            <Label fx:id="gold" layoutY="107.0" text="Defence:" />
+            <Label fx:id="level" layoutX="73.0" layoutY="107.0" text="Label" />
+            <Label fx:id="experience" layoutX="73.0" layoutY="107.0" text="Label" />
+            <Label fx:id="cycle" layoutX="73.0" layoutY="107.0" text="Label" />
          </children>
       </VBox>
    </HBox>

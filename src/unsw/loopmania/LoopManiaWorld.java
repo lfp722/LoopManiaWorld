@@ -614,7 +614,11 @@ public class LoopManiaWorld {
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves(){
+        Pair<Integer, Integer> pos0 = orderedPath.get(0);
         character.moveDownPath();
+        if (character.getX() == pos0.getValue0() && character.getY() == pos0.getValue1()) {
+            cycle.set(cycle.get()+1);
+        }
         moveBasicEnemies();
     }
 
@@ -948,15 +952,31 @@ public class LoopManiaWorld {
                 else {
 
                     temp.destroy();
-                    Potion owned = new Potion(new SimpleIntegerProperty(temp.getX()) , new SimpleIntegerProperty(temp.getY()));
-                    picked.add(owned);
+
+                    Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+                    if (firstAvailableSlot == null){
+                        // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+                        // TODO = give some cash/experience rewards for the discarding of the oldest sword
+                        removeItemByPositionInUnequippedInventoryItems(0);
+                        firstAvailableSlot = getFirstAvailableSlotForItem();
+                    }
+        
+                    // now we insert the new sword, as we know we have at least made a slot available...
+                    Potion po = new Potion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+                    unequippedInventoryItems.add(po);
+                    picked.add(po);
                     spawnItems.remove(temp);
-                    unequippedInventoryItems.add(owned);
-                    
                 }
             }
         }
         return picked;
+    }
+
+    public HeroCastle getHeroCastle() {
+        Pair<Integer, Integer> pos = orderedPath.get(0);
+        SimpleIntegerProperty x = new SimpleIntegerProperty(pos.getValue0());
+        SimpleIntegerProperty y = new SimpleIntegerProperty(pos.getValue1());
+        return new HeroCastle(x, y); 
     }
 
 

@@ -48,6 +48,8 @@ public class Character extends MovingEntity{
         debuff.set(1);
         level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(100).get()), experience));
         next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*100, level));
+        attr.getHealth().bind(level.multiply(20).add(15));
+        attr.getDefence().set(0);
         attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
     }
 
@@ -81,6 +83,7 @@ public class Character extends MovingEntity{
             attack = attack - equipped.getDefence();
         }
         if (attack > attr.getCurHealth().get() || attack == attr.getCurHealth().get()) {
+            attr.getCurHealth().set(0);
             this.destroy();
         }
         else {
@@ -145,6 +148,18 @@ public class Character extends MovingEntity{
 
     public List<Enemy> getTranced() {
         return tranced;
+    }
+
+    public SimpleIntegerProperty getLevel() {
+        return level;
+    }
+
+    public SimpleIntegerProperty getExperience() {
+        return experience;
+    }
+
+    public SimpleIntegerProperty getG() {
+        return gold;
     }
 
 }
