@@ -8,6 +8,7 @@ public class Equipped {
     private Shield shield;
     private Weapon weapon;
     private SimpleIntegerProperty equipDefense = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty equipAttack = new SimpleIntegerProperty(0);
 
     public void equipHelmet(Helmet helmet) {
         this.helmet = helmet;
@@ -26,6 +27,7 @@ public class Equipped {
 
     public void equipWeapon(Weapon weapon) {
         this.weapon = weapon;
+        equipAttack.set(weapon.getDamage());
     }
 
     public int getAttack() {
@@ -58,6 +60,7 @@ public class Equipped {
 
     public void dropWeapon() {
         weapon = null;
+        equipAttack.set(0);
     }
 
     public Helmet getHelmet() {
@@ -80,6 +83,10 @@ public class Equipped {
 
     public SimpleIntegerProperty getDefence() {
         return equipDefense;
+    }
+
+    public SimpleIntegerProperty getDamage() {
+        return equipAttack;
     }
 
 

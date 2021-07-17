@@ -5,6 +5,7 @@ import unsw.loopmania.items.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.DoublePredicate;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
@@ -15,8 +16,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,14 +40,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import javafx.util.converter.IntegerStringConverter;
-import unsw.loopmania.items.*;
 
 import java.util.EnumMap;
 
 import java.io.File;
 import java.io.IOException;
+
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
+import javafx.scene.shape.Rectangle;
 
 
 /**
@@ -154,6 +163,9 @@ public class LoopManiaWorldController {
     @FXML
     private GridPane soldiers;
 
+    @FXML
+    private GridPane attributeBar;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -197,6 +209,15 @@ public class LoopManiaWorldController {
     private Image barrackImage;
     private Image campfireImage;
     private Image soldierImage;
+
+
+    private Text expLabel;
+
+    private Rectangle healthBar;
+
+    private Text goldText;
+
+    private Text expText;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -337,30 +358,104 @@ public class LoopManiaWorldController {
     public void setLabel() {
         //String h = Integer.toString(world.getCharacter().getAttr().getCurHealth().get()).concat("/").concat(Integer.toString(world.getCharacter().getAttr().getHealth().get()));
         //health.setText(h);
-        StringBinding curH = world.getCharacter().getAttr().getCurHealth().asString("HP: %d");
-        StringBinding maxH = world.getCharacter().getAttr().getHealth().asString("MaxHP: %d");
-        curHealth.textProperty().bind(curH);
-        maxHealth.textProperty().bind(maxH);
+
+        expLabel = new Text();
+        expLabel.setText("XP");
+        expLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        expLabel.setFill(Color.PURPLE);
+        attributeBar.add(expLabel,0,2);
+
+        healthBar = new Rectangle(70, 30, Color.RED);
+        Rectangle bottleBar = new Rectangle(70, 30, Color.BLACK);
+        DoubleProperty healthPer = new SimpleDoubleProperty();
+        IntegerProperty curH = world.getCharacter().getAttr().getCurHealth();
+        IntegerProperty maxH = world.getCharacter().getAttr().getHealth();
+        healthPer.bind(Bindings.createDoubleBinding(()->(double)curH.get()/(double)maxH.get(), curH, maxH));
+        DoubleBinding b = healthPer.multiply(70);
+        healthBar.widthProperty().bind(b);
+        attributeBar.add(bottleBar,1,0);
+        attributeBar.add(healthBar,1,0);
+
+        goldText = new Text();
+        StringBinding g = world.getCharacter().getG().asString();
+        goldText.textProperty().bind(g);
+        goldText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        goldText.setFill(Color.GREEN);
+        attributeBar.add(goldText,1,1);
+
+        expText = new Text();
+        IntegerProperty curExp = world.getCharacter().getExperience();
+        IntegerProperty nextExp = world.getCharacter().getNextLvExp();
+        StringBinding e = Bindings.createStringBinding(()->curExp.asString().get().concat("/").concat(nextExp.asString().get()), curExp, nextExp);
+        expText.textProperty().bind(e);
+        expText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        expText.setFill(Color.PURPLE);
+        attributeBar.add(expText,1,2);
+
+
+        Text attackLabel = new Text();
+        attackLabel.setText("ATT");
+        attackLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        attackLabel.setFill(Color.RED);
+        attributeBar.add(attackLabel,0,3);
+
+        Text attackText = new Text();
+        IntegerProperty iA = world.getCharacter().getAttr().getAttack();
+        IntegerProperty wA = world.getEquip().getDamage();
+        StringBinding a = Bindings.createStringBinding(()->iA.asString().get().concat("(+").concat(wA.asString().get()).concat(")"), curExp, nextExp);
+        attackText.textProperty().bind(a);
+        attackText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        attackText.setFill(Color.RED);
+        attributeBar.add(attackText,1,3);
+
+        Text defenceLabel = new Text();
+        defenceLabel.setText("DEF");
+        defenceLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        defenceLabel.setFill(Color.BLUE);
+        attributeBar.add(defenceLabel,0,4);
+
+        Text defenceText = new Text();
+        StringBinding d = world.getCharacter().getEquip().getDefence().asString();
+        defenceText.textProperty().bind(d);
+        defenceText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        defenceText.setFill(Color.BLUE);
+        attributeBar.add(defenceText,1,4);
+
+        Text cycleLabel = new Text();
+        cycleLabel.setText("Cyc");
+        cycleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        cycleLabel.setFill(Color.BLACK);
+        attributeBar.add(cycleLabel,0,5);
+
+        Text cycleText = new Text();
+        StringBinding c = world.getCycle().asString();
+        cycleText.textProperty().bind(c);
+        cycleText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        cycleText.setFill(Color.BLACK);
+        attributeBar.add(cycleText,1,5);
+
+
+
         //String a = Integer.toString(world.getCharacter().getAttr().getAttack().get());
         //attack.setText(a);
         // String d = Integer.toString(world.getCharacter().getAttr().getDefence().get());
         // defence.setText(d);
 
-        StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
-        StringBinding d = world.getEquip().getDefence().asString("Defence: %d");
-        attack.textProperty().bind(a);
-        defence.textProperty().bind(d);
+        // StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
+        // StringBinding d = world.getEquip().getDefence().asString("Defence: %d");
+        // attack.textProperty().bind(a);
+        // defence.textProperty().bind(d);
 
-        StringBinding l = world.getCharacter().getLevel().asString("Lv: %d");
-        StringBinding e = world.getCharacter().getExperience().asString("Exp: %d");
-        level.textProperty().bind(l);
-        experience.textProperty().bind(e);
+        // StringBinding l = world.getCharacter().getLevel().asString("Lv: %d");
+        // StringBinding es = world.getCharacter().getExperience().asString("Exp: %d");
+        // level.textProperty().bind(l);
+        // experience.textProperty().bind(es);
 
-        StringBinding g = world.getCharacter().getG().asString("Gold: %d");
-        gold.textProperty().bind(g);
+        // StringBinding gm = world.getCharacter().getG().asString("Gold: %d");
+        // gold.textProperty().bind(gm);
 
-        StringBinding c = world.getCycle().asString("Cycle: %d");
-        cycle.textProperty().bind(c);
+        // StringBinding c = world.getCycle().asString("Cycle: %d");
+        // cycle.textProperty().bind(c);
 
     }
 
