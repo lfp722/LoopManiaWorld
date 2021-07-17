@@ -20,11 +20,15 @@ public class Equipment extends Item implements equipItem{
     public Equipment(SimpleIntegerProperty x, SimpleIntegerProperty y, boolean isEquipped){
         super(x, y);
         this.isEquipped.set(isEquipped);
-        this.level.set(1);
-        this.ValueInGold.set(250);
 
         this.levelUpPrice.bind(Bindings.createIntegerBinding(()->this.nextLevelUpPrice(),this.level));
+        this.ValueInGold.bind(Bindings.createIntegerBinding(()->(this.levelUpPrice.get() + this.ValueInGold.get()),this.level));
+
+        this.level.set(1);
+        this.ValueInGold.set(250);
     }
+
+
 
     public boolean isEquipped() {
         return this.isEquipped.get();
@@ -38,8 +42,9 @@ public class Equipment extends Item implements equipItem{
         return this.level.get();
     }
 
-    public void setLevel(int level) {
+    public void setLevel() {
         this.level.set(this.level.get()+1);
+
     }
 
 

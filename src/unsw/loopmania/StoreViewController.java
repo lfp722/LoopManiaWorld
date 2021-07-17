@@ -19,13 +19,14 @@ import org.junit.jupiter.params.aggregator.ArgumentAccessException;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
 import javafx.animation.Timeline;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.beans.property.SimpleIntegerProperty;
-
+import unsw.loopmania.items.Equipments.Equipment;
 import unsw.loopmania.items.Equipments.outfits.*;
 import unsw.loopmania.items.basics.*;
 import unsw.loopmania.items.Equipments.weapons.*;
@@ -36,8 +37,14 @@ public class StoreViewController  {
     private Character character;
     private ArrayList<Item> cart;
     private SimpleIntegerProperty curPrice;
+    private SimpleIntegerProperty upgradePrice;
+    private SimpleIntegerProperty characterGold;
     @FXML
     private GridPane InventoryGrid;
+
+    @FXML
+    private Text Num_Gold;
+
 
     @FXML
     private Button Button_Sell;
@@ -117,6 +124,7 @@ public class StoreViewController  {
         ObservableList<Node> childrens = gridPane.getChildren();
     
         for (Node node : childrens) {
+            
             if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
                 result = node;
                 break;
@@ -135,8 +143,31 @@ public class StoreViewController  {
                     CheckBox slot = (CheckBox) n;
                     if (slot.selectedProperty().get() == true) {
                         ItemProperty item = this.character.getInventory(i,j);
+                        Item it = item.getItem();
                         this.character.setGold(this.character.getGold() + it.getValueInGold());
                         this.character.eliminateItem(item);
+                    }
+                }
+            }
+        }
+        this.setInventoryGrid();
+    }
+
+    @FXML
+    public void Upgrade(ActionEvent event) {
+        for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 3; j++) {
+                Node n = getNodeByRowColumnIndex(i, j, this.InventoryGrid);
+                if (n instanceof CheckBox) {
+                    CheckBox slot = (CheckBox) n;
+                    if (slot.selectedProperty().get() == true) {
+                        ItemProperty itemProperty = this.character.getInventory(i,j);
+                        Item item = itemProperty.getItem();
+                        if (item instanceof Equipment) {
+                            Equipment equipment = (Equipment) item;
+                            this.character.setGold(this.character.getGold() - equipment.getLevelUpPrice());
+                            equipment.setLevel();
+                        }
                     }
                 }
             }
@@ -154,6 +185,7 @@ public class StoreViewController  {
                     ImageView backgroundImage = new ImageView(item.image);
                     checkbox.setGraphic(backgroundImage);
                     checkbox.selectedProperty().bindBidirectional(item);
+                    this.InventoryGrid.getChildren().remove(i, j);
                     this.InventoryGrid.add(checkbox, i, j);  
                 }
 			}
