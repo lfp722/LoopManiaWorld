@@ -28,7 +28,7 @@ public class Character extends MovingEntity{
     private SimpleDoubleProperty debuff;
 
 
-    public Character(PathPosition position) {
+    public Character(PathPosition position, Equipped equipments) {
         super(position);
         attr = new EntityAttribute(5, 0, 35);
         level = new SimpleIntegerProperty();
@@ -42,15 +42,15 @@ public class Character extends MovingEntity{
         debuff = new SimpleDoubleProperty();
         army = new ArrayList<>();
         bag = new Bag();
-        equipped = new Equipped();
         campFireBuff.set(1);
         stakeVampireBuff.set(1);
         debuff.set(1);
-        level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(100).get()), experience));
+        level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(100).get())+1, experience));
         next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*100, level));
         attr.getHealth().bind(level.multiply(20).add(15));
         attr.getDefence().set(0);
         attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
+        this.equipped = equipments;
     }
 
     public void addSoldier(Soldier soldier) {

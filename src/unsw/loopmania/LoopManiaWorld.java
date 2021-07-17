@@ -30,6 +30,14 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
+    public static final int equippedHeight = 0;
+    public static final int weaponSlot = 0;
+    public static final int helmetSlot = 1;
+    public static final int shieldSlot = 2;
+    public static final int armourSlot = 3;
+
+    private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
+
     /**
      * width of the world in GridPane cells
      */
@@ -292,7 +300,6 @@ public class LoopManiaWorld {
         }
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
-            System.out.println("Still enemy to kill");
             Enemy target = battleEnemies.get(0);
             for (Soldier s: ch.getArmy()) {
                 s.attack(target);
@@ -319,11 +326,16 @@ public class LoopManiaWorld {
                     e.attack(brave, this);
                 }
             }
+
         }
     }
 
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
+        if (battleLock.get() == 0) {
+            return new ArrayList<>();
+        }
+        battleLock.set(0);
         System.out.println("Running battles");
         List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
         List<Enemy> battleEnemies = new ArrayList<>();
@@ -360,6 +372,7 @@ public class LoopManiaWorld {
             // due to mutating list we're iterating over
             killEnemy(e);
         }
+        battleLock.set(1);
         
         return defeatedEnemies;
 
@@ -983,6 +996,112 @@ public class LoopManiaWorld {
 
     public void makeUpReward(Item i) {
         character.addGold((int)(i.getValueInGold()*0.1));
+    }
+
+    public Equipment covertEquippedToEquipped(int nodeX, int nodeY) {
+        Equipment item = null;
+        for (Entity c: unequippedInventoryItems){
+            if ((c.getX() == nodeX) && (c.getY() == nodeY) && c instanceof Equipment){
+                item = (Equipment) c;
+                break;
+            }
+        }
+
+        if (item instanceof Sword) {
+            Weapon old = equippedItems.getWeapon();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropWeapon();
+            }
+            Sword newWeapon = new Sword(new SimpleIntegerProperty(weaponSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipWeapon(newWeapon);
+            removeUnequippedInventoryItem(item);
+            return newWeapon;
+        }
+
+        else if (item instanceof Stake) {
+            Weapon old = equippedItems.getWeapon();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropWeapon();
+            }
+            Stake newWeapon = new Stake(new SimpleIntegerProperty(weaponSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipWeapon(newWeapon);
+            removeUnequippedInventoryItem(item);
+            return newWeapon;
+        }
+
+        else if (item instanceof Staff) {
+            Weapon old = equippedItems.getWeapon();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropWeapon();
+            }
+            Staff newWeapon = new Staff(new SimpleIntegerProperty(weaponSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipWeapon(newWeapon);
+            removeUnequippedInventoryItem(item);
+            return newWeapon;
+        }
+
+        else if (item instanceof Helmet) {
+            Helmet old = equippedItems.getHelmet();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropHelmet();
+            }
+            Helmet newHelmet = new Helmet(new SimpleIntegerProperty(helmetSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipHelmet(newHelmet);
+            removeUnequippedInventoryItem(item);
+            return newHelmet;
+        }
+
+        else if (item instanceof Armour) {
+            Armour old = equippedItems.getArmour();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropArmour();
+            }
+            Armour newArmour = new Armour(new SimpleIntegerProperty(armourSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipArmour(newArmour);
+            removeUnequippedInventoryItem(item);
+            return newArmour;
+        }
+
+        else if (item instanceof Shield) {
+            Shield old = equippedItems.getShield();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropShield();
+            }
+            Shield newShield = new Shield(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipShield(newShield);
+            removeUnequippedInventoryItem(item);
+            return newShield;
+        }
+        
+ 
+
+        return null;
+
+    }
+
+    public void consumePotion(int nodeX, int nodeY) {
+        if (battleLock.get() == 0) {
+            return;
+        }
+        battleLock.set(0);
+        for (Entity e: unequippedInventoryItems) {
+            if (e.getX() == nodeX && e.getY() == nodeY && e instanceof Potion) {
+                Potion a = (Potion) e;
+                a.recoverHealth(character);
+                removeUnequippedInventoryItem(e);
+            }
+        }
+        battleLock.set(1);
+    }
+
+    public Equipped getEquip() {
+        return equippedItems;
     }
 
 

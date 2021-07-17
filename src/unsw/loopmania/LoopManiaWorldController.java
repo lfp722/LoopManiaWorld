@@ -53,7 +53,21 @@ import java.io.IOException;
  */
 enum DRAGGABLE_TYPE{
     CARD,
-    ITEM
+    ZOMBIECARD,
+    VAMPIRECARD,
+    VILLAGECARD,
+    TOWERCARD,
+    TRAPCARD,
+    BARRACKCARD,
+    CAMPFIRECARD,
+    ITEM,
+    HELMET,
+    SHIELD,
+    ARMOUR,
+    SWORD,
+    STAKE,
+    STAFF,
+    POTION
 }
 
 /**
@@ -437,6 +451,20 @@ public class LoopManiaWorldController {
         onLoad(sword);
     }
 
+    private void loadStake(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Stake sword = world.addUnequippedStake();
+        onLoad(sword);
+    }
+
+    private void loadStaff(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Staff sword = world.addUnequippedStaff();
+        onLoad(sword);
+    }
+
     private void loadArmour(){
         // TODO = load more types of weapon
         // start by getting first available coordinates
@@ -485,6 +513,13 @@ public class LoopManiaWorldController {
             loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
             loadExp(20 + 100 * this.world.getCycle().get());
             loadCard();
+            loadStaff();
+            loadSword();
+            loadStake();
+            loadArmour();
+            loadPotion();
+            loadHelmet();
+            loadShield();
         } else if (enemy instanceof Vampire) {
             loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
             loadExp(500 + 500 * this.world.getCycle().get());
@@ -617,7 +652,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.VAMPIRECARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -628,7 +663,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ZOMBIECARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -639,7 +674,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CAMPFIRECARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -650,7 +685,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.BARRACKCARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -661,7 +696,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.TRAPCARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -672,7 +707,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.TOWERCARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -683,7 +718,7 @@ public class LoopManiaWorldController {
 
         // FROM https://stackoverflow.com/questions/41088095/javafx-drag-and-drop-to-gridpane
         // note target setOnDragOver and setOnDragEntered defined in initialize method
-        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.VILLAGECARD, cards, squares);
 
         addEntity(vampireCastleCard, view);
         cards.getChildren().add(view);
@@ -697,49 +732,49 @@ public class LoopManiaWorldController {
      */
     private void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.SWORD, unequippedInventory, equippedItems);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
 
     private void onLoad(Armour sword) {
         ImageView view = new ImageView(armourImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ARMOUR, unequippedInventory, equippedItems);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
 
     private void onLoad(Shield sword) {
         ImageView view = new ImageView(shieldImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.SHIELD, unequippedInventory, equippedItems);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
 
     private void onLoad(Helmet sword) {
         ImageView view = new ImageView(helmetImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.HELMET, unequippedInventory, equippedItems);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
 
     private void onLoad(Stake sword) {
         ImageView view = new ImageView(stakeImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.STAKE, unequippedInventory, equippedItems);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
 
     private void onLoad(Staff sword) {
         ImageView view = new ImageView(staffImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.STAFF, unequippedInventory, equippedItems);
         addEntity(sword, view);
         unequippedInventory.getChildren().add(view);
     }
 
     private void onLoad(Potion potion) {
         ImageView view = new ImageView(potionImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.POTION, unequippedInventory, equippedItems);
         addEntity(potion, view);
         unequippedInventory.getChildren().add(view);
     }
@@ -859,6 +894,43 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
+    private void onEquip(Sword s) {
+        ImageView view = new ImageView(swordImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(Stake s) {
+        ImageView view = new ImageView(stakeImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(Staff s) {
+        ImageView view = new ImageView(staffImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(Helmet s) {
+        ImageView view = new ImageView(helmetImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(Armour s) {
+        ImageView view = new ImageView(armourImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(Shield s) {
+        ImageView view = new ImageView(shieldImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+    
+
     /**
      * add drag event handlers for dropping into gridpanes, dragging over the background, dropping over the background.
      * These are not attached to invidual items such as swords/cards.
@@ -898,18 +970,101 @@ public class LoopManiaWorldController {
                         int nodeX = GridPane.getColumnIndex(currentlyDraggedImage);
                         int nodeY = GridPane.getRowIndex(currentlyDraggedImage);
                         switch (draggableType){
-                            case CARD:
+                            case VAMPIRECARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Building newVC = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 
-                                onLoad(newBuilding);
+                                onLoad(newVC);
                                 break;
-                            case ITEM:
+                            case ZOMBIECARD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn a building here of different types
+                                Building newZP = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
+                                onLoad(newZP);
+                                break;
+                            case VILLAGECARD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn a building here of different types
+                                Building newV = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
+                                onLoad(newV);
+                                break;
+                            case TOWERCARD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn a building here of different types
+                                Building newT = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
+                                onLoad(newT);
+                                break;
+                            case CAMPFIRECARD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn a building here of different types
+                                Building newCF = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
+                                onLoad(newCF);
+                                break;
+                            case BARRACKCARD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn a building here of different types
+                                Building newB = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
+                                onLoad(newB);
+                                break;
+                            case TRAPCARD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn a building here of different types
+                                Building newTrap = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                
+                                onLoad(newTrap);
+                                break;
+                            case SWORD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
-                                removeItemByCoordinates(nodeX, nodeY);
-                                targetGridPane.add(image, x, y, 1, 1);
+                                Sword newSw = (Sword) world.covertEquippedToEquipped(nodeX, nodeY);
+
+                                onEquip(newSw);
+                                break;
+                            case STAKE:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Stake newSt = (Stake) world.covertEquippedToEquipped(nodeX, nodeY);
+
+                                onEquip(newSt);
+                                break;
+                            case STAFF:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Staff newSf = (Staff) world.covertEquippedToEquipped(nodeX, nodeY);
+
+                                onEquip(newSf);
+                                break;
+                            case HELMET:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Helmet newHel = (Helmet) world.covertEquippedToEquipped(nodeX, nodeY);
+
+                                onEquip(newHel);
+                                break;
+                            case ARMOUR:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Armour newAr = (Armour) world.covertEquippedToEquipped(nodeX, nodeY);
+
+                                onEquip(newAr);
+                                break;
+                            case SHIELD:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Shield newSh = (Shield) world.covertEquippedToEquipped(nodeX, nodeY);
+
+                                onEquip(newSh);
+                                break;
+                            case POTION:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                world.consumePotion(nodeX, nodeY);
                                 break;
                             default:
                                 break;
@@ -1022,11 +1177,47 @@ public class LoopManiaWorldController {
 
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
                 switch (draggableType){
-                    case CARD:
+                    case VAMPIRECARD:
                         draggedEntity.setImage(vampireCastleCardImage);
                         break;
-                    case ITEM:
+                    case ZOMBIECARD:
+                        draggedEntity.setImage(zombiePitCardImage);
+                        break;
+                    case VILLAGECARD:
+                        draggedEntity.setImage(villageCardImage);
+                        break;
+                    case TOWERCARD:
+                        draggedEntity.setImage(towerCardImage);
+                        break;
+                    case BARRACKCARD:
+                        draggedEntity.setImage(barrackCardImage);
+                        break;
+                    case CAMPFIRECARD:
+                        draggedEntity.setImage(campfireCardImage);
+                        break;
+                    case TRAPCARD:
+                        draggedEntity.setImage(trapCardImage);
+                        break;
+                    case SWORD:
                         draggedEntity.setImage(swordImage);
+                        break;
+                    case STAKE:
+                        draggedEntity.setImage(stakeImage);
+                        break;
+                    case STAFF:
+                        draggedEntity.setImage(staffImage);
+                        break;
+                    case ARMOUR:
+                        draggedEntity.setImage(armourImage);
+                        break;
+                    case HELMET:
+                        draggedEntity.setImage(helmetImage);
+                        break;
+                    case SHIELD:
+                        draggedEntity.setImage(shieldImage);
+                        break;
+                    case POTION:
+                        draggedEntity.setImage(potionImage);
                         break;
                     default:
                         break;

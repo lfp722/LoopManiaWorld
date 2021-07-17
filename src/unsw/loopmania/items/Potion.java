@@ -1,6 +1,9 @@
 package unsw.loopmania.items;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import jdk.dynalink.support.ChainedCallSite;
+
+
 import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.Character;
 public class Potion extends Item{
@@ -21,26 +24,26 @@ public class Potion extends Item{
     //     this.recoverRate.set(recoverRate);
     // }
 
-    public void recoverHealth() {
-        SimpleIntegerProperty curH = this.owner.getAttr().getCurHealth();
-        SimpleIntegerProperty maxH = this.owner.getAttr().getHealth();
+    public void recoverHealth(Character ch) {
+        SimpleIntegerProperty curH = ch.getAttr().getCurHealth();
+        SimpleIntegerProperty maxH = ch.getAttr().getHealth();
         curH.set(curH.get() + (int)(maxH.get() * this.recoverRate.get()));
         if (curH.get() >= maxH.get()) {
             curH.set(maxH.get());
         }
     }
 
-    @Override
-    public void use(){
-        if (this.owner != null) {
-            this.recoverHealth();
-            return;
-        }
-        throw new RuntimeException("Portion_Error == USE: the owner is not set!");
-    }
+    // @Override
+    // public void use(){
+    //     if (this.owner != null) {
+    //         this.recoverHealth();
+    //         return;
+    //     }
+    //     throw new RuntimeException("Portion_Error == USE: the owner is not set!");
+    // }
 
-    @Override
-    public void abandon(){
-        throw new RuntimeException("Portion_Error == DROP: the Portion cannot be dropped!");
-    }
+    // @Override
+    // public void abandon(){
+    //     throw new RuntimeException("Portion_Error == DROP: the Portion cannot be dropped!");
+    // }
 }

@@ -12,7 +12,7 @@ public class VampireCastle extends Building {
 
     public Vampire produceVampire(LoopManiaWorld world) {
         
-        if (world.getCycle().get()%5 != 4) {
+        if (world.getCycle().get()%5 != 0) {
             return null;
         }
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
