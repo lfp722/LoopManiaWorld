@@ -19,7 +19,6 @@ public class Character extends MovingEntity{
     private SimpleIntegerProperty experience;
     private List<Soldier> army;
     private List<Enemy> tranced;
-    private Bag bag;
     private Equipped equipped;
     private SimpleIntegerProperty gold;
     private SimpleIntegerProperty next_expr;
@@ -41,7 +40,6 @@ public class Character extends MovingEntity{
         stakeVampireBuff = new SimpleIntegerProperty();
         debuff = new SimpleDoubleProperty();
         army = new ArrayList<>();
-        bag = new Bag();
         campFireBuff.set(1);
         stakeVampireBuff.set(1);
         debuff.set(1);
@@ -61,13 +59,13 @@ public class Character extends MovingEntity{
         army.remove(soldier);
     }
 
-    public void equip(Equipment item) {
-        item.equip();
-    }
+    // public void equip(Equipment item) {
+    //     item.equip(this);
+    // }
 
-    public void unequip(Equipment item) {
-        item.unequip();
-    }
+    // public void unequip(Equipment item) {
+    //     item.unequip(this);
+    // }
 
     public void attack(Enemy enemy) {
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
@@ -95,9 +93,6 @@ public class Character extends MovingEntity{
         return attr;
     }
 
-    public Bag getBag() {
-        return bag;
-    }
 
     public List<Soldier> getArmy() {
         return army;

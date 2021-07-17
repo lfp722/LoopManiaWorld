@@ -1,6 +1,7 @@
 package unsw.loopmania.items;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Character;
 public class Armour extends Outfit {
 
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -9,13 +10,13 @@ public class Armour extends Outfit {
     }
 
     @Override
-    public void equip() {
-        this.owner.getEquip().equipArmour(this);
+    public void equip(Character ch) {
+        ch.getEquip().equipArmour(this);
     }
 
     @Override
-    public void unequip() {
-        this.owner.getEquip().dropArmour();
+    public void unequip(Character ch) {
+        ch.getEquip().dropArmour();
     }
 
     //Convenient for later change

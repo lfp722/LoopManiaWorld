@@ -31,4 +31,14 @@ public class Weapon extends Equipment {
     public void specialEffect(Enemy e, Character ch){
         return;
     }
+
+    @Override
+    public void equip(Character ch) {
+        ch.getEquip().equipWeapon(this);
+    }
+
+    @Override
+    public void unequip(Character ch) {
+        ch.getEquip().dropWeapon();
+    }
 }
