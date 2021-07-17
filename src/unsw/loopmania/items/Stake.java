@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * represents an equipped or unequipped sword in the backend world
  */
 public class Stake extends Weapon {
-
+    public static final int initialPrice = 250;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         //TODO Auto-generated constructor stub
@@ -15,10 +15,10 @@ public class Stake extends Weapon {
     }
 
 
-    // @Override
-    // public double nextDamage() {
-    //     return (double) 0.9 * this.level.get() + 1.5;
-    // }
+    @Override
+    public int nextDamage() {
+        return (int) (0.9 * this.level.get() + 1.5);
+    }
 
     //Convenient for later change
     /* 

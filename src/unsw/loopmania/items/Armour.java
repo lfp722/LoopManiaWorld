@@ -3,7 +3,7 @@ package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Character;
 public class Armour extends Outfit {
-
+    public static final int initialPrice = 250;
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x,y);
         //this.reduceRate.set(0.5);

@@ -19,6 +19,7 @@ public class Staff extends Weapon {
     private SimpleDoubleProperty chanceTrance;
     private Timeline tranceTimeFrame;
     private SimpleIntegerProperty tranceTimeAmount;
+    public static final int initialPrice = 400;
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         this.ValueInGold.set(400);
@@ -53,10 +54,10 @@ public class Staff extends Weapon {
         
     // }
 
-    // @Override
-    // public double nextDamage() {
-    //     return (double) 0.85 * this.level.get() + 1;
-    // }
+    @Override
+    public int nextDamage() {
+        return (int) 0.85 * this.level.get() + 1;
+    }
     // public double getChanceTrance(){
     //     return this.chanceTrance.get();
     // }
