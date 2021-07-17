@@ -12,16 +12,18 @@ public class Weapon extends Equipment {
         super(x,y);
         damage = new SimpleIntegerProperty();
         this.ValueInGold.set(250);
-        //this.damage.bind(Bindings.createDoubleBinding(()->this.nextDamage(),this.level));
+        this.damage.bind(Bindings.createIntegerBinding(()->this.nextDamage(),this.level));
+
+        //this.damage.bind(Bindings.createIntegerBinding(()->this.nextDamage(),this.level));
     }
 
     public int getDamage() {
         return this.damage.get();
     }
 
-    // public double nextDamage() {
-    //     return 0;
-    // }
+    public int nextDamage() {
+        return 0;
+    }
 
     // @Override
     // public int nextLevelUpPrice() {
