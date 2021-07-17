@@ -74,11 +74,11 @@ public class Character extends MovingEntity{
     }
 
     public void underAttack(int attack) {
-        if (attack <= equipped.getDefence()) {
+        if (attack <= equipped.getDefence().get()) {
             return;
         }
         else{
-            attack = attack - equipped.getDefence();
+            attack = attack - equipped.getDefence().get();
         }
         if (attack > attr.getCurHealth().get() || attack == attr.getCurHealth().get()) {
             attr.getCurHealth().set(0);

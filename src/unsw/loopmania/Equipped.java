@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.*;
 
 public class Equipped {
@@ -6,21 +7,21 @@ public class Equipped {
     private Armour armour;
     private Shield shield;
     private Weapon weapon;
-    private int equipDefense = 0;
+    private SimpleIntegerProperty equipDefense = new SimpleIntegerProperty(0);
 
     public void equipHelmet(Helmet helmet) {
         this.helmet = helmet;
-        equipDefense += helmet.getDefense();
+        equipDefense.set(equipDefense.get()+helmet.getDefense());
     }
 
     public void equipArmour(Armour armour) {
         this.armour = armour;
-        equipDefense += armour.getDefense();
+        equipDefense.set(equipDefense.get()+armour.getDefense());
     }
 
     public void equipShield(Shield shield) {
         this.shield = shield;
-        equipDefense += shield.getDefense();
+        equipDefense.set(equipDefense.get() + shield.getDefense());
     }
 
     public void equipWeapon(Weapon weapon) {
@@ -41,14 +42,17 @@ public class Equipped {
     }
 
     public void dropHelmet() {
+        equipDefense.set(equipDefense.get()-helmet.getDefense());
         helmet = null;
     }
 
     public void dropArmour() {
+        equipDefense.set(equipDefense.get()-armour.getDefense());
         armour = null;
     }
 
     public void dropShield() {
+        equipDefense.set(equipDefense.get()-shield.getDefense());
         shield = null;
     }
 
@@ -74,7 +78,7 @@ public class Equipped {
         }
     }
 
-    public int getDefence() {
+    public SimpleIntegerProperty getDefence() {
         return equipDefense;
     }
 
