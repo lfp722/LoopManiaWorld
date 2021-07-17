@@ -16,6 +16,8 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -321,7 +323,7 @@ public class LoopManiaWorldController {
         // defence.setText(d);
 
         StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
-        StringBinding d = world.getCharacter().getAttr().getHealth().asString("Defence: %d");
+        StringBinding d = new SimpleIntegerProperty(world.getCharacter().getEquip().getDefence()).asString("Defence: %d");
         attack.textProperty().bind(a);
         defence.textProperty().bind(d);
 
@@ -482,7 +484,7 @@ public class LoopManiaWorldController {
         if(enemy instanceof Slug) {
             loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
             loadExp(20 + 100 * this.world.getCycle().get());
-            loadZombieCard();
+            loadCard();
         } else if (enemy instanceof Vampire) {
             loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
             loadExp(500 + 500 * this.world.getCycle().get());

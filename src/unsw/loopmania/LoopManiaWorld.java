@@ -655,6 +655,8 @@ public class LoopManiaWorld {
         Entity item = unequippedInventoryItems.get(index);
         item.destroy();
         unequippedInventoryItems.remove(index);
+        Item i = (Item) item;
+        makeUpReward(i);
     }
 
     /**
@@ -977,6 +979,10 @@ public class LoopManiaWorld {
         SimpleIntegerProperty x = new SimpleIntegerProperty(pos.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(pos.getValue1());
         return new HeroCastle(x, y); 
+    }
+
+    public void makeUpReward(Item i) {
+        character.addGold((int)(i.getValueInGold()*0.1));
     }
 
 

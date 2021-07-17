@@ -18,9 +18,7 @@ public class Village extends Building{
 
     @Override
     public void specialEffect(LoopManiaWorld world){
-        Pair<Integer, Integer> a = new Pair<>(this.getX(), this.getY());
-        Pair<Integer, Integer> b = new Pair<>(this.getX(), this.getY());
-        if(a.equals(b)){
+        if(world.getCharacter().getX() == this.getX() && world.getCharacter().getY() == this.getY()){
             world.getCharacter().heal(regenRate);
         }
     }
