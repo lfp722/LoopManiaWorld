@@ -28,7 +28,7 @@ public class Weapon extends Equipment {
     //     return (int) Math.pow((100 * this.level.get()),2) - 150;
     // }
 
-    public void specialEffect(Enemy e, Character ch){
+    public void specialEffect(Enemy e, LoopManiaWorld world){
         return;
     }
 
