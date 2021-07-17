@@ -337,7 +337,7 @@ public class LoopManiaWorldController {
         // defence.setText(d);
 
         StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
-        StringBinding d = new SimpleIntegerProperty(world.getCharacter().getEquip().getDefence()).asString("Defence: %d");
+        StringBinding d = world.getEquip().getDefence().asString("Defence: %d");
         attack.textProperty().bind(a);
         defence.textProperty().bind(d);
 
