@@ -1587,6 +1587,7 @@ public class LoopManiaWorldController {
                                                     cards.getChildren().remove(node);
                                                     equippedItems.getChildren().remove(node);
                                                     unequippedInventory.getChildren().remove(node);
+                                                    soldiers.getChildren().remove(node);
                                                 })
                                                .buildAttached();
         ListenerHandle handleY = ListenerHandles.createFor(entity.y(), node)
@@ -1598,6 +1599,7 @@ public class LoopManiaWorldController {
                                                    cards.getChildren().remove(node);
                                                    equippedItems.getChildren().remove(node);
                                                    unequippedInventory.getChildren().remove(node);
+                                                   soldiers.getChildren().remove(node);
                                                 })
                                                .buildAttached();
         handleX.attach();

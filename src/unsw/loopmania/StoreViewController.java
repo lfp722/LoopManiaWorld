@@ -18,8 +18,25 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class StoreViewController  {
 
+    public static final int NOLIMIT = 9999999;
     private StoreSwitcher gameSwitcher;
+    private int limitOfOutfit = NOLIMIT;
+    private int limitOfPotion = NOLIMIT;
+    private int outfitCount = 0;
+    private int potionCount = 0;
 
+    public void setLimitOfOutfit(int limitOfOutfit) {
+        this.limitOfOutfit = limitOfOutfit;
+    }
+
+    public void setLimitOfPotion(int limitOfPotion) {
+        this.limitOfPotion = limitOfPotion;
+    }
+
+    public void initializeCounts() {
+        this.outfitCount = 0;
+        this.potionCount = 0;
+    }
 
     @FXML
     private AnchorPane ap;
@@ -54,17 +71,19 @@ public class StoreViewController  {
 
     }
     
-    
-
-
 
     @FXML
     public void buyHelmet() {
+        if (outfitCount >= limitOfOutfit) {
+            popUpWarning("You cannot buy more than one outfit in BERSERKER MODE!");
+            return;
+        }
         if (gold.get() >= Helmet.initialPrice) {
             if (popUpSuccess("buy", "helmet")) {
                 Helmet h = world.addUnequippedHelmet();
                 gold.set(gold.get()-Helmet.initialPrice);
                 bought.add(h);
+                outfitCount += 1;
             }
             
         }
@@ -75,11 +94,16 @@ public class StoreViewController  {
 
     @FXML
     public void buyArmour() {
+        if (outfitCount >= limitOfOutfit) {
+            popUpWarning("You cannot buy more than one outfit in BERSERKER MODE!");
+            return;
+        }
         if (gold.get() >= Armour.initialPrice) {
             if (popUpSuccess("buy", "armour")) {
                 Armour h = world.addUnequippedArmour();
                 gold.set(gold.get()-Armour.initialPrice);
                 bought.add(h); 
+                outfitCount += 1;
             }
             
         }
@@ -90,11 +114,16 @@ public class StoreViewController  {
 
     @FXML
     public void buyShield() {
+        if (outfitCount >= limitOfOutfit) {
+            popUpWarning("You cannot buy more than one outfit in BERSERKER MODE!");
+            return;
+        }
         if (gold.get() >= Shield.initialPrice) {
             if (popUpSuccess("buy", "shield")) {
                 Shield h = world.addUnequippedShield();
                 gold.set(gold.get()- Shield.initialPrice);
                 bought.add(h); 
+                outfitCount += 1;
             }
             
         }
@@ -150,11 +179,16 @@ public class StoreViewController  {
 
     @FXML
     public void buyPotion() {
+        if (potionCount >= limitOfPotion) {
+            popUpWarning("You cannot buy more than one potion in SURVIVAL MODE!");
+            return;
+        }
         if (gold.get() >= Potion.initialPrice) {
             if (popUpSuccess("buy", "potion")) {
                 Potion h = world.addPotion();
                 gold.set(gold.get()-Potion.initialPrice);
                 bought.add(h);
+                potionCount += 1;
             }
             
         }
