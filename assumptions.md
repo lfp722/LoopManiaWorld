@@ -134,8 +134,10 @@ When vampire is killed, there must be gold with one additional reward(any item).
 
 
 
-Extra Assumption For M2:
+Extra Assumptions For M2:
 1. Time for Staff trance is a whole battle time.
 2. Press H to use Potion.
 3. Character may have maximum 4 soldiers, when there are new incomers, we remove the oldest incomer, and add the new incomer.
 4. The one ring only appears after defeating a vampire.
+5. The character can only hold at most one TheOneRing at the same time.
+6. Stake and Staff can only be bought.
