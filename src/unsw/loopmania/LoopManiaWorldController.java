@@ -484,6 +484,7 @@ public class LoopManiaWorldController {
                 for (Item i: world.getBoughtItem()) {
                     onLoad(i);
                 }
+                world.getBoughtItem().clear();
             }
             for (Building b: world.getBuildingEntities()) {
                 if (b instanceof Barrack) {
@@ -901,7 +902,7 @@ public class LoopManiaWorldController {
 
     private void onLoad(Potion potion) {
         ImageView view = new ImageView(potionImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.POTION, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, unequippedInventory, equippedItems);
         addEntity(potion, view);
         unequippedInventory.getChildren().add(view);
     }

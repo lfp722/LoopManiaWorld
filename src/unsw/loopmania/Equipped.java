@@ -126,5 +126,28 @@ public class Equipped {
         return equipAttack;
     }
 
+    public void updateAttack() {
+        if (weapon == null) {
+            equipAttack.set(0);
+        }
+        else{
+            equipAttack.set(weapon.getDamage());
+        }
+    }
+
+    public void updateDefence() {
+        int total = 0;
+        if (helmet != null){
+            total += helmet.getDefense();
+        }
+        if (armour != null){
+            total += armour.getDefense();
+        }
+        if (shield != null) {
+            total += shield.getDefense();
+        }
+        equipDefense.set(total);
+    }
+
 
 }
