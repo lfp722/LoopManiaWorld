@@ -11,7 +11,7 @@ public class Stake extends Weapon {
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         //TODO Auto-generated constructor stub
-        damage.set(4);
+        //damage.set(4);
     }
 
 

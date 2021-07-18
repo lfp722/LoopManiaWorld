@@ -474,6 +474,14 @@ public class LoopManiaWorldController {
                 timeline.stop();
             }
             world.runTickMoves();
+            if (world.atHeroCastle()) {
+                switchToStore();
+            }
+            if (!world.getBoughtItem().isEmpty()) {
+                for (Item i: world.getBoughtItem()) {
+                    onLoad(i);
+                }
+            }
             for (Building b: world.getBuildingEntities()) {
                 if (b instanceof Barrack) {
                     Barrack a = (Barrack) b;
@@ -969,6 +977,37 @@ public class LoopManiaWorldController {
         }
     }
 
+    private void onLoad(Item i) {
+        if (i instanceof Sword) {
+            Sword a = (Sword) i;
+            onLoad(a);
+        }
+        else if (i instanceof Stake) {
+            Stake a = (Stake) i;
+            onLoad(a);
+        }
+        else if (i instanceof Staff) {
+            Staff a = (Staff) i;
+            onLoad(a);
+        }
+        else if (i instanceof Helmet) {
+            Helmet a = (Helmet) i;
+            onLoad(a);
+        }
+        else if (i instanceof Armour) {
+            Armour a = (Armour) i;
+            onLoad(a);
+        }
+        else if (i instanceof Shield) {
+            Shield a = (Shield) i;
+            onLoad(a);
+        }
+        else if (i instanceof Potion) {
+            Potion a = (Potion) i;
+            onLoad(a);
+        }
+    }
+
     private void onLoad(VampireCastle building){
         ImageView view = new ImageView(vampireCastleBuildingImage);
         addEntity(building, view);
@@ -1457,8 +1496,8 @@ public class LoopManiaWorldController {
         mainMenuSwitcher.switchMenu();
     }
 
-    @FXML
-    private void switchToStore() throws IOException {
+    //@FXML
+    private void switchToStore() {
         // TODO = possibly set other menu switchers
         pause();
         storeSwitcher.switchStore();
@@ -1534,6 +1573,10 @@ public class LoopManiaWorldController {
                 handleY.detach();
             }
         });
+    }
+
+    public LoopManiaWorld getWorld() {
+        return world;
     }
 
     /**

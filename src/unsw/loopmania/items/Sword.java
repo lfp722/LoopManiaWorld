@@ -9,7 +9,7 @@ public class Sword extends Weapon {
     public static final int initialPrice = 250;
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        this.damage.set(5);
+        //this.damage.set(5);
     }
 
     @Override

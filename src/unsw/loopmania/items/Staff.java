@@ -23,7 +23,7 @@ public class Staff extends Weapon {
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         this.ValueInGold.set(400);
-        damage.set(6);
+        //damage.set(6);
         // this.chanceTrance.set(0.15 * this.level.get());
 
         // this.chanceTrance.bind(Bindings.createDoubleBinding(()->this.nextChanceTrance(),this.level));

@@ -54,6 +54,8 @@ public class LoopManiaWorld {
      */
     private int height;
 
+    private List<Item> boughtItems = new ArrayList<>();
+
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -1071,7 +1073,11 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> pos = orderedPath.get(0);
         SimpleIntegerProperty x = new SimpleIntegerProperty(pos.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(pos.getValue1());
-        return new HeroCastle(x, y); 
+
+        HeroCastle a = new HeroCastle(x, y); 
+        buildingEntities.add(a);
+
+        return a;
     }
 
     public void makeUpReward(Item i) {
@@ -1212,6 +1218,17 @@ public class LoopManiaWorld {
         return goal.checkGoal(this);
     }
 
+    public List<Item> getBoughtItem() {
+        return boughtItems;
+    }
+
+    public boolean atHeroCastle() {
+        Pair<Integer, Integer> pos = orderedPath.get(0);
+        if (character.getX() == pos.getValue0() && character.getY() == pos.getValue1()){
+            return true;
+        }
+        return false;
+    }
 
     
 }

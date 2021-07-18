@@ -30,6 +30,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class StoreViewController  {
@@ -44,66 +45,74 @@ public class StoreViewController  {
     public static final int ARMOUR = 4;
     public static final int SHIELD = 5;
     public static final int POTION = 6;
+
+    public static final int WEAPON_U = 0;
+    public static final int HELMET_U = 1;
+    public static final int ARMOUR_U = 2;
+    public static final int SHIELD_U = 3;
     
-    @FXML
-    private GridPane InventoryGrid;
+    // @FXML
+    // private GridPane InventoryGrid;
 
     @FXML
-    private Text Num_Gold;
-
-    private SimpleIntegerProperty characterGold;
+    private Text numGold;
 
 
     @FXML
-    private Text Num_Purchase;
+    private Text numPurchase;
     
     private SimpleIntegerProperty curPrice;
 
 
-    @FXML
-    private Text Num_Sell;
-    
-    private SimpleIntegerProperty sellPrice;
 
     @FXML
-    private Text Num_Upgrade;
+    private Text numUpgrade;
 
     private SimpleIntegerProperty upgradePrice;
 
     @FXML
-    private Button Button_Sell;
-    @FXML
     private Button Button_Buy;
     @FXML
     private Button Button_Upgrade;
+    @FXML
+    private Button Button_Back;
 
     @FXML
     private CheckBox ItemStore_Portion;
-    private Potion potion;
 
     @FXML
     private CheckBox ItemStore_Sword;
-    private Sword sword;
 
     @FXML
     private CheckBox ItemStore_Staff;
-    private Staff staff;
 
     @FXML
     private CheckBox ItemStore_Stake;
-    private Stake stake;
 
     @FXML
     private CheckBox ItemStore_Shield;
-    private Shield shield;
 
     @FXML
     private CheckBox ItemStore_Armour;
-    private Armour armour;
 
     @FXML
     private CheckBox ItemStore_Helmet;
-    private Helmet helmet;
+
+    @FXML
+    private CheckBox ItemStore_Shield_U;
+
+    @FXML
+    private CheckBox ItemStore_Armour_U;
+
+    @FXML
+    private CheckBox ItemStore_Helmet_U;
+
+    @FXML
+    private CheckBox ItemStore_Weapon_U;
+
+    private List<BooleanProperty> buyCart = new ArrayList<>();
+    private List<BooleanProperty> upgCart = new ArrayList<>();
+
 
     public void setGameSwitcher(StoreSwitcher gameSwitcher){
         this.gameSwitcher = gameSwitcher;
@@ -122,27 +131,32 @@ public class StoreViewController  {
 
     public StoreViewController(LoopManiaWorld world) {
         this.cart = new ArrayList<>();
-        bought = new ArrayList<>();
+        this.world = world;
+        bought = world.getBoughtItem();
         
 
         curPrice = new SimpleIntegerProperty(0);
         upgradePrice = new SimpleIntegerProperty(0);
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(POTION, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(STAKE,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
-        this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(SWORD,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(POTION, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(STAKE,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(SWORD,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
 
-        this.Num_Purchase.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.curPrice.get()), this.curPrice));
-        
-        this.Num_Upgrade.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.upgradePrice.get()), this.upgradePrice));
-        //this.Num_Sell.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.sellPrice.get()), this.sellPrice));
-        
-        this.Num_Gold.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(world.getCharacter().getGold()), world.getCharacter().getG()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour_U.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet_U.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield_U.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Weapon_U.selectedProperty()));
+      
 
-        this.world = world;
+        // this.numPurchase.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.curPrice.get()), this.curPrice));
+        
+        // this.numUpgrade.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.upgradePrice.get()), this.upgradePrice));
+        //this.numSell.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.sellPrice.get()), this.sellPrice));
+        
+        // this.numGold.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(world.getCharacter().getG().get()), world.getCharacter().getG()));
     }
     
     
@@ -214,20 +228,20 @@ public class StoreViewController  {
     }
 
 
-    public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
+    // public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+    //     Node result = null;
+    //     ObservableList<Node> childrens = gridPane.getChildren();
     
-        for (Node node : childrens) {
+    //     for (Node node : childrens) {
             
-            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
+    //         if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+    //             result = node;
+    //             break;
+    //         }
+    //     }
     
-        return result;
-    }
+    //     return result;
+    // }
 
     @FXML
     public void Upgrade(ActionEvent event) {
@@ -251,39 +265,27 @@ public class StoreViewController  {
         //     }
         // }
 
-        if (ItemStore_Armour.selectedProperty().get()) {
+        if (ItemStore_Armour_U.selectedProperty().get()) {
             Equipment e = world.getEquip().getArmour();
             if (e != null) {
                 e.levelUp();
             }
         }
-        else if (ItemStore_Helmet.selectedProperty().get()) {
+        else if (ItemStore_Helmet_U.selectedProperty().get()) {
             Equipment e = world.getEquip().getHelmet();
             if (e != null) {
                 e.levelUp();
             }
         }
-        else if (ItemStore_Shield.selectedProperty().get()) {
+        else if (ItemStore_Shield_U.selectedProperty().get()) {
             Equipment e = world.getEquip().getShield();
             if (e != null) {
                 e.levelUp();
             }
         }
-        else if (ItemStore_Sword.selectedProperty().get()) {
+        else if (ItemStore_Weapon_U.selectedProperty().get()) {
             Equipment e = world.getEquip().getWeapon();
-            if (e != null && e instanceof Sword) {
-                e.levelUp();
-            }
-        }
-        else if (ItemStore_Stake.selectedProperty().get()) {
-            Equipment e = world.getEquip().getWeapon();
-            if (e != null && e instanceof Stake) {
-                e.levelUp();
-            }
-        }
-        else if (ItemStore_Staff.selectedProperty().get()) {
-            Equipment e = world.getEquip().getWeapon();
-            if (e != null && e instanceof Staff) {
+            if (e != null) {
                 e.levelUp();
             }
         }
@@ -296,7 +298,6 @@ public class StoreViewController  {
     public void setInventoryGrid(){
         
         this.upgradePrice.unbind();
-        this.sellPrice.unbind();
         // for (int i = 0; i < 6; i++) {
 		// 	for (int j = 0; j < 3; j++) {
         //         if (itemProperty != null) {
@@ -347,20 +348,39 @@ public class StoreViewController  {
         ImageView pImage = new ImageView(potionImage);
         ItemStore_Portion.setGraphic(pImage);
 
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(POTION, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(STAKE,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
-        this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(SWORD,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(POTION, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(STAKE,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(SWORD,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
 
     }
 
     @FXML
     void initialize() {
-        this.InventoryGrid.setAlignment(Pos.CENTER);
-        this.setInventoryGrid();
+        //this.InventoryGrid.setAlignment(Pos.CENTER);
+
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(POTION, this.ItemStore_Portion.selectedProperty().get()), this.ItemStore_Portion.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Staff.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(STAKE,this.ItemStore_Stake.selectedProperty().get()), this.ItemStore_Stake.selectedProperty()));
+        // this.curPrice.bind(Bindings.createIntegerBinding(()->this.setCurPrice(SWORD,this.ItemStore_Sword.selectedProperty().get()), this.ItemStore_Sword.selectedProperty()));
+
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(ARMOUR, this.ItemStore_Armour.selectedProperty().get()), this.ItemStore_Armour_U.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(HELMET, this.ItemStore_Helmet.selectedProperty().get()), this.ItemStore_Helmet_U.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(SHIELD,this.ItemStore_Shield.selectedProperty().get()), this.ItemStore_Shield_U.selectedProperty()));
+        // this.upgradePrice.bind(Bindings.createIntegerBinding(()->this.setUpgradePrice(STAFF,this.ItemStore_Staff.selectedProperty().get()), this.ItemStore_Weapon_U.selectedProperty()));
+
+        // this.numPurchase.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.curPrice.get()), this.curPrice));
+        
+        // this.numUpgrade.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(this.upgradePrice.get()), this.upgradePrice));
+
+        // this.numGold.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(world.getCharacter().getG().get()), world.getCharacter().getG()));
+
     }
 
     public int setCurPrice(int it, boolean t) {
@@ -392,20 +412,10 @@ public class StoreViewController  {
     public int setUpgradePrice(int it, boolean check) {
         if (check) {
             switch (it) {
-                case SWORD:
-                    if (world.getEquip().getWeapon() instanceof Sword){
+                case WEAPON_U:
+                    if (world.getEquip().getWeapon() != null){
                         return curPrice.get()+world.getEquip().getWeapon().getLevelUpPrice();
                     }                   
-                    break;
-                case STAKE:
-                    if (world.getEquip().getWeapon() instanceof Stake){
-                        return curPrice.get()+world.getEquip().getWeapon().getLevelUpPrice();
-                    }
-                    break;
-                case STAFF:
-                    if (world.getEquip().getWeapon() instanceof Staff){
-                        return curPrice.get()+world.getEquip().getWeapon().getLevelUpPrice();
-                    }
                     break;
                 case HELMET:
                     if (world.getEquip().getHelmet() != null){
