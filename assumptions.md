@@ -13,17 +13,17 @@ Slug:
 
 1. Health = 3*c
 2. Damage = 2*c^(2/3)
-3. Battle radius = Support radius = sqrt(c) pixels
+3. Battle radius = Support radius = 3
 4. Possible reward: 10-50+10*c gold, exp = 20+100*c
 5. Speed = 1 / s
-6. chances to appear: 5%
 
 
 Zombie:
 
-1. Health = 5*c
-2. Damage = 5*c+1
-3. Battle radius = 1.5*sqrt(c) + 1
+1. Health = 10*c
+2. Damage = 10*c+1
+3. Battle radius = 3
+   Support radius = 5
 4. Chance to critical bite = c * 10%(maximum 0.9)
 5. Possible reward: 100-200 gold, kinds of sword, kinds of armor, some cards; exp = 200+150*c
 6. Speed = 0.75 / s
@@ -31,10 +31,10 @@ Zombie:
 
 Vampire:
 
-1. Health = 8*c^1.5+20
-2. Damage = c^2
-3. Battle radius = 2*sqrt(c)
-4. Support radius = 2*sqrt(c) + 2
+1. Health = 3*c^1.5+50
+2. Damage = c^2+5*c
+3. Battle radius = 4
+4. Support radius = 6
 5. Chance to critical bite = c * 10%(maximum 0.9), critical damage 10%-40% 
 6. Possible reward: 200-1500 gold, anything but with different chances, exp = 500+500*c
 7. Speed = 1.5 / s
@@ -49,9 +49,9 @@ Staff: Damage = 0.85*Lv + 1, chance to trance = Lv * 15%
 
 Outfits Value(Lv represents outfit level):
 
-Armor: enemy attack = enemy attack*0.5
-Shield: enemy attack = enemy attack*(1-Lv*15%)
-Helmet: enemy attack = enemy attack / (sqrt(Lv)), damage = damage*(0.85 + 0.01*Lv)
+Armor: Defence = 3 + Lv*10
+Shield: Defence = 3 + Lv*10
+Helmet: Defence = 3 + Lv*10
 
 
 Other Items:
@@ -61,7 +61,7 @@ Health Potion: recover 20% of maximum health
 
 Rare Items:
 
-The One Ring: 1% chance to get when finish one battle
+The One Ring: 0.1% chance to get when finish one battle
 
 
 Assumption for prices:
@@ -86,16 +86,16 @@ Gold = 0
 
 Experience Level:
 
-Exp to next level = 100*Lv^2 - 200
+Exp to next level = 3000*Lv^2 - 200
 
 
 Assumptions for Buildings(c = cycle num):
 
 Vampire castle will produce 0-3 vampires randomly(25% for each case).
 Zombie Pit will produce 0-3 zombies randomly.
-The rooting radius of Tower is 2, damage = Lv+1 
-Village will recover 10% of Maximum health. 
-Barracks will producer 1 ally soldier when passing by. 
+The rooting radius of Tower is 2, damage = 10 
+Village will recover 20 fixed-amount health. 
+Barracks will produce 1 allied soldier when passing by. 
 Trap will cause a 4-value damage.
 The battle radius of Campfire is 2.
 
@@ -117,7 +117,6 @@ Soldiers’ attributes will be 20% of character’s.
 Assumptions for UI:
 
 Select specific mode by click related button.
-Click bag to get to unequipped inventory.
 Click Pause or Resume to pause or resume game.
 Drag the card to a specific tile to set up building.
 Click return to main menu button to re-select mode and start.
@@ -148,4 +147,4 @@ Extra Assumptions For M2:
 11. when click "Exit to main menu", we will be back to main menu with two buttons "resume" and "quit".
 12. Once the one ring is obtained, it will be automatically generated.
 13. Zombie can only transfer soldiers into Zombie. If it critical bites on character or tranced enemies, more damage will be caused.
-14. 
+14. If card are dragged the wrong area, it will be destroyed.
