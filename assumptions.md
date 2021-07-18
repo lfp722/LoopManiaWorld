@@ -141,3 +141,11 @@ Extra Assumptions For M2:
 4. The one ring only appears after defeating a vampire.
 5. The character can only hold at most one TheOneRing at the same time.
 6. Stake and Staff can only be bought.
+7. The one ring can only be obtained from battle with Vampire, the chance is 1/1000.
+8. Price for potion become 1000.
+9. Each type of card would appear in the same possibility.
+10. Store can only upgrade things that are already equipped.
+11. when click "Exit to main menu", we will be back to main menu with two buttons "resume" and "quit".
+12. Once the one ring is obtained, it will be automatically generated.
+13. Zombie can only transfer soldiers into Zombie. If it critical bites on character or tranced enemies, more damage will be caused.
+14. 
