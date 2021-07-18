@@ -226,7 +226,6 @@ public class Helper {
     
     public List<Pair<Integer, Integer>> loadPathTiles(JSONObject path, int width, int height) {
         if (!path.getString("type").equals("path_tile")) {
-            // ... possible extension
             throw new RuntimeException(
                     "Path object requires path_tile type.");
         }
@@ -234,7 +233,6 @@ public class Helper {
         if (starting.getY() >= height || starting.getY() < 0 || starting.getX() >= width || starting.getX() < 0) {
             throw new IllegalArgumentException("Starting point of path is out of bounds");
         }
-        // load connected path tiles
         List<PathTile.Direction> connections = new ArrayList<>();
         for (Object dir: path.getJSONArray("path").toList()){
             connections.add(Enum.valueOf(PathTile.Direction.class, dir.toString()));
