@@ -131,3 +131,11 @@ Only gold will appear when slugs are defeated.
 When zombie is killed, there must be gold, different chances for additional items(weapons, potions, outfits, card).
 Card and potion may appear on path tiles by a chance < 2%.
 When vampire is killed, there must be gold with one additional reward(any item). But chances for another additional item.
+
+
+
+Extra Assumption For M2:
+1. Time for Staff trance is a whole battle time.
+2. Press H to use Potion.
+3. Character may have maximum 4 soldiers, when there are new incomers, we remove the oldest incomer, and add the new incomer.
+4. 
