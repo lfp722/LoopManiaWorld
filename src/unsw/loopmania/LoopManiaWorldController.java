@@ -487,7 +487,11 @@ public class LoopManiaWorldController {
                 }
                 world.getBoughtItem().clear();
             }
+            List<Building> copied = new ArrayList<>();
             for (Building b: world.getBuildingEntities()) {
+                copied.add(b);
+            }
+            for (Building b: copied) {
                 if (b instanceof Barrack) {
                     Barrack a = (Barrack) b;
                     Soldier s = a.soldierProducer(world);
