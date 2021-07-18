@@ -9,6 +9,10 @@ public class GoldGoal implements Goal{
         this.gold = gold;
     }
 
+    public void setGoal(int value) {
+        gold = value;
+    }
+
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
         return world.getCharacter().getGold() == gold;
