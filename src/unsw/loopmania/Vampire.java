@@ -23,8 +23,8 @@ public class Vampire extends Enemy {
         } else {
             this.setCritRate(this.getLv() * 10);
         }
-        this.setDetectRange(10);
-        this.setSupportRange(11);
+        this.setDetectRange(4);
+        this.setSupportRange(6);
         this.getAttribute().getAttack().set((int) Math.pow(this.getLv(), 2) + 5 * this.getLv());
         this.getAttribute().getHealth().set((int) (Math.pow(this.getLv(), 1.5) * 3 + 50));
         this.getAttribute().getCurHealth().set(this.getAttribute().getHealth().get());
