@@ -73,7 +73,8 @@ enum DRAGGABLE_TYPE{
     SWORD,
     STAKE,
     STAFF,
-    POTION
+    POTION,
+    THEONERING
 }
 
 /**
@@ -206,6 +207,7 @@ public class LoopManiaWorldController {
     private Image barrackImage;
     private Image campfireImage;
     private Image soldierImage;
+    private Image theOneRingImage;
 
 
     private Text expLabel;
@@ -294,6 +296,7 @@ public class LoopManiaWorldController {
         barrackImage = new Image((new File("src/images/barracks.png")).toURI().toString());
         campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
         soldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
+        theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -469,7 +472,7 @@ public class LoopManiaWorldController {
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if (world.checkGoal()) {
                 switchToWin();
             }
@@ -497,7 +500,14 @@ public class LoopManiaWorldController {
             }
             List<Enemy> defeatedEnemies = world.runBattles();
             if (!world.getCharacter().shouldExist().get()) {
-                switchToLose();
+                if (world.getEquip().getRing() != null) {
+                    world.getEquip().getRing().rebirth(world);
+                    world.getEquip().getRing().destroy;
+                    world.getEquip().dropRing();
+                } else {
+                    switchToLose();
+                }
+                
             }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {
@@ -619,6 +629,11 @@ public class LoopManiaWorldController {
         onLoad(potion);
     }
 
+    private void loadTheOneRing() {
+        TheOneRing ring = world.addEquippedRing(ring);
+        onLoad(ring);
+    }
+
 
 
     
@@ -645,24 +660,27 @@ public class LoopManiaWorldController {
             loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
             loadExp(500 + 500 * this.world.getCycle().get());
             Random random = new Random();
-            int choice = random.nextInt(100);
-            if (choice < 10) {
+            int choice = random.nextInt(1000);
+            if (choice < 100) {
                 loadSword();
             }
-            else if (choice < 20) {
+            else if (choice < 200) {
                 loadArmour();
             }
-            else if (choice < 30) {
+            else if (choice < 300) {
                 loadShield();
             }
-            else if (choice < 40) {
+            else if (choice < 400) {
                 loadHelmet();
             }
-            else if (choice < 50) {
+            else if (choice < 500) {
                 loadPotion();
             }
-            else if (choice < 60) {
+            else if (choice < 600) {
                 loadCard();
+            } 
+            else if (world.isTheOneRing() && choice < 601) {
+                loadTheOneRing();
             }
         } else if (enemy instanceof Zombie) {
             loadGold(new Random().nextInt(100)+100+15*world.getCycle().get());
@@ -899,6 +917,13 @@ public class LoopManiaWorldController {
         unequippedInventory.getChildren().add(view);
     }
 
+    private void onLoad(TheOneRing ring) {
+        ImageView view = new ImageView(theOneRingImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.THEONERING, unequippedInventory, equippedItems);
+        addEntity(ring, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
     /**
      * load an enemy into the GUI
      * @param enemy
@@ -1087,6 +1112,12 @@ public class LoopManiaWorldController {
 
     private void onEquip(Shield s) {
         ImageView view = new ImageView(shieldImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(TheOneRing s) {
+        ImageView view = new ImageView(theOneRingImage);
         addEntity(s, view);
         equippedItems.getChildren().add(view);
     }
