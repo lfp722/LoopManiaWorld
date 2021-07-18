@@ -259,6 +259,10 @@ public class LoopManiaWorldController {
 
     private StoreSwitcher storeSwitcher;
 
+    private MenuSwitcher winSwitcher;
+
+    private MenuSwitcher loseSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -471,7 +475,7 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             if (world.checkGoal()) {
-                timeline.stop();
+                switchToWin();
             }
             world.runTickMoves();
             if (world.atHeroCastle()) {
@@ -496,7 +500,7 @@ public class LoopManiaWorldController {
             }
             List<Enemy> defeatedEnemies = world.runBattles();
             if (!world.getCharacter().shouldExist().get()) {
-                terminate();
+                switchToLose();
             }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {
@@ -1485,6 +1489,16 @@ public class LoopManiaWorldController {
         this.storeSwitcher = storeSwitcher;
     }
 
+    public void setWinSwitcher(MenuSwitcher mainMenuSwitcher){
+        // TODO = possibly set other menu switchers
+        this.winSwitcher = mainMenuSwitcher;
+    }
+
+    public void setLoseSwitcher(MenuSwitcher mainMenuSwitcher){
+        // TODO = possibly set other menu switchers
+        this.loseSwitcher = mainMenuSwitcher;
+    }
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -1502,6 +1516,20 @@ public class LoopManiaWorldController {
         pause();
         storeSwitcher.switchStore();
     }
+
+    private void switchToWin() {
+        // TODO = possibly set other menu switchers
+        pause();
+        winSwitcher.switchMenu();
+    }
+
+    private void switchToLose() {
+        // TODO = possibly set other menu switchers
+        pause();
+        loseSwitcher.switchMenu();
+    }
+
+
 
     /**
      * Set a node in a GridPane to have its position track the position of an

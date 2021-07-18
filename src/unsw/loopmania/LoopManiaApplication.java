@@ -49,6 +49,17 @@ public class LoopManiaApplication extends Application {
         storeLoader.setController(storeController);
         Parent storeRoot = storeLoader.load();
 
+
+        WinController winController = new WinController();
+        FXMLLoader winLoader = new FXMLLoader(getClass().getResource("WinScene.fxml"));
+        winLoader.setController(winController);
+        Parent winRoot = winLoader.load();
+
+        LoseController loseController = new LoseController();
+        FXMLLoader loseLoader = new FXMLLoader(getClass().getResource("LoseScene.fxml"));
+        loseLoader.setController(loseController);
+        Parent loseRoot = loseLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
 
@@ -65,10 +76,24 @@ public class LoopManiaApplication extends Application {
             mainController.pause();
             switchToRoot(scene, storeRoot, primaryStage);
         });
+        mainController.setWinSwitcher(() -> {
+            stop();
+            switchToRoot(scene, winRoot, primaryStage);
+        });
+        mainController.setLoseSwitcher(() -> {
+            switchToRoot(scene, loseRoot, primaryStage);
+            stop();
+        });
         storeController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+
+        winController.setWinMenu(() -> {
+            System.exit(0);
+        });
+        loseController.setWinMenu(() -> {System.exit(0);});
+
         
         // deploy the main onto the stage
         gameRoot.requestFocus();
