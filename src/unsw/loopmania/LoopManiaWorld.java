@@ -702,6 +702,8 @@ public class LoopManiaWorld {
      */
     public void runTickMoves(){
         Pair<Integer, Integer> pos0 = orderedPath.get(0);
+        equippedItems.updateAttack();
+        equippedItems.updateDefence();
         character.moveDownPath();
         if (character.getX() == pos0.getValue0() && character.getY() == pos0.getValue1()) {
             cycle.set(cycle.get()+1);

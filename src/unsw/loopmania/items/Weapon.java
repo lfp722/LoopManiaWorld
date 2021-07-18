@@ -10,7 +10,7 @@ public class Weapon extends Equipment {
 
     public Weapon(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x,y);
-        damage = new SimpleIntegerProperty();
+        damage = new SimpleIntegerProperty(0);
         this.ValueInGold.set(250);
         this.damage.bind(Bindings.createIntegerBinding(()->this.nextDamage(),this.level));
 
@@ -19,6 +19,10 @@ public class Weapon extends Equipment {
 
     public int getDamage() {
         return this.damage.get();
+    }
+
+    public SimpleIntegerProperty getAttack(){
+        return damage;
     }
 
     public int nextDamage() {

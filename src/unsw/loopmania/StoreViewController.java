@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 import java.util.List;
 
-
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,7 +18,7 @@ public class StoreViewController  {
 
 
     @FXML
-    private Text goldTotal;
+    private AnchorPane ap;
 
 
     public void setGameSwitcher(StoreSwitcher gameSwitcher){
@@ -40,8 +41,11 @@ public class StoreViewController  {
         this.gold = world.getCharacter().getG();
         this.bought = world.getBoughtItem();
 
-        goldTotal = new Text("0");
-        goldTotal.textProperty().bind(gold.asString());
+        // Text goldTotal = new Text("0");
+        // goldTotal.textProperty().bind(gold.asString());
+        // goldTotal.setLayoutX(121);
+        // goldTotal.setLayoutY(529);
+        // ap.getChildren().add(goldTotal);
         
 
     }
@@ -194,6 +198,11 @@ public class StoreViewController  {
 
     @FXML
     void initialize() {
+        Text goldTotal = new Text("0");
+        goldTotal.textProperty().bind(gold.asString());
+        goldTotal.setLayoutX(121);
+        goldTotal.setLayoutY(529);
+        ap.getChildren().add(goldTotal);
     }
 
 }

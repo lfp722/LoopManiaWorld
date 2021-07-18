@@ -904,7 +904,7 @@ public class LoopManiaWorldController {
 
     private void onLoad(Potion potion) {
         ImageView view = new ImageView(potionImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.POTION, unequippedInventory, equippedItems);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, unequippedInventory, equippedItems);
         addEntity(potion, view);
         unequippedInventory.getChildren().add(view);
     }

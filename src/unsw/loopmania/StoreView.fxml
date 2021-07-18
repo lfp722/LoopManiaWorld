@@ -14,7 +14,7 @@
 
 <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" text="Store" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
   <content>
-    <AnchorPane prefHeight="619.0" prefWidth="658.0">
+    <AnchorPane fx:id="ap" prefHeight="619.0" prefWidth="658.0">
          <children>
             <Text layoutX="24.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Defending">
                <font>
@@ -164,7 +164,6 @@
                </graphic>
             </Button>
             <Text layoutX="63.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" />
-            <Text fx:id="goldTotal" layoutX="121.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
          </children></AnchorPane>
   </content>
    <font>
