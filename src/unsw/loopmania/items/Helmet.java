@@ -2,7 +2,6 @@ package unsw.loopmania.items;
 
 import java.lang.Math;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.*;
 import unsw.loopmania.Character;
 
 
@@ -51,20 +50,28 @@ public class Helmet extends Outfit {
     //Convenient for later change
     
     @Override
-    
     public int nextLevelUpPrice() {
-        return (int) Math.pow((100 * this.level.get()),2) - 150;
+        return (int) Math.pow((100 * (this.level.get())),2) + 250;
     }
-    // public static void main(String[] args) {
-    //     Helmet h = new Helmet(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-    //     System.out.println(h.getValueInGold());
-    //     System.out.println(h.getLevelUpPrice());
-    //     System.out.println(h.getDefense());
+
+    @Override
+    public int currentPrice() {
+        return (int) Math.pow((100 * (this.level.get() - 1)),2) + 250;
+    }
+
+    public static void main(String[] args) {
+        Helmet h = new Helmet(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+        System.out.println(h.getValueInGold());
+        System.out.println(h.getLevelUpPrice());
+        System.out.println(h.getDefense());
+        System.out.println(h.getLevel());
     
-    //     h.setLevel(2);
-    //     System.out.println(h.getValueInGold());
-    //     System.out.println(h.getLevelUpPrice());
-    //     System.out.println(h.getDefense());
-    // }
+        h.levelUp();
+        System.out.println(h.getValueInGold());
+        System.out.println(h.getLevelUpPrice());
+        System.out.println(h.getDefense());
+        System.out.println(h.getLevel());
+
+    }
     
 }

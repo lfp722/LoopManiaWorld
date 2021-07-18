@@ -7,16 +7,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.javatuples.Pair;
-import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.Item;
 import unsw.loopmania.items.Potion;
 import unsw.loopmania.items.Sword;
-
-import org.json.JSONObject;
-import org.json.JSONArray;
 
 
 /**
@@ -114,7 +110,7 @@ public class LoopManiaWorld {
         buildingEntities = new ArrayList<>();
         spawnItems = new ArrayList<>();
         cycle = new SimpleIntegerProperty(1);
-        equippedItems = new Equipped();
+        equippedItems = new Equipped(this);
         // maxNumSlug.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
         // maxNumZombie.set(2);
         // maxNumVampire.set(2);

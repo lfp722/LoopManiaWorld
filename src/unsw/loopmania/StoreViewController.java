@@ -6,10 +6,16 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class StoreViewController  {
@@ -145,8 +151,9 @@ public class StoreViewController  {
             //popUpWindow();
         }
         else if (gold.get() >= world.getEquip().getArmour().nextLevelUpPrice()) {
-            world.getEquip().getArmour().levelUp();
+            
             gold.set(gold.get()-world.getEquip().getArmour().nextLevelUpPrice());
+            world.getEquip().getArmour().levelUp();
         }
         else {
             //popUpWindow();
@@ -159,8 +166,9 @@ public class StoreViewController  {
             //popUpWindow();
         }
         else if (gold.get() >= world.getEquip().getHelmet().nextLevelUpPrice()) {
-            world.getEquip().getHelmet().levelUp();
+            
             gold.set(gold.get()-world.getEquip().getHelmet().nextLevelUpPrice());
+            world.getEquip().getHelmet().levelUp();
         }
         else {
             //popUpWindow();
@@ -173,8 +181,9 @@ public class StoreViewController  {
             //popUpWindow();
         }
         else if (gold.get() >= world.getEquip().getShield().nextLevelUpPrice()) {
-            world.getEquip().getShield().levelUp();
+            
             gold.set(gold.get()-world.getEquip().getShield().nextLevelUpPrice());
+            world.getEquip().getShield().levelUp();
         }
         else {
             //popUpWindow();
@@ -186,20 +195,30 @@ public class StoreViewController  {
         if (world.getEquip().getWeapon() == null) {
             //popUpWindow();
         }
-        else if (gold.get() >= world.getEquip().getWeapon().nextLevelUpPrice()) {
-            world.getEquip().getWeapon().levelUp();
+        else if (!(gold.get() < world.getEquip().getWeapon().nextLevelUpPrice())) {
             gold.set(gold.get()-world.getEquip().getWeapon().nextLevelUpPrice());
+            world.getEquip().getWeapon().levelUp();
         }
         else {
             //popUpWindow();
         }
     }
 
+    public void popUpWindow(String message, final Stage primaryStage) {
+        final Popup popup = new Popup();
+        popup.setX(300);
+        popup.setY(200);
+        popup.getContent().addAll(new Button("Cancel"), new Text());
+        
+        
+    }
 
     @FXML
     void initialize() {
         Text goldTotal = new Text("0");
         goldTotal.textProperty().bind(gold.asString());
+        goldTotal.setFill(Color.GREEN);
+        goldTotal.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         goldTotal.setLayoutX(121);
         goldTotal.setLayoutY(529);
         ap.getChildren().add(goldTotal);

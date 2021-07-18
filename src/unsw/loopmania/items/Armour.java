@@ -19,6 +19,15 @@ public class Armour extends Outfit {
         ch.getEquip().dropArmour();
     }
 
+    @Override
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * (this.level.get())),2) + 250;
+    }
+
+    @Override
+    public int currentPrice() {
+        return (int) Math.pow((100 * (this.level.get() - 1)),2) + 250;
+    }
     //Convenient for later change
     /* 
     @Override

@@ -16,17 +16,17 @@
   <content>
     <AnchorPane fx:id="ap" prefHeight="619.0" prefWidth="658.0">
          <children>
-            <Text layoutX="24.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Defending">
+            <Text layoutX="40.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Defending">
                <font>
                   <Font name="Bodoni MT" size="19.0" />
                </font>
             </Text>
-            <Text layoutX="25.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attacking">
+            <Text layoutX="40.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attacking">
                <font>
                   <Font name="Bodoni MT" size="19.0" />
                </font>
             </Text>
-            <HBox layoutX="24.0" layoutY="65.0" prefHeight="52.0" prefWidth="398.0">
+            <HBox layoutX="35.0" layoutY="65.0" prefHeight="52.0" prefWidth="398.0">
                <children>
                   <GridPane fx:id="Defend_Squares" prefHeight="52.0" prefWidth="424.0">
                     <columnConstraints>
@@ -57,7 +57,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="shieldBuy" mnemonicParsing="false" onAction="#buyShield" prefHeight="32.0" prefWidth="78.0" text="Buy" GridPane.columnIndex="2">
+                        <Button fx:id="shieldBuy" mnemonicParsing="false" onAction="#buyShield" text="Buy" GridPane.columnIndex="2">
                            <graphic>
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -79,7 +79,7 @@
                   </GridPane>
                </children>
             </HBox>
-            <HBox layoutX="24.0" layoutY="163.0" prefHeight="52.0" prefWidth="398.0">
+            <HBox layoutX="35.0" layoutY="163.0" prefHeight="52.0" prefWidth="398.0">
                <children>
                   <GridPane>
                      <columnConstraints>
@@ -131,7 +131,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="Button_Back" layoutX="485.0" layoutY="516.0" mnemonicParsing="false" onAction="#switchToGame" text="Back To Game">
+            <Button fx:id="Button_Back" layoutX="440.0" layoutY="516.0" mnemonicParsing="false" onAction="#switchToGame" text="Back To Game">
                <font>
                   <Font name="Impact" size="18.0" />
                </font>
@@ -163,7 +163,12 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Text layoutX="63.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" />
+            <!-- <Text layoutX="63.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gold:" /> -->
+            <ImageView layoutX="63.0" layoutY="500.0" fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/gold_pile.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
   </content>
    <font>
