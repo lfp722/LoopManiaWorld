@@ -4,6 +4,7 @@ import unsw.loopmania.Slug;
 import unsw.loopmania.Zombie;
 import unsw.loopmania.Vampire;
 import unsw.loopmania.EntityAttribute;
+import unsw.loopmania.LoopManiaWorld;
 import test.Helper;
 import unsw.loopmania.Character;
 
@@ -18,7 +19,7 @@ public class enemyTest {
     @Test
     public void test_slug_attr() {
         Helper helper = new Helper();
-        Slug s = helper.testSlugSetup(0, MAP1);
+        Slug s = helper.testSlugSetup(1, MAP1);
         EntityAttribute slugAttr = s.getAttribute();
         int health = slugAttr.getHealth().getValue();
         int attack = slugAttr.getAttack().getValue();
@@ -41,10 +42,10 @@ public class enemyTest {
         int defense = zombieAttr.getDefence().getValue();
         int CurHealth = zombieAttr.getCurHealth().getValue();
 
-        assertEquals(health, 3);
-        assertEquals(attack, 2);
+        assertEquals(health, 10);
+        assertEquals(attack, 11);
         assertEquals(defense, 0);
-        assertEquals(CurHealth, 3);
+        assertEquals(CurHealth, 10);
     }
 
     @Test
@@ -57,10 +58,10 @@ public class enemyTest {
         int defense = vampireAttr.getDefence().getValue();
         int CurHealth = vampireAttr.getCurHealth().getValue();
 
-        assertEquals(health, 32);
-        assertEquals(attack, 2);
+        assertEquals(health, 53);
+        assertEquals(attack, 6);
         assertEquals(defense, 0);
-        assertEquals(CurHealth, 32);
+        assertEquals(CurHealth, 53);
 
     }
 
@@ -88,21 +89,10 @@ public class enemyTest {
 
     }
 
-    //detect
-    @Test
-    public void test_enemy_detect() {
-        Helper helper = new Helper();
-        Slug s = helper.testSlugSetup(0, MAP1);
-        Character c = helper.testCharacterSetup(0, MAP1);
-        assertEquals(s.detect(c), true);
-
-        s.moveDownPath();
-        s.moveDownPath();
-        assertEquals(s.detect(c), false);
-
-    }
+    
 
     //Attack and underattack
+    @Test
     public void test_enemy_attack() {
         Helper helper = new Helper();
         Vampire v = helper.testVampireSetup(0, MAP1);
@@ -111,15 +101,14 @@ public class enemyTest {
         int v_attack = vampireAttr.getAttack().getValue();
         int v_CurHealth = vampireAttr.getCurHealth().getValue();
 
-        assertEquals(v_health, 32);
-        assertEquals(v_attack, 2);
-        assertEquals(v_CurHealth, 32);
+        assertEquals(v_health, 53);
+        assertEquals(v_attack, 6);
+        assertEquals(v_CurHealth, 53);
 
         Character c = helper.testCharacterSetup(0, MAP1);
         EntityAttribute characterAttr = c.getAttr();
         int health = characterAttr.getHealth().getValue();
         int attack = characterAttr.getAttack().getValue();
-        int defense = characterAttr.getDefence().getValue();
         int CurHealth = characterAttr.getCurHealth().getValue();
 
         assertEquals(health, 35);
@@ -127,10 +116,10 @@ public class enemyTest {
         assertEquals(CurHealth, 35);
 
         v.attack(c);
-        assertEquals(CurHealth, health - v_attack);
+        assertEquals(characterAttr.getCurHealth().getValue(), 29);
 
         v.underAttack(attack);
-        assertEquals(v_CurHealth, v_health - attack);
+        assertEquals(vampireAttr.getCurHealth().getValue(), 48);
     }
 
 

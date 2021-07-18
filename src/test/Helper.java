@@ -21,19 +21,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.html.parser.Entity;
 
 public class Helper {
     private static final int MAP1 = 1;
     private static final int MAP2 = 2;
 
-    private static final int GOAL1 = 1;
-    private static final int GOAL2 = 2;
 
-    private static final int NORTH = 1;
-    private static final int SOUTH = 2;
-    private static final int EAST = 3;
-    private static final int WEST = 4;
+    private static final int UP = 1;
+    private static final int DOWN = 2;
+    private static final int RIGHT = 3;
+    private static final int LEFT = 4;
 
 
     public LoopManiaWorld createWorld(int mapNo) {
@@ -78,10 +75,9 @@ public class Helper {
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         JSONObject path = createJSONMap(start_posX, start_posY, mapNo);
         orderedPath = loadPathTiles(path, width, height);
-        // Create a path position where the character is at the first part of the path
         PathPosition pathPosition = new PathPosition(currentPositionInPath, orderedPath);
-        Equipped equip = new Equipped();
-        Character c = new Character(pathPosition, equip);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        Character c = new Character(pathPosition, world);
         return c;
     }
 
@@ -89,8 +85,7 @@ public class Helper {
     public Character createCharacterSetup(int currentPositionInPath, LoopManiaWorld world) {
         List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
         PathPosition pathPosition = new PathPosition(currentPositionInPath, orderedPath);
-        Equipped equip = new Equipped();
-        Character c = new Character(pathPosition, equip);
+        Character c = new Character(pathPosition, world);
         world.setCharacter(c);
         return c;
     }
@@ -98,25 +93,27 @@ public class Helper {
     public Building createBuildingSetup(String buiding, int currentPositionInPath, LoopManiaWorld world, int direction) {
     
         List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
-        int x = orderedPath.getCurrentPositionInPath().getValue();
-        int y = orderedPath.getCurrentPositionInPath().getValue();
+        PathPosition pathposition = new PathPosition(currentPositionInPath, orderedPath);
+        int x = pathposition.getX().getValue();
+        int y = pathposition.getY().getValue();
         switch (direction) {
-            case NORTH:
+            case UP:
                 y -= 1;
                 break;
-            case SOUTH:
+            case DOWN:
                 y += 1;
                 break;
-            case WEST:
+            case LEFT:
                 x -= 1;
                 break;
-            case EAST:
+            case RIGHT:
                 x += 1;
         }
         System.out.println(x);
         System.out.println(y);
-        boolean buildingInPath = world.isInPath(x, y);
-        boolean buildingNearPath = world.ifNearPathTile(x, y);
+        Pair<Integer, Integer> pair = new Pair<>(x, y);
+        boolean buildingInPath = world.isInPath(pair);
+        boolean buildingNearPath = world.ifNearPathTile(pair);
         System.out.println("Building is in path: " + buildingInPath);
         System.out.println("Building is near pathtile: " + buildingNearPath);
         SimpleIntegerProperty xCoord = new SimpleIntegerProperty(x);
@@ -128,22 +125,6 @@ public class Helper {
     
     
     
-    public Goal createGoalsSetup(int goalSelection, LoopManiaWorld world) {
-        Goal goals = null;
-        switch (goalSelection) {
-            case GOAL1:
-                goals = new Goal(goalCondition1());
-                break;
-            case GOAL2:
-                goals = new Goal(goalCondition2());
-                break;
-        }
-        if (goals != null) {
-            world.setWorldGoals(goals);
-            return goals;
-        }
-        return null;
-    }
 
 
     public Slug testSlugSetup(int currentPositionInPath, int mapNo) {
@@ -247,7 +228,7 @@ public class Helper {
         if (!path.getString("type").equals("path_tile")) {
             // ... possible extension
             throw new RuntimeException(
-                    "Path object requires path_tile type.  No other path types supported at this moment.");
+                    "Path object requires path_tile type.");
         }
         PathTile starting = new PathTile(new SimpleIntegerProperty(path.getInt("x")), new SimpleIntegerProperty(path.getInt("y")));
         if (starting.getY() >= height || starting.getY() < 0 || starting.getX() >= width || starting.getX() < 0) {
@@ -261,7 +242,7 @@ public class Helper {
 
         if (connections.size() == 0) {
             throw new IllegalArgumentException(
-                "This path just consists of a single tile, it needs to consist of multiple to form a loop.");
+                "This path needs to consist of multiple to form a loop.");
         }
 
         PathTile.Direction first = connections.get(0);

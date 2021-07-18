@@ -1,19 +1,23 @@
 package test;
 
-import unsw.loopmania.LoopManiaWorld;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Barrack;
 import unsw.loopmania.Character;
+import unsw.loopmania.EntityAttribute;
+import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Slug;
+import unsw.loopmania.Soldier;
+import unsw.loopmania.Vampire;
 import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.Helmet;
 import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
-import javafx.beans.property.SimpleIntegerProperty;
 
 public class characterTest {
     private static final int MAP1 = 1;
@@ -159,16 +163,15 @@ public class characterTest {
         Soldier s1 = new Soldier(x, y, c);
         Soldier s2 = new Soldier(x, y, c);
         
-        int numOfSoldier = c.getArmy().size();
-        assertEquals(numOfSoldier, 0);
+        assertEquals(c.getArmy().size(), 0);
         c.addSoldier(s1);
-        assertEquals(numOfSoldier, 1);
+        assertEquals(c.getArmy().size(), 1);
         c.addSoldier(s2);
-        assertEquals(numOfSoldier, 2);
+        assertEquals(c.getArmy().size(), 2);
         c.remSoldier(s1);
-        assertEquals(numOfSoldier, 1);
+        assertEquals(c.getArmy().size(), 1);
         c.remSoldier(s2);
-        assertEquals(numOfSoldier, 0);
+        assertEquals(c.getArmy().size(), 0);
         
     }
 
@@ -176,9 +179,11 @@ public class characterTest {
     @Test
     public void test_character_attack() {
         Helper helper = new Helper();
+        LoopManiaWorld world = helper.createWorld(MAP1);
         Character c = helper.testCharacterSetup(0, MAP1);
-        Slug slug = helper.testSlugSetup(0, MAP1);
+        Vampire vampire = helper.testVampireSetup(0, MAP1);
         EntityAttribute characterAttr = c.getAttr();
+
         int health = characterAttr.getHealth().getValue();
         int attack = characterAttr.getAttack().getValue();
         int defense = characterAttr.getDefence().getValue();
@@ -188,19 +193,18 @@ public class characterTest {
         assertEquals(attack, 5);
         assertEquals(defense, 0);
         assertEquals(CurHealth, 35);
-        LoopManiaWorld world = helper.createWorld(MAP1);
-        int numOfEnemy = world.getEnemies().size();
-
-        EntityAttribute slugAttr = slug.getAttribute();
-        int slug_health = slugAttr.getHealth().getValue();
-        int slug_attack = slugAttr.getAttack().getValue();
-        assertEquals(slug_health, 3);
-        assertEquals(slug_attack, 2);
-        assertEquals(numOfEnemy, 1);
-
-        c.attack(slug);
         
-        assertEquals(numOfEnemy, 0);
+
+        EntityAttribute vampireAttr = vampire.getAttribute();
+        int vampire_health = vampireAttr.getHealth().getValue();
+        int vampire_attack = vampireAttr.getAttack().getValue();
+        int vampire_curHealth = vampireAttr.getCurHealth().getValue();
+        assertEquals(vampire_health, 53);
+        assertEquals(vampire_attack, 6);
+        assertEquals(vampire_curHealth, 53);
+
+        c.attack(vampire);
+        assertEquals(vampireAttr.getCurHealth().getValue(), vampire_health - attack);
     }
 
 
@@ -225,33 +229,28 @@ public class characterTest {
         EntityAttribute vampireAttr = v.getAttribute();
         int vampire_health = vampireAttr.getHealth().getValue();
         int vampire_attack = vampireAttr.getAttack().getValue();
-        assertEquals(vampire_health, 32);
-        assertEquals(vampire_attack, 2);
+        assertEquals(vampire_health, 53);
+        assertEquals(vampire_attack, 6);
 
         c.underAttack(vampire_attack);
-        assertEquals(CurHealth, health - vampire_attack);
+        assertEquals(characterAttr.getCurHealth().getValue(), health - vampire_attack);
     }
 
-    //Produce soldier
+    /*/Produce soldier
+    @Test
     public void test_produce_soldier() {
         Helper helper = new Helper();
+        LoopManiaWorld world = helper.createWorld(MAP1);
         Character character = helper.testCharacterSetup(0, MAP1);
-        assertEuals(character.getArmy(), 0);
+        assertEquals(character.getArmy().size(), 0);
 
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
-        Barracks barracks = new Barracks(x, y);
+        Barrack barrack = new Barrack(x, y);
 
-        barracks.soldierProducer(world);
-        assertEuals(character.getArmy(), 1);
+        barrack.soldierProducer(world);
+        assertEquals(character.getArmy().size(), 1);
     }
-
-
-
-    //
-
-
-
-
+*/
 
 }
