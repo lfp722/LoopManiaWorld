@@ -485,6 +485,7 @@ public class LoopManiaWorldController {
                 for (Item i: world.getBoughtItem()) {
                     onLoad(i);
                 }
+                world.getBoughtItem().clear();
             }
             for (Building b: world.getBuildingEntities()) {
                 if (b instanceof Barrack) {

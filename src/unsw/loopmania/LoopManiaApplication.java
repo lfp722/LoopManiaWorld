@@ -61,9 +61,9 @@ public class LoopManiaApplication extends Application {
         Parent loseRoot = loseLoader.load();
 
         // create new scene with the main menu (so we start with the main menu)
-        Scene scene = new Scene(mainMenuRoot);
+        //Scene scene = new Scene(mainMenuRoot);
 
-        //Scene scene = new Scene(storeRoot);
+        Scene scene = new Scene(storeRoot);
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
