@@ -38,12 +38,17 @@ public class LoopManiaWorld {
     public static final int soldierHeight = 0;
     public static final int soldierWidth = 4;
 
+    public static final int ringHeight = 0;
+    public static final int ringWidth = 0;
+
     private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
 
     /**
      * width of the world in GridPane cells
      */
     private int width;
+
+    private boolean theOneRingExist = false;
 
     /**
      * height of the world in GridPane cells
@@ -127,6 +132,27 @@ public class LoopManiaWorld {
      */
     public List<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public void allowTheOneRing() {
+        this.theOneRingExist = true;
+    }
+
+    public boolean isTheOneRing() {
+        return theOneRingExist;
+    }
+
+    public FinalGoal getGoal() {
+        return goal;
+    }
+
+    public TheOneRing addEuippedRing() {
+        if (equippedItems.getRing() != null) {
+            equippedItems.getRing().destroy();
+        }
+        TheOneRing ring = new TheOneRing(new SimpleIntegerProperty(ringWidth), new SimpleIntegerProperty(ringHeight));
+        equippedItems.equipRing(ring);
+        return ring;
     }
 
     public SimpleIntegerProperty getCycle() {

@@ -9,6 +9,10 @@ public class CycleGoal implements Goal{
         this.cycle = cycle;
     }
 
+    public void setGoal(int value) {
+        cycle = value;
+    }
+
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
         return world.getCycle().get() == cycle;
