@@ -12,7 +12,7 @@ public class Tower extends Building{
     public Tower(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
         this.damage = 10;
-        this.radius = 5;
+        this.radius = 3;
     }
 
     /**
