@@ -62,4 +62,17 @@ public class Zombie extends Enemy {
         world.getEnemies().add(a);
     }
 
+    @Override
+    public void move(LoopManiaWorld world) {
+        
+        int directionChoice = (new Random()).nextInt(4);
+        if (directionChoice == 0){
+            moveUpPath();
+        }
+        else if (directionChoice == 1){
+            moveDownPath();
+        }
+        
+    }
+
 }
