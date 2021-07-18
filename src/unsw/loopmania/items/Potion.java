@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.Character;
 public class Potion extends Item{
     private SimpleDoubleProperty recoverRate;
-    public static final int initialPrice = 100;
+    public static final int initialPrice = 1000;
 
     public Potion(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x,y);
