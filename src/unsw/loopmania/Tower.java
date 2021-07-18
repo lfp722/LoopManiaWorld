@@ -3,7 +3,6 @@ import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
-import org.javatuples.Pair;
 
 public class Tower extends Building{
     private int damage;

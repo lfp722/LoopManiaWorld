@@ -5,11 +5,9 @@ import unsw.loopmania.items.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.DoublePredicate;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
-import org.junit.jupiter.engine.execution.ExecutableInvoker.ReflectiveInterceptorCall.VoidMethodInterceptorCall;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -21,7 +19,6 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -580,19 +577,19 @@ public class LoopManiaWorldController {
         onLoad(sword);
     }
 
-    private void loadStake(){
-        // TODO = load more types of weapon
-        // start by getting first available coordinates
-        Stake sword = world.addUnequippedStake();
-        onLoad(sword);
-    }
+    // private void loadStake(){
+    //     // TODO = load more types of weapon
+    //     // start by getting first available coordinates
+    //     Stake sword = world.addUnequippedStake();
+    //     onLoad(sword);
+    // }
 
-    private void loadStaff(){
-        // TODO = load more types of weapon
-        // start by getting first available coordinates
-        Staff sword = world.addUnequippedStaff();
-        onLoad(sword);
-    }
+    // private void loadStaff(){
+    //     // TODO = load more types of weapon
+    //     // start by getting first available coordinates
+    //     Staff sword = world.addUnequippedStaff();
+    //     onLoad(sword);
+    // }
 
     private void loadArmour(){
         // TODO = load more types of weapon
@@ -641,14 +638,9 @@ public class LoopManiaWorldController {
         if(enemy instanceof Slug) {
             loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
             loadExp(20 + 100 * this.world.getCycle().get());
-            loadCard();
-            loadStaff();
-            loadSword();
-            loadStake();
-            loadArmour();
-            loadPotion();
-            loadHelmet();
-            loadShield();
+            if ((new Random()).nextInt(100) < 30) {
+                loadCard();
+            }
         } else if (enemy instanceof Vampire) {
             loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
             loadExp(500 + 500 * this.world.getCycle().get());
@@ -1134,7 +1126,7 @@ public class LoopManiaWorldController {
                         int x = cIndex == null ? 0 : cIndex;
                         int y = rIndex == null ? 0 : rIndex;
                         //Places at 0,0 - will need to take coordinates once that is implemented
-                        ImageView image = new ImageView(db.getImage());
+                        //ImageView image = new ImageView(db.getImage());
 
                         int nodeX = GridPane.getColumnIndex(currentlyDraggedImage);
                         int nodeY = GridPane.getRowIndex(currentlyDraggedImage);
@@ -1311,14 +1303,14 @@ public class LoopManiaWorldController {
         return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 
-    /**
-     * remove an item from the unequipped inventory by its x and y coordinates in the unequipped inventory gridpane
-     * @param nodeX x coordinate from 0 to unequippedInventoryWidth-1
-     * @param nodeY y coordinate from 0 to unequippedInventoryHeight-1
-     */
-    private void removeItemByCoordinates(int nodeX, int nodeY) {
-        world.removeUnequippedInventoryItemByCoordinates(nodeX, nodeY);
-    }
+    // /**
+    //  * remove an item from the unequipped inventory by its x and y coordinates in the unequipped inventory gridpane
+    //  * @param nodeX x coordinate from 0 to unequippedInventoryWidth-1
+    //  * @param nodeY y coordinate from 0 to unequippedInventoryHeight-1
+    //  */
+    // private void removeItemByCoordinates(int nodeX, int nodeY) {
+    //     world.removeUnequippedInventoryItemByCoordinates(nodeX, nodeY);
+    // }
 
     /**
      * add drag event handlers to an ImageView

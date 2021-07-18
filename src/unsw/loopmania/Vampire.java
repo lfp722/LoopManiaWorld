@@ -6,7 +6,6 @@ public class Vampire extends Enemy {
     
     private int radusCampfire;
     private int critRateLimit = 90;
-    private boolean movingDirection;
 
     /**
      * 
@@ -28,6 +27,7 @@ public class Vampire extends Enemy {
         this.setSupportRange(11);
         this.getAttribute().getAttack().set((int) Math.pow(this.getLv(), 2));
         this.getAttribute().getHealth().set((int) (Math.pow(this.getLv(), 1.5) * 3 + 50));
+        this.getAttribute().getCurHealth().set(this.getAttribute().getHealth().get());
         this.getAttribute().getDefence().set(0);
         this.setGoldAfterDeath((new Random().nextInt(1300) + 200));
         this.setExpAfterDeath(500 + 500 * this.getLv());
