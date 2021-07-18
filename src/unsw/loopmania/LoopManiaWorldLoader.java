@@ -152,7 +152,7 @@ public abstract class LoopManiaWorldLoader {
 
     // TODO Create additional abstract methods for the other entities
     private void loadGoal(JSONObject goalCond, LoopManiaWorld world) {
-        switch(goalCond.getString("experience")) {
+        switch(goalCond.getString("goal")) {
             case "experience":
                 world.getGoal().setExpGoal(goalCond.getInt("quantity"));
                 break;

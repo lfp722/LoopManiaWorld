@@ -146,7 +146,7 @@ public class LoopManiaWorld {
         return goal;
     }
 
-    public TheOneRing addEuippedRing() {
+    public TheOneRing addEquippedRing() {
         if (equippedItems.getRing() != null) {
             equippedItems.getRing().destroy();
         }
@@ -391,12 +391,12 @@ public class LoopManiaWorld {
      */
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
-        System.out.println("battle run!");
+        //System.out.println("battle run!");
         if (battleLock.get() == 0) {
             return new ArrayList<>();
         }
         battleLock.set(0);
-        System.out.println("Running battles");
+        //System.out.println("Running battles");
         List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
         List<Enemy> battleEnemies = new ArrayList<>();
         boolean isBattle = false;

@@ -472,7 +472,8 @@ public class LoopManiaWorldController {
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+            //System.out.println(world.checkGoal());
             if (world.checkGoal()) {
                 switchToWin();
             }
@@ -502,7 +503,7 @@ public class LoopManiaWorldController {
             if (!world.getCharacter().shouldExist().get()) {
                 if (world.getEquip().getRing() != null) {
                     world.getEquip().getRing().rebirth(world);
-                    world.getEquip().getRing().destroy;
+                    world.getEquip().getRing().destroy();
                     world.getEquip().dropRing();
                 } else {
                     switchToLose();
@@ -630,8 +631,8 @@ public class LoopManiaWorldController {
     }
 
     private void loadTheOneRing() {
-        TheOneRing ring = world.addEquippedRing(ring);
-        onLoad(ring);
+        TheOneRing ring = world.addEquippedRing();
+        onEquip(ring);
     }
 
 
@@ -655,7 +656,7 @@ public class LoopManiaWorldController {
             loadExp(20 + 100 * this.world.getCycle().get());
             if ((new Random()).nextInt(100) < 30) {
                 loadCard();
-            }
+            } 
         } else if (enemy instanceof Vampire) {
             loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
             loadExp(500 + 500 * this.world.getCycle().get());
@@ -917,12 +918,6 @@ public class LoopManiaWorldController {
         unequippedInventory.getChildren().add(view);
     }
 
-    private void onLoad(TheOneRing ring) {
-        ImageView view = new ImageView(theOneRingImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.THEONERING, unequippedInventory, equippedItems);
-        addEntity(ring, view);
-        unequippedInventory.getChildren().add(view);
-    }
 
     /**
      * load an enemy into the GUI

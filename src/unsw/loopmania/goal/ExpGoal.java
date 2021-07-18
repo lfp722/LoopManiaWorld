@@ -14,6 +14,6 @@ public class ExpGoal implements Goal{
     
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
-        return world.getCharacter().getExp() == exp;
+        return world.getCharacter().getExp() >= exp;
     }
 }

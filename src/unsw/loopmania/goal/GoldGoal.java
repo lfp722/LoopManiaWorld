@@ -15,7 +15,7 @@ public class GoldGoal implements Goal{
 
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
-        return world.getCharacter().getGold() == gold;
+        return world.getCharacter().getGold() >= gold;
     }
 
     
