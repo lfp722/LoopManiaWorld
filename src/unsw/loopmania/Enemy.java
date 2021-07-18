@@ -21,7 +21,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     public Enemy (PathPosition position, int cycle) {
         super(position);
         this.attribute = new EntityAttribute();
-        this.lv = (new Random()).nextInt(cycle);
+        this.lv = (new Random()).nextInt(cycle) + 1;
     }
 
     /**

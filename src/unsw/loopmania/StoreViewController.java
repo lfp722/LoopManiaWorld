@@ -5,8 +5,11 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -63,60 +66,74 @@ public class StoreViewController  {
     @FXML
     public void buyHelmet() {
         if (gold.get() >= Helmet.initialPrice) {
-            Helmet h = world.addUnequippedHelmet();
-            gold.set(gold.get()-Helmet.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "helmet")) {
+                Helmet h = world.addUnequippedHelmet();
+                gold.set(gold.get()-Helmet.initialPrice);
+                bought.add(h);
+            }
+            
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void buyArmour() {
         if (gold.get() >= Armour.initialPrice) {
-            Armour h = world.addUnequippedArmour();
-            gold.set(gold.get()-Armour.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "armour")) {
+                Armour h = world.addUnequippedArmour();
+                gold.set(gold.get()-Armour.initialPrice);
+                bought.add(h); 
+            }
+            
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void buyShield() {
         if (gold.get() >= Shield.initialPrice) {
-            Shield h = world.addUnequippedShield();
-            gold.set(gold.get()- Shield.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "shield")) {
+                Shield h = world.addUnequippedShield();
+                gold.set(gold.get()- Shield.initialPrice);
+                bought.add(h); 
+            }
+            
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void buySword() {
         if (gold.get() >= Sword.initialPrice) {
-            Sword h = world.addUnequippedSword();
-            gold.set(gold.get()-Sword.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "sword")) {
+                Sword h = world.addUnequippedSword();
+                gold.set(gold.get()-Sword.initialPrice);
+                bought.add(h);
+            }
+            
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void buyStake() {
         if (gold.get() >= Stake.initialPrice) {
-            Stake h = world.addUnequippedStake();
-            gold.set(gold.get()-Stake.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "stake")) {
+                Stake h = world.addUnequippedStake();
+                gold.set(gold.get()-Stake.initialPrice);
+                bought.add(h);
+            }
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
@@ -124,93 +141,115 @@ public class StoreViewController  {
     @FXML
     public void buyStaff() {
         if (gold.get() >= Staff.initialPrice) {
-            Staff h = world.addUnequippedStaff();
-            gold.set(gold.get()-Staff.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "staff")) {
+                Staff h = world.addUnequippedStaff();
+                gold.set(gold.get()-Staff.initialPrice);
+                bought.add(h);
+            }
+            
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void buyPotion() {
         if (gold.get() >= Potion.initialPrice) {
-            Potion h = world.addPotion();
-            gold.set(gold.get()-Potion.initialPrice);
-            bought.add(h);
+            if (popUpSuccess("buy", "potion")) {
+                Potion h = world.addPotion();
+                gold.set(gold.get()-Potion.initialPrice);
+                bought.add(h);
+            }
+            
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void upArmour() {
         if (world.getEquip().getArmour() == null) {
-            //popUpWindow();
+            popUpWarning("You have to equip armour first!");
         }
         else if (gold.get() >= world.getEquip().getArmour().nextLevelUpPrice()) {
+            if (popUpSuccess("upgrade", "armour")) {
+                gold.set(gold.get()-world.getEquip().getArmour().nextLevelUpPrice());
+                world.getEquip().getArmour().levelUp();
+            }
             
-            gold.set(gold.get()-world.getEquip().getArmour().nextLevelUpPrice());
-            world.getEquip().getArmour().levelUp();
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void upHelmet() {
         if (world.getEquip().getHelmet() == null) {
-            //popUpWindow();
+            popUpWarning("You have to equip helmet first!");
+            
         }
         else if (gold.get() >= world.getEquip().getHelmet().nextLevelUpPrice()) {
-            
-            gold.set(gold.get()-world.getEquip().getHelmet().nextLevelUpPrice());
-            world.getEquip().getHelmet().levelUp();
+            if (popUpSuccess("upgrade", "helmet")) {
+                gold.set(gold.get()-world.getEquip().getHelmet().nextLevelUpPrice());
+                world.getEquip().getHelmet().levelUp();
+            }
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void upShield() {
         if (world.getEquip().getShield() == null) {
-            //popUpWindow();
+            popUpWarning("You have to equip shield first!");
         }
         else if (gold.get() >= world.getEquip().getShield().nextLevelUpPrice()) {
-            
-            gold.set(gold.get()-world.getEquip().getShield().nextLevelUpPrice());
-            world.getEquip().getShield().levelUp();
+            if (popUpSuccess("upgrade", "shield")) {
+                gold.set(gold.get()-world.getEquip().getShield().nextLevelUpPrice());
+                world.getEquip().getShield().levelUp();
+            }
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
     @FXML
     public void upWeapon() {
         if (world.getEquip().getWeapon() == null) {
-            //popUpWindow();
+            popUpWarning("You have to equip weapon first!");
         }
         else if (!(gold.get() < world.getEquip().getWeapon().nextLevelUpPrice())) {
-            gold.set(gold.get()-world.getEquip().getWeapon().nextLevelUpPrice());
-            world.getEquip().getWeapon().levelUp();
+            if (popUpSuccess("upgrade", "weapon")) {
+                gold.set(gold.get()-world.getEquip().getWeapon().nextLevelUpPrice());
+                world.getEquip().getWeapon().levelUp();
+            }
         }
         else {
-            //popUpWindow();
+            popUpWarning("You don't have enough gold!");
         }
     }
 
-    public void popUpWindow(String message, final Stage primaryStage) {
-        final Popup popup = new Popup();
-        popup.setX(300);
-        popup.setY(200);
-        popup.getContent().addAll(new Button("Cancel"), new Text());
-        
-        
+    public void popUpWarning(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Failed");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public boolean popUpSuccess(String action, String object) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Do you want to " + action + " this " + object + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(!result.isPresent() || result.get() != ButtonType.OK) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @FXML
