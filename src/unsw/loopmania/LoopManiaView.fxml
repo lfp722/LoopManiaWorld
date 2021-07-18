@@ -66,7 +66,7 @@
                </rowConstraints>
                <children>
                   <!-- swordCell is the cell where a sword intended to be equipped will be dragged by the human player -->
-                  <ImageView id="swordCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="0">    
+                  <ImageView id="swordCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="1">    
                      <image>
                         <Image url="@../../images/sword_unequipped.png"/>
                      </image>
@@ -78,15 +78,15 @@
                      </image>
                   </ImageView>
                   <!-- shieldCell is the cell where a shield intended to be equipped will be dragged by the human player -->
-                  <ImageView id="shieldCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="2" GridPane.rowIndex="0">    
+                  <ImageView id="shieldCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="2" GridPane.rowIndex="1">    
                      <image>
                         <Image url="@../../images/shield_unequipped.png"/>
                      </image>
                   </ImageView>
                   <!-- shieldCell is the cell where a shield intended to be equipped will be dragged by the human player -->
-                  <ImageView id="armourCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="3" GridPane.rowIndex="0">    
+                  <ImageView id="armourCell"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="1" GridPane.rowIndex="1">    
                      <image>
-                        <Image url="@../../images/image_just_black_tiny"/>
+                        <Image url="@../../images/image_just_black_tiny.png"/>
                      </image>
                   </ImageView>
                </children>
@@ -108,15 +108,55 @@
             <!-- clicking this button returns the human player to the main menu -->
             <Button text="Exit to Main Menu" onAction="#switchToMainMenu"/>
 
-            <Label fx:id="curHealth" layoutX="6.0" layoutY="42.0" text="Health:" />
+            <GridPane fx:id="attributeBar" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+               <children>
+                  <ImageView id="healthLabel"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="0">    
+                     <image>
+                        <Image url="@../../images/heart.png"/>
+                     </image>
+                  </ImageView>
+
+                  <ImageView id="goldLabel"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="1">    
+                     <image>
+                        <Image url="@../../images/gold_pile.png"/>
+                     </image>
+                  </ImageView>
+
+
+
+
+               </children>
+            </GridPane>
+
+            <!-- <Label fx:id="curHealth" layoutX="6.0" layoutY="42.0" text="Health:" />
             <Label fx:id="maxHealth" layoutX="73.0" layoutY="42.0" text="Label" />
             <Label fx:id="attack" layoutX="5.0" layoutY="72.0" text="Attack: " />
             <Label fx:id="defence" layoutX="73.0" layoutY="72.0" text="Label" />
             <Label fx:id="gold" layoutY="107.0" text="Defence:" />
             <Label fx:id="level" layoutX="73.0" layoutY="107.0" text="Label" />
             <Label fx:id="experience" layoutX="73.0" layoutY="107.0" text="Label" />
-            <Label fx:id="cycle" layoutX="73.0" layoutY="107.0" text="Label" />
+            <Label fx:id="cycle" layoutX="73.0" layoutY="107.0" text="Label" /> -->
+
+            <GridPane fx:id="soldiers" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
+               <children>
+
+               </children>
+            </GridPane>
+
          </children>
+         
       </VBox>
    </HBox>
 </AnchorPane>

@@ -6,8 +6,6 @@ import java.util.List;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.items.Equipment;
-import unsw.loopmania.items.Item;
 
 /**
  * represents the main character in the backend of the game world
@@ -25,10 +23,12 @@ public class Character extends MovingEntity{
     private SimpleIntegerProperty campFireBuff;
     private SimpleIntegerProperty stakeVampireBuff;
     private SimpleDoubleProperty debuff;
+    private LoopManiaWorld world;
 
 
-    public Character(PathPosition position, Equipped equipments) {
+    public Character(PathPosition position, LoopManiaWorld world) {
         super(position);
+        this.world = world;
         attr = new EntityAttribute(5, 0, 35);
         level = new SimpleIntegerProperty();
         level.set(1);
@@ -48,7 +48,8 @@ public class Character extends MovingEntity{
         attr.getHealth().bind(level.multiply(20).add(15));
         attr.getDefence().set(0);
         attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
-        this.equipped = equipments;
+        this.equipped = world.getEquip();
+        tranced = new ArrayList<>();
     }
 
     public void addSoldier(Soldier soldier) {
@@ -69,7 +70,7 @@ public class Character extends MovingEntity{
 
     public void attack(Enemy enemy) {
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
-        equipped.specialAttack(enemy, this);
+        equipped.specialAttack(enemy, world);
         enemy.underAttack(actualAttack);
     }
 
@@ -156,5 +157,11 @@ public class Character extends MovingEntity{
     public SimpleIntegerProperty getG() {
         return gold;
     }
+
+    public SimpleIntegerProperty getNextLvExp() {
+        return next_expr;
+    }
+
+
 
 }

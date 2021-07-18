@@ -11,8 +11,6 @@ public class Soldier extends StaticEntity{
         super(x, y);
         attr = ch.getAttr().copy(inheritRate);
         general = ch;
-        x.bind(ch.x());
-        y.bind(ch.y());
     }
     
     public void attack(Enemy e) {

@@ -5,10 +5,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.animation.KeyFrame;
 import javafx.beans.binding.Bindings;
 import java.lang.Math;
+import java.util.Random;
+
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import unsw.loopmania.*;
+import unsw.loopmania.Character;
 /**
  * represents an equipped or unequipped sword in the backend world
  */
@@ -16,10 +19,11 @@ public class Staff extends Weapon {
     private SimpleDoubleProperty chanceTrance;
     private Timeline tranceTimeFrame;
     private SimpleIntegerProperty tranceTimeAmount;
+    public static final int initialPrice = 400;
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         this.ValueInGold.set(400);
-        damage.set(6);
+        //damage.set(6);
         // this.chanceTrance.set(0.15 * this.level.get());
 
         // this.chanceTrance.bind(Bindings.createDoubleBinding(()->this.nextChanceTrance(),this.level));
@@ -50,10 +54,10 @@ public class Staff extends Weapon {
         
     // }
 
-    // @Override
-    // public double nextDamage() {
-    //     return (double) 0.85 * this.level.get() + 1;
-    // }
+    @Override
+    public int nextDamage() {
+        return (int) 0.85 * this.level.get() + 1;
+    }
     // public double getChanceTrance(){
     //     return this.chanceTrance.get();
     // }
@@ -61,10 +65,15 @@ public class Staff extends Weapon {
     //     return (double) this.level.get() * 0.15;
     // }
     
-    // @Override
-    // public void specialEffect(Enemy enemy) {
-    //     enemy.becomeAlly();
-    // }
+    @Override
+    public void specialEffect(Enemy enemy, LoopManiaWorld world) {
+        if (new Random().nextInt(100) > 20) {
+            return;
+        }
+        world.getCharacter().getTranced().add(enemy);
+        world.getEnemies().remove(enemy);
+        System.out.println("You have got an tranced enemy");
+    }
 
     // public void reverseEffect(Enemy enemy) {
     //     enemy.becomeEnemy();

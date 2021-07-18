@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 
 public class Item extends StaticEntity {
+    
     protected SimpleIntegerProperty ValueInGold;
     protected Character owner;
 

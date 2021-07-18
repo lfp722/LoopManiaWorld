@@ -12,7 +12,7 @@ public class Outfit extends Equipment {
         defense = new SimpleIntegerProperty();
         this.defense.set(3);
 
-        //this.defense.bind(Bindings.createIntegerBinding(()->this.nextDefense(),this.level));
+        this.defense.bind(Bindings.createIntegerBinding(()->this.nextDefense(),this.level));
         //this.reduceRate.bind(Bindings.createDoubleBinding(()->this.nextReduceRate(),this.level));
     }
 
@@ -20,18 +20,18 @@ public class Outfit extends Equipment {
         return this.defense.get();
     }
 
-    // public int nextDefense() {
-    //     return (int) this.defense.get() + this.level.get() * 10;
-    // }
+    public int nextDefense() {
+        return (int) 3 + this.level.get() * 10;
+    }
 
     // public double getReduceRate() {
     //     return this.reduceRate.get();
     // }
 
-    // @Override
-    // public int nextLevelUpPrice() {
-    //     return (int) Math.pow((100 * this.level.get()),2) - 150;
-    // }
+    @Override
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * this.level.get()),2) - 150;
+    }
     
     // public double nextReduceRate() {
     //     return 0.5;

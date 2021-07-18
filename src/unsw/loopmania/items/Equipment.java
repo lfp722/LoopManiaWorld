@@ -24,14 +24,14 @@ public class Equipment extends Item{
         this.ValueInGold.set(250);
 
         levelUpPrice = new SimpleIntegerProperty();
-        this.levelUpPrice.bind(Bindings.createIntegerBinding(()->this.nextLevelUpPrice(),this.level));
+        this.levelUpPrice.bind(Bindings.createIntegerBinding(()->nextLevelUpPrice(),this.level));
     }
 
     public int getLevel() {
         return this.level.get();
     }
 
-    public void setLevel(int level) {
+    public void levelUp() {
         this.level.set(this.level.get()+1);
     }
 

@@ -7,18 +7,18 @@ import javafx.beans.property.SimpleIntegerProperty;
  * represents an equipped or unequipped sword in the backend world
  */
 public class Stake extends Weapon {
-
+    public static final int initialPrice = 250;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
         //TODO Auto-generated constructor stub
-        damage.set(4);
+        //damage.set(4);
     }
 
 
-    // @Override
-    // public double nextDamage() {
-    //     return (double) 0.9 * this.level.get() + 1.5;
-    // }
+    @Override
+    public int nextDamage() {
+        return (int) (0.9 * this.level.get() + 1.5);
+    }
 
     //Convenient for later change
     /* 
@@ -30,12 +30,12 @@ public class Stake extends Weapon {
     */
 
     @Override
-    public void specialEffect(Enemy e, Character ch) {
+    public void specialEffect(Enemy e, LoopManiaWorld world) {
         if (e instanceof Vampire) {
-            ch.getStakeVampireBuff().set(3);
+            world.getCharacter().getStakeVampireBuff().set(3);
         }
         else {
-            ch.getStakeVampireBuff().set(1);
+            world.getCharacter().getStakeVampireBuff().set(1);
         }
     }
 }

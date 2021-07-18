@@ -1,4 +1,5 @@
 package unsw.loopmania;
+import unsw.loopmania.goal.FinalGoal;
 import unsw.loopmania.items.*;
 
 import java.util.ArrayList;
@@ -30,11 +31,16 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
-    public static final int equippedHeight = 0;
+    public static final int equippedHeight = 1;
     public static final int weaponSlot = 0;
     public static final int helmetSlot = 1;
     public static final int shieldSlot = 2;
-    public static final int armourSlot = 3;
+    public static final int armourSlot = 1;
+
+    public static final int helmetHeight = 0;
+
+    public static final int soldierHeight = 0;
+    public static final int soldierWidth = 4;
 
     private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
 
@@ -47,6 +53,8 @@ public class LoopManiaWorld {
      * height of the world in GridPane cells
      */
     private int height;
+
+    private List<Item> boughtItems = new ArrayList<>();
 
     /**
      * generic entitites - i.e. those which don't have dedicated fields
@@ -85,6 +93,8 @@ public class LoopManiaWorld {
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
+    private FinalGoal goal;
+
     /**
      * create the world (constructor)
      * 
@@ -110,6 +120,7 @@ public class LoopManiaWorld {
         // maxNumVampire.set(2);
         maxNumTotal = new SimpleIntegerProperty();
         maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
+        goal = new FinalGoal();
 
         //map containing lists of different buildings
     }
@@ -300,21 +311,74 @@ public class LoopManiaWorld {
         }
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
-            Enemy target = battleEnemies.get(0);
             for (Soldier s: ch.getArmy()) {
+                Enemy target = battleEnemies.get(0);
                 s.attack(target);
+                System.out.println("Soldier attack enemy");
+                if (!target.shouldExist().get()) {
+                    battleEnemies.remove(target);
+                    defeatedEnemies.add(target);
+                    System.out.println("Enemy defeated");
+                    if (battleEnemies.isEmpty()) { 
+                        break; 
+                    }
+                }
+            }
+
+            if (battleEnemies.isEmpty()) {
+                for (Enemy e: ch.getTranced()) {
+                    e.destroy();
+                    defeatedEnemies.add(e);
+                }
+                ch.getTranced().clear();
+            }
+
+            for (Enemy s: ch.getTranced()) {
+                Enemy target = battleEnemies.get(0);
+                s.attack(target);
+                System.out.println("Tranced enemy attack enemy");
+                if (!target.shouldExist().get()) {
+                    battleEnemies.remove(target);
+                    defeatedEnemies.add(target);
+                    System.out.println("Enemy defeated");
+                    if (battleEnemies.isEmpty()) { 
+                        break; 
+                    }
+                }
+            }
+
+            if (battleEnemies.isEmpty()) {
+                for (Enemy e: ch.getTranced()) {
+                    e.destroy();
+                    defeatedEnemies.add(e);
+                }
+                ch.getTranced().clear();;
             }
             // for (Enemy e: ch.getTranced()) {
             //     e.attack(target);
             // }
-
-            ch.attack(target);
-            System.out.println("Character attack enemy");
-            if (!target.shouldExist().get()) {
-                battleEnemies.remove(target);
-                defeatedEnemies.add(target);
-                System.out.println("Enemy defeated");
+            if (!battleEnemies.isEmpty()) {
+                Enemy target = battleEnemies.get(0);
+                ch.attack(target);
+                System.out.println("Character attack enemy");
+                if (!target.shouldExist().get()) {
+                    battleEnemies.remove(target);
+                    defeatedEnemies.add(target);
+                    System.out.println("Enemy defeated");
+                }
             }
+
+            if (battleEnemies.isEmpty()) {
+                for (Enemy e: ch.getTranced()) {
+                    e.destroy();
+                    defeatedEnemies.add(e);
+                }
+                ch.getTranced().clear();
+            }
+            
+
+    
+            
 
             for (Enemy e: battleEnemies) {
                 if (ch.getArmy().isEmpty()) {
@@ -324,6 +388,7 @@ public class LoopManiaWorld {
                 else{
                     Soldier brave = ch.getArmy().get(0);
                     e.attack(brave, this);
+                    System.out.println("Enemy attack soldier");
                 }
             }
 
@@ -332,6 +397,7 @@ public class LoopManiaWorld {
 
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
+        System.out.println("battle run!");
         if (battleLock.get() == 0) {
             return new ArrayList<>();
         }
@@ -495,6 +561,14 @@ public class LoopManiaWorld {
         c.destroy();
         cardEntities.remove(index);
         shiftCardsDownFromXCoordinate(x);
+    }
+
+    public void removeSoldier(int index){
+        Soldier c = character.getArmy().get(index);
+        int x = c.getX();
+        c.destroy();
+        character.getArmy().remove(index);
+        shiftSoldiersDownFromXCoordinate(x);
     }
 
     /**
@@ -701,6 +775,14 @@ public class LoopManiaWorld {
         }
     }
 
+    private void shiftSoldiersDownFromXCoordinate(int x){
+        for (Soldier c: character.getArmy()){
+            if (c.getX() >= x){
+                c.x().set(c.getX()-1);
+            }
+        }
+    }
+
     /**
      * move all enemies
      */
@@ -720,9 +802,9 @@ public class LoopManiaWorld {
         
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
-        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+        int choice = rand.nextInt(3); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 8)){
+        if ((choice == 0) && (enemies.size() < 5)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -991,7 +1073,11 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> pos = orderedPath.get(0);
         SimpleIntegerProperty x = new SimpleIntegerProperty(pos.getValue0());
         SimpleIntegerProperty y = new SimpleIntegerProperty(pos.getValue1());
-        return new HeroCastle(x, y); 
+
+        HeroCastle a = new HeroCastle(x, y); 
+        buildingEntities.add(a);
+
+        return a;
     }
 
     public void makeUpReward(Item i) {
@@ -1049,7 +1135,7 @@ public class LoopManiaWorld {
                 old.destroy();
                 equippedItems.dropHelmet();
             }
-            Helmet newHelmet = new Helmet(new SimpleIntegerProperty(helmetSlot), new SimpleIntegerProperty(equippedHeight));
+            Helmet newHelmet = new Helmet(new SimpleIntegerProperty(helmetSlot), new SimpleIntegerProperty(helmetHeight));
             equippedItems.equipHelmet(newHelmet);
             removeUnequippedInventoryItem(item);
             return newHelmet;
@@ -1104,10 +1190,45 @@ public class LoopManiaWorld {
         battleLock.set(1);
     }
 
+    public void consumePotion() {
+        if (battleLock.get() == 0) {
+            return;
+        }
+        battleLock.set(0);
+        List<Entity> copied = new ArrayList<>();
+        for (Entity e: unequippedInventoryItems) {
+            copied.add(e);
+        }
+        for (Entity e: copied) {
+            if (e instanceof Potion) {
+                Potion a = (Potion) e;
+                a.recoverHealth(character);
+                removeUnequippedInventoryItem(e);
+                break;
+            }
+        }
+        battleLock.set(1);
+    }
+
     public Equipped getEquip() {
         return equippedItems;
     }
 
+    public boolean checkGoal() {
+        return goal.checkGoal(this);
+    }
+
+    public List<Item> getBoughtItem() {
+        return boughtItems;
+    }
+
+    public boolean atHeroCastle() {
+        Pair<Integer, Integer> pos = orderedPath.get(0);
+        if (character.getX() == pos.getValue0() && character.getY() == pos.getValue1()){
+            return true;
+        }
+        return false;
+    }
 
     
 }
