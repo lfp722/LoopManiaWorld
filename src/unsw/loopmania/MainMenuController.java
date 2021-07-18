@@ -11,7 +11,15 @@ public class MainMenuController {
     /**
      * facilitates switching to main game
      */
+
+    private String modeType;
     private MenuSwitcher gameSwitcher;
+    private LoopManiaWorld gameIntance;
+
+
+    public MainMenuController(LoopManiaWorld game){
+        this.gameIntance = game;
+    }
 
     public void setGameSwitcher(MenuSwitcher gameSwitcher){
         this.gameSwitcher = gameSwitcher;
@@ -21,6 +29,22 @@ public class MainMenuController {
      * facilitates switching to main game upon button click
      * @throws IOException
      */
+
+    private BerserkerMode() {
+        this.modeType = "BerserkerMode";
+        this.gameIntance.setMode(this.modeType);
+    }
+
+    private NormalMode() {
+        this.gameIntance.setMode("BersekerMode");
+        this.gameIntance.setMode(this.modeType);
+    }
+
+    private SurvivialMode() {
+        this.gameIntance.setMode("SurvivialMode");
+        this.gameIntance.setMode(this.modeType);
+    }
+
     @FXML
     private void switchToGame() throws IOException {
         gameSwitcher.switchMenu();
