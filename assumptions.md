@@ -138,4 +138,4 @@ Extra Assumption For M2:
 1. Time for Staff trance is a whole battle time.
 2. Press H to use Potion.
 3. Character may have maximum 4 soldiers, when there are new incomers, we remove the oldest incomer, and add the new incomer.
-4. 
+4. The one ring only appears after defeating a vampire.
