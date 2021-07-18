@@ -7,8 +7,8 @@ public class Slug extends Enemy {
     public Slug(PathPosition position, int cycle) {
         super(position, cycle);
         this.setCritRate(0);
-        this.setDetectRange(10);
-        this.setSupportRange(11);
+        this.setDetectRange(3);
+        this.setSupportRange(3);
         this.getAttribute().getAttack().set((int) (Math.pow(this.getLv(), 2/3)*2));
         this.getAttribute().getHealth().set((int) (this.getLv()*3));
         this.getAttribute().getCurHealth().set(this.getAttribute().getHealth().get());
