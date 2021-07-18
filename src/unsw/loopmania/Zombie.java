@@ -13,8 +13,8 @@ public class Zombie extends Enemy {
         } else {
             this.setCritRate(this.getLv() * 10);
         }
-        this.setDetectRange(2);
-        this.setSupportRange(3);
+        this.setDetectRange(3);
+        this.setSupportRange(5);
         this.getAttribute().getAttack().set((int) (this.getLv() * 10 + 1));
         this.getAttribute().getHealth().set((int) (this.getLv() * 10));
         this.getAttribute().getCurHealth().set(this.getAttribute().getHealth().get());
