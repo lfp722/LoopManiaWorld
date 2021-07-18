@@ -25,6 +25,10 @@ public class Potion extends Item{
     //     this.recoverRate.set(recoverRate);
     // }
 
+    /**
+     * heal specific character
+     * @param ch
+     */
     public void recoverHealth(Character ch) {
         SimpleIntegerProperty curH = ch.getAttr().getCurHealth();
         SimpleIntegerProperty maxH = ch.getAttr().getHealth();

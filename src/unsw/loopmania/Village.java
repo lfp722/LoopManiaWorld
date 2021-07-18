@@ -12,6 +12,10 @@ public class Village extends Building{
         this.regenRate = 20;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public int getRegenRate(){
         return this.regenRate;
     }

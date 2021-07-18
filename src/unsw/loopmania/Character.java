@@ -52,10 +52,18 @@ public class Character extends MovingEntity{
         tranced = new ArrayList<>();
     }
 
+    /**
+     * add a soldier into army
+     * @param soldier
+     */
     public void addSoldier(Soldier soldier) {
         army.add(soldier);
     }
 
+    /**
+     * remove a soldier from army
+     * @param soldier
+     */
     public void remSoldier(Soldier soldier) {
         army.remove(soldier);
     }
@@ -68,12 +76,20 @@ public class Character extends MovingEntity{
     //     item.unequip(this);
     // }
 
+    /**
+     * attack specific enemy
+     * @param enemy
+     */
     public void attack(Enemy enemy) {
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
         equipped.specialAttack(enemy, world);
         enemy.underAttack(actualAttack);
     }
 
+    /**
+     * to be called when it is attacked by an enemy
+     * @param attack
+     */
     public void underAttack(int attack) {
         if (attack <= equipped.getDefence().get()) {
             return;
@@ -90,35 +106,67 @@ public class Character extends MovingEntity{
         }
     }
 
+    /**
+     * get attribute of a character
+     * @return EntityAttribute containing all attrs
+     */
     public EntityAttribute getAttr() {
         return attr;
     }
 
 
+    /**
+     * getter
+     * @return
+     */
     public List<Soldier> getArmy() {
         return army;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public int getGold() {
         return gold.get();
     }
 
+    /**
+     * obtain gold
+     * @param gold
+     */
     public void addGold(int gold) {
         this.gold.set(this.gold.get()+gold);
     }
 
+    /**
+     * getter
+     * @return
+     */
     public int getExp() {
         return experience.get();
     }
 
+    /**
+     * obtain exp
+     * @param exp
+     */
     public void addExp(int exp) {
         this.experience.set(this.experience.get()+exp);
     }
 
+    /**
+     * getter
+     * @return
+     */
     public Equipped getEquip() {
         return equipped;
     }
 
+    /**
+     * to increase the character's current health
+     * @param health
+     */
     public void heal(int health) {
         SimpleIntegerProperty curH = attr.getCurHealth();
         SimpleIntegerProperty maxH = attr.getHealth();
@@ -130,34 +178,66 @@ public class Character extends MovingEntity{
         }
     }
 
+    /**
+     * receive buff
+     * @return
+     */
     public SimpleIntegerProperty getCampFireBuff() {
         return campFireBuff;
     }
 
+    /**
+     * receive buff
+     * @return
+     */
     public SimpleIntegerProperty getStakeVampireBuff() {
         return stakeVampireBuff;
     }
 
+    /**
+     * receive debuff(e.g. helmet)
+     * @return
+     */
     public SimpleDoubleProperty getDebuff() {
         return debuff;
     }
 
+    /**
+     * list of enemy being tranced during a battle
+     * @return List<Enemy>
+     */
     public List<Enemy> getTranced() {
         return tranced;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getLevel() {
         return level;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getExperience() {
         return experience;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getG() {
         return gold;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getNextLvExp() {
         return next_expr;
     }

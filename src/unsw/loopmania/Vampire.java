@@ -50,11 +50,11 @@ public class Vampire extends Enemy {
         this.radusCampfire = radusCampfire;
     }
 
-    //get the coordinate of the position on step before and after, 
-    //calculate the distance between them and the campfire, 
-    //decide the moving direction after that.
-    //hint: orderedPath.get(currentPositionInPath).getValue0/1()
-    //TODO: confusing in passing world in
+    /**
+     * check if a campfire is in support range
+     * @param world
+     * @return
+     */
     public boolean spotCampfire(LoopManiaWorld world) {
         for (Building c: world.getBuildingEntities()) {
             if (!(c instanceof CampFire)) {

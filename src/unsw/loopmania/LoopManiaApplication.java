@@ -49,12 +49,13 @@ public class LoopManiaApplication extends Application {
         storeLoader.setController(storeController);
         Parent storeRoot = storeLoader.load();
 
-
+        // load win window when goal achieved
         WinController winController = new WinController();
         FXMLLoader winLoader = new FXMLLoader(getClass().getResource("WinScene.fxml"));
         winLoader.setController(winController);
         Parent winRoot = winLoader.load();
 
+        // load lose vindow then the character dead
         LoseController loseController = new LoseController();
         FXMLLoader loseLoader = new FXMLLoader(getClass().getResource("LoseScene.fxml"));
         loseLoader.setController(loseController);

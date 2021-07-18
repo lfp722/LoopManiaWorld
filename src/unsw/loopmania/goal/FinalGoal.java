@@ -19,6 +19,10 @@ public class FinalGoal implements Goal{
         goals.add(new CycleGoal(cycle));
     }
 
+    /**
+     * 
+     * @param g
+     */
     public void addGoal(Goal g) {
         goals.add(g);
     }

@@ -16,6 +16,11 @@ public class Tower extends Building{
         this.radius = 5;
     }
 
+    /**
+     * check if an enemy is in radius
+     * @param e
+     * @return
+     */
     public boolean isInRadius(Enemy e) {
         if (Math.sqrt(Math.pow(this.getX() - e.getX(), 2)+Math.pow(this.getY()-e.getY(), 2)) <= radius) {
             return true;
@@ -24,6 +29,10 @@ public class Tower extends Building{
     }
 
 
+    /**
+     * special effect
+     * @param enemies
+     */
     public void attackIfInRadius(List<Enemy> enemies){
         for(Enemy a: enemies){
             if(isInRadius(a)) {

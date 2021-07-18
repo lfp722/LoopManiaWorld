@@ -11,6 +11,11 @@ public class ZombiePit extends Building {
     }
 
 
+    /**
+     * special effect
+     * @param world
+     * @return
+     */
     public Zombie produceZombie(LoopManiaWorld world) {
 
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {

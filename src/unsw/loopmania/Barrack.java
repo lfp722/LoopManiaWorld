@@ -8,6 +8,11 @@ public class Barrack extends Building{
         super(x, y);
     }
 
+    /**
+     * special effect of a barrack, create a soldier and add it into army
+     * @param world
+     * @return Soldier created, or null when character not passing by
+     */
     public Soldier soldierProducer(LoopManiaWorld world){
         if(world.getCharacter().getX() == this.getX() && world.getCharacter().getY() == this.getY()){
             if (world.getCharacter().getArmy().size() == LoopManiaWorld.soldierWidth) {
