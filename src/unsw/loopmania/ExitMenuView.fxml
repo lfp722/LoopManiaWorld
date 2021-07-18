@@ -10,11 +10,10 @@
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label text="Select Mode" />
+      <Label text="Main Menu" />
       <!-- clicking button should start/resume the game -->
-      <Button fx:id="startGameButton" onAction="#switchToNormalGame" prefHeight="36.0" prefWidth="133.0" text="Normal Mode" />
-      <Button mnemonicParsing="false" onAction="#switchToBerserkerGame" prefHeight="35.0" prefWidth="136.0" text="Berserker Mode" />
-      <Button mnemonicParsing="false" onAction="#switchToSurvivalGame" prefHeight="36.0" prefWidth="139.0" text="Survival Mode" />
+      <Button onAction="#resume" prefHeight="36.0" prefWidth="133.0" text="Resume" />
+      <Button mnemonicParsing="false" onAction="#quit" prefHeight="35.0" prefWidth="136.0" text="Quit" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

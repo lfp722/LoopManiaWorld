@@ -13,7 +13,7 @@ public class Potion extends Item{
         super(x,y);
         recoverRate = new SimpleDoubleProperty();
         this.recoverRate.set(0.2);
-        this.ValueInGold.set(100);
+        this.ValueInGold.set(1000);
     }
 
     // public double getRecoverRate() {

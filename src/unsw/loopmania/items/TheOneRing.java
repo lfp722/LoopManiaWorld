@@ -1,38 +1,20 @@
 package unsw.loopmania.items;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.LoopManiaWorld;
 
 public class TheOneRing extends Item {
-    private SimpleDoubleProperty chanceAppearance;
     public TheOneRing(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        this.chanceAppearance.set(0.01);
+    }
+
+    public void rebirth(LoopManiaWorld world) {
+        SimpleIntegerProperty curH = world.getCharacter().getAttr().getCurHealth();
+        SimpleIntegerProperty maxH = world.getCharacter().getAttr().getHealth();
+        curH.set(maxH.get());
+        world.getCharacter().shouldExist().set(true);
     }
     
-    /**
-     * setter
-     * @param chanceAppearance
-     */
-    public void setChanceAppearance(double chanceAppearance) {
-        this.chanceAppearance.set(chanceAppearance);
-    }
 
-    /**
-     * getter
-     * @return
-     */
-    public double getChanceAppearance() {
-        return this.chanceAppearance.get();
-    }
 
-    /**
-     * show in particular chance
-     */
-    public void appear(){
-        double chanceTrance = Math.random();
-        if (chanceTrance <= this.chanceAppearance.get()) {
-            return;
-        }
-        return;
-    }
+    
 }

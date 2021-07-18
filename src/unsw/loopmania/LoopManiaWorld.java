@@ -38,12 +38,17 @@ public class LoopManiaWorld {
     public static final int soldierHeight = 0;
     public static final int soldierWidth = 4;
 
+    public static final int ringHeight = 0;
+    public static final int ringWidth = 0;
+
     private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
 
     /**
      * width of the world in GridPane cells
      */
     private int width;
+
+    private boolean theOneRingExist = false;
 
     /**
      * height of the world in GridPane cells
@@ -127,6 +132,27 @@ public class LoopManiaWorld {
      */
     public List<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public void allowTheOneRing() {
+        this.theOneRingExist = true;
+    }
+
+    public boolean isTheOneRing() {
+        return theOneRingExist;
+    }
+
+    public FinalGoal getGoal() {
+        return goal;
+    }
+
+    public TheOneRing addEquippedRing() {
+        if (equippedItems.getRing() != null) {
+            equippedItems.getRing().destroy();
+        }
+        TheOneRing ring = new TheOneRing(new SimpleIntegerProperty(ringWidth), new SimpleIntegerProperty(ringHeight));
+        equippedItems.equipRing(ring);
+        return ring;
     }
 
     public SimpleIntegerProperty getCycle() {
@@ -365,12 +391,12 @@ public class LoopManiaWorld {
      */
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
-        System.out.println("battle run!");
+        //System.out.println("battle run!");
         if (battleLock.get() == 0) {
             return new ArrayList<>();
         }
         battleLock.set(0);
-        System.out.println("Running battles");
+        //System.out.println("Running battles");
         List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
         List<Enemy> battleEnemies = new ArrayList<>();
         boolean isBattle = false;

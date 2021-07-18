@@ -10,6 +10,7 @@ public class Equipped {
     private SimpleIntegerProperty equipDefense = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty equipAttack = new SimpleIntegerProperty(0);
     private LoopManiaWorld world;
+    private TheOneRing ring;
 
     public Equipped(LoopManiaWorld world) {
         this.world = world;
@@ -38,6 +39,18 @@ public class Equipped {
     public void equipWeapon(Weapon weapon) {
         this.weapon = weapon;
         equipAttack.set(weapon.getDamage());
+    }
+
+    public void equipRing(TheOneRing ring) {
+        this.ring = ring;
+    }
+
+    public TheOneRing getRing() {
+        return ring;
+    }
+
+    public void dropRing() {
+        ring = null;
     }
 
     /**

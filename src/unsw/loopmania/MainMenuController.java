@@ -11,10 +11,20 @@ public class MainMenuController {
     /**
      * facilitates switching to main game
      */
-    private MenuSwitcher gameSwitcher;
+    private MenuSwitcher normalGameSwitcher;
+    private MenuSwitcher berserkerGameSwitcher;
+    private MenuSwitcher survivalGameSwitcher;
 
-    public void setGameSwitcher(MenuSwitcher gameSwitcher){
-        this.gameSwitcher = gameSwitcher;
+    public void setNormalGameSwitcher(MenuSwitcher gameSwitcher){
+        this.normalGameSwitcher = gameSwitcher;
+    }
+
+    public void setBerserkerGameSwitcher(MenuSwitcher gameSwitcher){
+        this.berserkerGameSwitcher = gameSwitcher;
+    }
+
+    public void setSurvivalGameSwitcher(MenuSwitcher gameSwitcher){
+        this.survivalGameSwitcher = gameSwitcher;
     }
 
     /**
@@ -22,7 +32,17 @@ public class MainMenuController {
      * @throws IOException
      */
     @FXML
-    private void switchToGame() throws IOException {
-        gameSwitcher.switchMenu();
+    private void switchToNormalGame() throws IOException {
+        normalGameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToBerserkerGame() throws IOException {
+        berserkerGameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToSurvivalGame() throws IOException {
+        survivalGameSwitcher.switchMenu();
     }
 }

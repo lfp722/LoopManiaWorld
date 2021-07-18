@@ -54,11 +54,17 @@ public class LoopManiaApplication extends Application {
         winLoader.setController(winController);
         Parent winRoot = winLoader.load();
 
-        // load lose vindow then the character dead
+        // load lose window then the character dead
         LoseController loseController = new LoseController();
         FXMLLoader loseLoader = new FXMLLoader(getClass().getResource("LoseScene.fxml"));
         loseLoader.setController(loseController);
         Parent loseRoot = loseLoader.load();
+
+        // load exit window then the character dead
+        ExitMenuController exitController = new ExitMenuController();
+        FXMLLoader exitLoader = new FXMLLoader(getClass().getResource("ExitMenuView.fxml"));
+        exitLoader.setController(exitController);
+        Parent exitRoot = exitLoader.load();
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
@@ -67,18 +73,38 @@ public class LoopManiaApplication extends Application {
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
-        mainMenuController.setGameSwitcher(() -> {
+        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
+        mainMenuController.setNormalGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+        mainMenuController.setBerserkerGameSwitcher(() -> {
+            storeController.setLimitOfOutfit(1);
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+        mainMenuController.setSurvivalGameSwitcher(() -> {
+            storeController.setLimitOfPotion(1);
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
         mainController.setStoreSwitcher(() -> {
+            storeController.initializeCounts();
             mainController.pause();
             switchToRoot(scene, storeRoot, primaryStage);
         });
         mainController.setWinSwitcher(() -> {
             stop();
             switchToRoot(scene, winRoot, primaryStage);
+        });
+        mainController.setLoseSwitcher(() -> {
+            switchToRoot(scene, loseRoot, primaryStage);
+            stop();
+        });
+        
+        exitController.setResumeGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
         });
         mainController.setLoseSwitcher(() -> {
             switchToRoot(scene, loseRoot, primaryStage);

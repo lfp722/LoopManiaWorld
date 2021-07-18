@@ -2,30 +2,42 @@ package unsw.loopmania.goal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import unsw.loopmania.*;
 
 public class FinalGoal implements Goal{
     private List<Goal> goals;
 
+    private GoldGoal goldGoal;
+    private ExpGoal expGoal;
+    private CycleGoal cycleGoal;
+
     public FinalGoal() {
         goals = new ArrayList<>();
-        int gold = new Random().nextInt(200000)+100000;
-        goals.add(new GoldGoal(gold));
-        int exp = new Random().nextInt(400000)+200000;
-        goals.add(new ExpGoal(exp));
-        int cycle = new Random().nextInt(20)+10;
-        goals.add(new CycleGoal(cycle));
+        goldGoal = new GoldGoal(0);
+        expGoal = new ExpGoal(0);
+        cycleGoal = new CycleGoal(1);
+        goals.add(goldGoal);
+        goals.add(expGoal);
+        goals.add(cycleGoal);
+    }
+
+    public void setGoldGoal(int value) {
+        goldGoal.setGoal(value);
+    }
+
+    public void setExpGoal(int value) {
+        expGoal.setGoal(value);
+    }
+
+    public void setCycleGoal(int value) {
+        cycleGoal.setGoal(value);
     }
 
     /**
      * 
      * @param g
      */
-    public void addGoal(Goal g) {
-        goals.add(g);
-    }
 
     @Override
     public boolean checkGoal(LoopManiaWorld world) {

@@ -45,6 +45,8 @@ public abstract class LoopManiaWorldLoader {
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
+        loadGoal(json.getJSONObject("goal-condition"), world);
+
         // load non-path entities later so that they're shown on-top
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(world, jsonEntities.getJSONObject(i), orderedPath);
@@ -149,5 +151,26 @@ public abstract class LoopManiaWorldLoader {
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
 
     // TODO Create additional abstract methods for the other entities
+    private void loadGoal(JSONObject goalCond, LoopManiaWorld world) {
+        switch(goalCond.getString("goal")) {
+            case "experience":
+                world.getGoal().setExpGoal(goalCond.getInt("quantity"));
+                break;
+            case "cycle":
+                world.getGoal().setCycleGoal(goalCond.getInt("quantity"));
+                break;
+            case "gold":
+                world.getGoal().setGoldGoal(goalCond.getInt("quantity"));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void loadRareItem(List<String> names, LoopManiaWorld world) {
+        if (names.contains("TheOneRing")) {
+            world.allowTheOneRing();
+        }
+    }
 
 }
