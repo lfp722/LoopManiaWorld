@@ -1,7 +1,6 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.util.Pair;
 //import unsw.loopmania.LoopManiaWorld;
 
 public class Village extends Building{

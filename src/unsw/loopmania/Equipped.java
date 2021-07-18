@@ -9,6 +9,11 @@ public class Equipped {
     private Weapon weapon;
     private SimpleIntegerProperty equipDefense = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty equipAttack = new SimpleIntegerProperty(0);
+    private LoopManiaWorld world;
+
+    public Equipped(LoopManiaWorld world) {
+        this.world = world;
+    }
 
     /**
      * equipment implementation for different type
@@ -17,6 +22,7 @@ public class Equipped {
     public void equipHelmet(Helmet helmet) {
         this.helmet = helmet;
         equipDefense.set(equipDefense.get()+helmet.getDefense());
+        world.getCharacter().getDebuff().set(0.8);
     }
 
     public void equipArmour(Armour armour) {

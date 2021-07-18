@@ -1,6 +1,5 @@
 package unsw.loopmania.items;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.binding.Bindings;
 public class Outfit extends Equipment {
 
@@ -8,7 +7,7 @@ public class Outfit extends Equipment {
 
     public Outfit(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x,y);
-        this.ValueInGold.set(250);
+        //this.ValueInGold.set(250);
         defense = new SimpleIntegerProperty();
         this.defense.set(3);
 

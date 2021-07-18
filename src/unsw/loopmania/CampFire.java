@@ -1,19 +1,8 @@
 package unsw.loopmania;
-import java.util.List;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.StaticEntity;
-
-import java.util.ArrayList;
-
-import org.javatuples.Pair;
-
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class CampFire extends Building{
-    private List<Pair<Integer, Integer>> withinRadius;
     private int radius;
     private boolean buffed;
 
@@ -37,8 +26,7 @@ public class CampFire extends Building{
 
     @Override
     public void specialEffect(LoopManiaWorld world){
-        if (world.getCharacter().getCampFireBuff().get() == 2) {
-            buffed = true;
+        if (world.getCharacter().getCampFireBuff().get() == 2 && !buffed) {
             return;
         }
         if (isInRadius(world.getCharacter())){
