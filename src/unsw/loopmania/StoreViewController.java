@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import java.io.IOException;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
@@ -22,6 +24,11 @@ public class StoreViewController  {
 
     private StoreSwitcher gameSwitcher;
 
+    private int bought_portion;
+    private int Limit_portion;
+
+    private int bought_gear;
+    private int Limit_gear;
 
     @FXML
     private AnchorPane ap;
@@ -33,6 +40,8 @@ public class StoreViewController  {
 
     @FXML
     private void switchToGame() throws IOException {
+        this.bought_portion = 0;
+        this.bought_gear = 0;
         this.gameSwitcher.switchStore();
     }
 
@@ -47,6 +56,13 @@ public class StoreViewController  {
         this.gold = world.getCharacter().getG();
         this.bought = world.getBoughtItem();
 
+        //Initialize
+        this.bought_portion = 0;
+        this.Limit_portion = 0;
+        this.bought_gear = 0;
+        this.Limit_gear = 0;
+
+
         // Text goldTotal = new Text("0");
         // goldTotal.textProperty().bind(gold.asString());
         // goldTotal.setLayoutX(121);
@@ -57,15 +73,38 @@ public class StoreViewController  {
     }
     
     
-
-
+    
+    public void setModeLimit(String modeType){
+        switch (modeType) {
+            case "NormalMode":
+                this.Limit_gear = -1;
+                this.Limit_portion = -1;
+                break;
+            case "BerserkerMode":
+                this.Limit_gear = 1;
+                this.Limit_portion = -1;
+                break; 
+            case "SurvivialMode":
+                this.Limit_gear = -1;
+                this.Limit_portion = 1;
+                break;
+            default:
+                this.Limit_gear = -1;
+                this.Limit_portion = -1;
+                break;
+        }
+    }
 
     @FXML
     public void buyHelmet() {
+        if (this.Limit_gear != -1 && this.bought_gear >= this.Limit_gear) {
+            throw new RuntimeException("You only able to buy one gear at a loop!");
+        }
         if (gold.get() >= Helmet.initialPrice) {
             Helmet h = world.addUnequippedHelmet();
             gold.set(gold.get()-Helmet.initialPrice);
             bought.add(h);
+            this.bought_gear++;
         }
         else {
             //popUpWindow();
@@ -74,10 +113,15 @@ public class StoreViewController  {
 
     @FXML
     public void buyArmour() {
+        if (this.Limit_gear != -1 && this.bought_gear >= this.Limit_gear) {
+            throw new RuntimeException("You only able to buy one gear at a loop!");
+        }
+
         if (gold.get() >= Armour.initialPrice) {
             Armour h = world.addUnequippedArmour();
             gold.set(gold.get()-Armour.initialPrice);
             bought.add(h);
+            this.bought_gear++;
         }
         else {
             //popUpWindow();
@@ -86,10 +130,14 @@ public class StoreViewController  {
 
     @FXML
     public void buyShield() {
+        if (this.Limit_gear != -1 && this.bought_gear >= this.Limit_gear) {
+            throw new RuntimeException("You only able to buy one gear at a loop!");
+        }
         if (gold.get() >= Shield.initialPrice) {
             Shield h = world.addUnequippedShield();
             gold.set(gold.get()- Shield.initialPrice);
             bought.add(h);
+            this.bought_gear++;
         }
         else {
             //popUpWindow();
@@ -133,12 +181,19 @@ public class StoreViewController  {
         }
     }
 
+
+
     @FXML
     public void buyPotion() {
+        if (this.Limit_portion != -1 && this.bought_portion >= this.Limit_portion) {
+            throw new RuntimeException("You only able to buy one portion at a loop!");
+        }
+
         if (gold.get() >= Potion.initialPrice) {
             Potion h = world.addPotion();
             gold.set(gold.get()-Potion.initialPrice);
             bought.add(h);
+            this.bought_portion++;
         }
         else {
             //popUpWindow();

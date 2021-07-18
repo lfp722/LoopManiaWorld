@@ -12,17 +12,17 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="305.0" prefWidth="536.0">
          <children>
-            <Button fx:id="Button_BerserkerMode" layoutX="211.0" layoutY="77.0" onAction="#switchToGame" prefHeight="57.0" prefWidth="186.0" text="BerserkerMode">
+            <Button fx:id="Button_BerserkerMode" layoutX="211.0" layoutY="77.0" onAction="#BerserkerMode" prefHeight="57.0" prefWidth="186.0" text="BerserkerMode">
                <font>
                   <Font name="Bell MT Bold" size="21.0" />
                </font>
             </Button>
-            <Button fx:id="Button_NormalMode" layoutX="212.0" layoutY="155.0" onAction="#switchToGame" prefHeight="56.0" prefWidth="186.0" text="NormalMode">
+            <Button fx:id="Button_NormalMode" layoutX="212.0" layoutY="155.0" onAction="#NormalMode" prefHeight="56.0" prefWidth="186.0" text="NormalMode">
                <font>
                   <Font name="Bell MT Bold" size="21.0" />
                </font>
             </Button>
-            <Button fx:id="ButtonSurvivialMode" layoutX="211.0" layoutY="231.0" onAction="#switchToGame" prefHeight="56.0" prefWidth="187.0" text="SurvivialMode">
+            <Button fx:id="ButtonSurvivialMode" layoutX="211.0" layoutY="231.0" onAction="#SurvivialMode" prefHeight="56.0" prefWidth="187.0" text="SurvivialMode">
                <font>
                   <Font name="Bell MT Bold" size="21.0" />
                </font>

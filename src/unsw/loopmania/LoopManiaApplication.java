@@ -69,6 +69,19 @@ public class LoopManiaApplication extends Application {
         // e.g. from main menu to start the game, or from the game to return to main menu
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
         mainMenuController.setGameSwitcher(() -> {
+            switch (mainMenuController.getModeType()) {
+                case "BerserkerMode":
+                    
+                    break;
+                case "NormalMode":
+                    
+                    break;
+                case "SurvivialMode":
+                    
+                    break;
+                default:
+                    break;
+            }
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
