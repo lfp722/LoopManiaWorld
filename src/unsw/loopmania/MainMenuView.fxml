@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <!-- TODO = modify and expand the range of menus available from the menu menu, and develop game modes you can select when starting a new game -->
-
 <!-- vertically stacked label and button -->
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label text="Main Menu" />
-      <!-- clicking button should start/resume the game -->
-      <Button fx:id="startGameButton" text="Start Game" onAction="#switchToGame"/>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="LoopMania" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="305.0" prefWidth="536.0">
+         <children>
+            <Button fx:id="Button_BerserkerMode" layoutX="211.0" layoutY="77.0" onAction="#switchToGame" prefHeight="57.0" prefWidth="186.0" text="BerserkerMode">
+               <font>
+                  <Font name="Bell MT Bold" size="21.0" />
+               </font>
+            </Button>
+            <Button fx:id="Button_NormalMode" layoutX="212.0" layoutY="155.0" onAction="#switchToGame" prefHeight="56.0" prefWidth="186.0" text="NormalMode">
+               <font>
+                  <Font name="Bell MT Bold" size="21.0" />
+               </font>
+            </Button>
+            <Button fx:id="ButtonSurvivialMode" layoutX="211.0" layoutY="231.0" onAction="#switchToGame" prefHeight="56.0" prefWidth="187.0" text="SurvivialMode">
+               <font>
+                  <Font name="Bell MT Bold" size="21.0" />
+               </font>
+            </Button>
+         </children></AnchorPane>
+  </content>
+   <font>
+      <Font name="Bell MT" size="19.0" />
+   </font>
+</TitledPane>
