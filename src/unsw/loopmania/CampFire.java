@@ -8,7 +8,7 @@ public class CampFire extends Building{
 
     public CampFire(SimpleIntegerProperty x, SimpleIntegerProperty y){
         super(x, y);
-        this.radius = 5;
+        this.radius = 3;
         buffed = false;
     }
 
