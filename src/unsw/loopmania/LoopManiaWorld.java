@@ -60,7 +60,7 @@ public class LoopManiaWorld {
     private Character character;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
-    private List<Item> items;
+    //private List<Item> items;
     // TODO = expand the range of enemies
     private List<Enemy> enemies;
 
