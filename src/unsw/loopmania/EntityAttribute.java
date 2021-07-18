@@ -27,22 +27,43 @@ public class EntityAttribute {
         this.cur_health.set(health);
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getAttack(){
         return attack;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getDefence(){
         return defence;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getHealth(){
         return health;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public SimpleIntegerProperty getCurHealth() {
         return cur_health;
     }
 
+    /**
+     * link the attribute between character and a soldier, with some discount
+     * @param discount
+     * @return
+     */
     public EntityAttribute copy(int discount) {
         return new EntityAttribute(attack.get() / discount + 1, defence.get() / discount + 1, health.get() / discount + 1);
     } 

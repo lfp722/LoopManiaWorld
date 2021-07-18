@@ -23,6 +23,11 @@ public class CampFire extends Building{
         buffed = false;
     }
 
+    /**
+     * 
+     * @param e
+     * @return if an entity(enemy or character) is in the radius of a campfire buff
+     */
     public boolean isInRadius(Entity e) {
         if (Math.sqrt(Math.pow(this.getX() - e.getX(), 2)+Math.pow(this.getY()-e.getY(), 2)) <= radius) {
             return true;

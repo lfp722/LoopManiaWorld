@@ -17,10 +17,18 @@ public class Weapon extends Equipment {
         //this.damage.bind(Bindings.createIntegerBinding(()->this.nextDamage(),this.level));
     }
 
+    /**
+     * getter
+     * @return damage in int
+     */
     public int getDamage() {
         return this.damage.get();
     }
 
+    /**
+     * relationship between damage increase and level
+     * @return damage increase in next level in int 
+     */
     public int nextDamage() {
         return 0;
     }
@@ -30,6 +38,11 @@ public class Weapon extends Equipment {
     //     return (int) Math.pow((100 * this.level.get()),2) - 150;
     // }
 
+    /**
+     * possible effect of staff and stake, to be overriden
+     * @param e
+     * @param world
+     */
     public void specialEffect(Enemy e, LoopManiaWorld world){
         return;
     }

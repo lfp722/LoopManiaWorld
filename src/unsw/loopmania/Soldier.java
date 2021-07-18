@@ -13,10 +13,18 @@ public class Soldier extends StaticEntity{
         general = ch;
     }
     
+    /**
+     * attack specific enemy
+     * @param e
+     */
     public void attack(Enemy e) {
         e.underAttack(attr.getAttack().get());
     }
 
+    /**
+     * be attacked and perform decrease in health
+     * @param attack
+     */
     public void underAttack(int attack) {
         if (attack > attr.getCurHealth().get() || attack == attr.getCurHealth().get()) {
             this.dead();
@@ -26,7 +34,10 @@ public class Soldier extends StaticEntity{
         }
     }
 
-    //TODO: remove from battle list
+    /**
+     * perform a death of soldier
+     * @return
+     */
     public EntityAttribute dead() {
         general.remSoldier(this);
         this.destroy();

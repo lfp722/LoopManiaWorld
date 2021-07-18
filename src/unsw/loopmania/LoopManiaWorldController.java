@@ -355,10 +355,9 @@ public class LoopManiaWorldController {
         onLoad(world.getHeroCastle());
     }
 
-
-
-
-
+    /**
+     * set basic vision of the frontend stats
+     */
     public void setLabel() {
         //String h = Integer.toString(world.getCharacter().getAttr().getCurHealth().get()).concat("/").concat(Integer.toString(world.getCharacter().getAttr().getHealth().get()));
         //health.setText(h);
@@ -625,10 +624,7 @@ public class LoopManiaWorldController {
 
 
     
-    // /**
-    //  * run GUI events after an enemy is defeated, such as spawning items/experience/gold
-    //  * @param enemy defeated enemy for which we should react to the death of
-    //  */
+    
     // private void reactToEnemyDefeat(Enemy enemy){
     //     // react to character defeating an enemy
     //     // in starter code, spawning extra card/weapon...
@@ -636,7 +632,10 @@ public class LoopManiaWorldController {
     //     loadSword();
     //     loadVampireCard();
     // }
-
+    /**
+     * run GUI events after an enemy is defeated, such as spawning items/experience/gold
+     * @param enemy defeated enemy for which we should react to the death of
+     */
     public void reactToEnemyDefeat(Enemy enemy) {
         if(enemy instanceof Slug) {
             loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
@@ -693,10 +692,9 @@ public class LoopManiaWorldController {
         }
     }
 
-
-
-
-
+    /**
+     * load the card for different type
+     */
     public void loadCard() {
         int cardChoice = new Random().nextInt(7);
         if (cardChoice == 0) {
@@ -981,6 +979,10 @@ public class LoopManiaWorldController {
         }
     }
 
+    /**
+     * on load different type of item
+     * @param i
+     */
     private void onLoad(Item i) {
         if (i instanceof Sword) {
             Sword a = (Sword) i;
@@ -1480,20 +1482,36 @@ public class LoopManiaWorldController {
         }
     }
 
+    /**
+     * switchers to switch to another window
+     * @param mainMenuSwitcher
+     */
     public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
 
+    /**
+     * switchers to switch to another window
+     * @param storeSwitcher
+     */
     public void setStoreSwitcher(StoreSwitcher storeSwitcher) {
         this.storeSwitcher = storeSwitcher;
     }
 
+    /**
+     * switchers to switch to another window
+     * @param mainMenuSwitcher
+     */
     public void setWinSwitcher(MenuSwitcher mainMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.winSwitcher = mainMenuSwitcher;
     }
 
+    /**
+     * switchers to switch to another window
+     * @param mainMenuSwitcher
+     */
     public void setLoseSwitcher(MenuSwitcher mainMenuSwitcher){
         // TODO = possibly set other menu switchers
         this.loseSwitcher = mainMenuSwitcher;

@@ -16,26 +16,49 @@ public class Item extends StaticEntity {
         this.owner = null;
     }
 
+    /**
+     * use an item(potion)
+     */
     public void use() {
         return;
     }
 
+    /**
+     * destroy an item
+     */
     public void abandon() {
         return;
     }
 
+    /**
+     * getter
+     * @return the value of item in gold
+     * i.e. how much gold will be obtained
+     */
     public int getValueInGold() {
         return this.ValueInGold.get();
     }
 
+    /**
+     * setter
+     * @param ValueInGold
+     */
     public void setValueInGold(int ValueInGold) {
         this.ValueInGold.set(ValueInGold);
     }
 
+    /**
+     * getter
+     * @return the owner
+     */
     public Character getOwner() {
         return this.owner;
     }
 
+    /**
+     * setter
+     * @param owner
+     */
     public void setOwner(Character owner) {
         this.owner = owner;
     }

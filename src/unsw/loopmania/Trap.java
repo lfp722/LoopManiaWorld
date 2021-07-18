@@ -11,6 +11,10 @@ public class Trap extends Building{
         this.damage = 20;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public int getDamage(){
         return this.damage;
     }

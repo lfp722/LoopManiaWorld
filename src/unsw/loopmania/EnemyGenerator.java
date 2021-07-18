@@ -14,19 +14,17 @@ public class EnemyGenerator implements Generator {
         generateVampire(world);
     }
 
+    /**
+     * generator for different type of enemy
+     * @param world
+     */
     public void generateSlug(LoopManiaWorld world) {
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
             return;
         }
         world.possiblySpawnEnemies();
     }
-    /**
-     * go throught the building list and check for specific building
-     * spawn enemy under some probablility
-     * find the path tile nearest to the building
-     * put the enemy into the list
-     * @param world
-     */
+    
     public void generateZombie(LoopManiaWorld world) {
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
             return;

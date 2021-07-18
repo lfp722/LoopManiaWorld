@@ -125,23 +125,10 @@ public class LoopManiaWorld {
         //map containing lists of different buildings
     }
 
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
+    /**
+     * getters 
+     * @return
+     */
     public List<Enemy> getEnemies() {
         return enemies;
     }
@@ -161,22 +148,6 @@ public class LoopManiaWorld {
     public List<Building> getBuildingEntities() {
         return buildingEntities;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public int getWidth() {
@@ -254,15 +225,10 @@ public class LoopManiaWorld {
         return spawningEnemies;
     }
 
-
-
-
-
-
-
-
-
-
+    /**
+     * also spawn gold by different possibility from enemy
+     * @return
+     */
     public List<Gold> possiblySpawnGold(){
         // TODO = expand this very basic version
         Pair<Integer, Integer> pos = possiblyGetGoldPosition();
@@ -278,6 +244,10 @@ public class LoopManiaWorld {
         return spawningItems;
     }
 
+    /**
+     * similar as gold
+     * @return
+     */
     public List<Potion> possiblySpawnPotion(){
         // TODO = expand this very basic version
         Pair<Integer, Integer> pos = possiblyGetPosionPosition();
@@ -301,24 +271,26 @@ public class LoopManiaWorld {
         enemies.remove(enemy);
     }
 
-
-
-
-
+    /**
+     * battle simulator
+     * @param battleEnemies
+     * @param defeatedEnemies
+     * @param ch
+     */
     private void battle(List<Enemy> battleEnemies, List<Enemy> defeatedEnemies, Character ch) {
-        if (!ch.shouldExist().get()) {
-            System.out.println("I am dead!");
-        }
+        // if (!ch.shouldExist().get()) {
+        //     System.out.println("I am dead!");
+        // }
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
             for (Soldier s: ch.getArmy()) {
                 Enemy target = battleEnemies.get(0);
                 s.attack(target);
-                System.out.println("Soldier attack enemy");
+                //System.out.println("Soldier attack enemy");
                 if (!target.shouldExist().get()) {
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
-                    System.out.println("Enemy defeated");
+                    //System.out.println("Enemy defeated");
                     if (battleEnemies.isEmpty()) { 
                         break; 
                     }
@@ -336,11 +308,11 @@ public class LoopManiaWorld {
             for (Enemy s: ch.getTranced()) {
                 Enemy target = battleEnemies.get(0);
                 s.attack(target);
-                System.out.println("Tranced enemy attack enemy");
+                //System.out.println("Tranced enemy attack enemy");
                 if (!target.shouldExist().get()) {
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
-                    System.out.println("Enemy defeated");
+                    //System.out.println("Enemy defeated");
                     if (battleEnemies.isEmpty()) { 
                         break; 
                     }
@@ -360,11 +332,11 @@ public class LoopManiaWorld {
             if (!battleEnemies.isEmpty()) {
                 Enemy target = battleEnemies.get(0);
                 ch.attack(target);
-                System.out.println("Character attack enemy");
+                //System.out.println("Character attack enemy");
                 if (!target.shouldExist().get()) {
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
-                    System.out.println("Enemy defeated");
+                    //System.out.println("Enemy defeated");
                 }
             }
 
@@ -375,26 +347,26 @@ public class LoopManiaWorld {
                 }
                 ch.getTranced().clear();
             }
-            
-
-    
-            
 
             for (Enemy e: battleEnemies) {
                 if (ch.getArmy().isEmpty()) {
                     e.attack(ch);
-                    System.out.println("Enemy attack character");
+                    //System.out.println("Enemy attack character");
                 }
                 else{
                     Soldier brave = ch.getArmy().get(0);
                     e.attack(brave, this);
-                    System.out.println("Enemy attack soldier");
+                    //System.out.println("Enemy attack soldier");
                 }
             }
 
         }
     }
 
+    /**
+     * battle loader
+     * @return a list of enemy been defeated during a battle
+     */
     public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
         System.out.println("battle run!");
@@ -563,6 +535,10 @@ public class LoopManiaWorld {
         shiftCardsDownFromXCoordinate(x);
     }
 
+    /**
+     * remove solder at a particular index of soldiers (position in gridpane of unplayed soldiers)
+     * @param index the index of the soldier, from 0 to length-1
+     */
     public void removeSoldier(int index){
         Soldier c = character.getArmy().get(index);
         int x = c.getX();
@@ -823,6 +799,10 @@ public class LoopManiaWorld {
         return null;
     }
 
+    /**
+     * similar as possible position of an enemy spawn
+     * @return
+     */
     public Pair<Integer, Integer> possiblyGetGoldPosition(){
         // TODO = modify this
         
@@ -849,6 +829,10 @@ public class LoopManiaWorld {
         return null;
     }
 
+    /**
+     * similar as possible position of an enemy spawn
+     * @return
+     */
     public Pair<Integer, Integer> possiblyGetPosionPosition(){
         // TODO = modify this
         
@@ -968,13 +952,18 @@ public class LoopManiaWorld {
         return null;
     }
 
-    /*
-    *getter
-    */
+    /**
+     * getter
+     * @return
+     */
     public Character getCharacter(){
         return this.character;
     }
 
+    /**
+     * getter
+     * @return
+     */
     public List<Pair<Integer, Integer>> getOrderedPath(){
         return this.orderedPath;
     }
@@ -1004,6 +993,11 @@ public class LoopManiaWorld {
     //     return a;
     // }
 
+    /**
+     * to check if a pair of position coordinates in the path tiles
+     * @param p
+     * @return
+     */
     public boolean isInPath(Pair<Integer, Integer> p) {
         for (Pair<Integer, Integer> temp: orderedPath) {
             if (temp.getValue0().equals(p.getValue0()) && temp.getValue1().equals(p.getValue1())) {
@@ -1013,6 +1007,11 @@ public class LoopManiaWorld {
         return false;
     }
 
+    /**
+     * to check if a pair of position coordinates next to the path tiles
+     * @param p
+     * @return
+     */
     public boolean ifNearPathTile(Pair<Integer, Integer> p){
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
@@ -1026,14 +1025,27 @@ public class LoopManiaWorld {
         }
         return false;
     }
+
+    /**
+     * obtain gold
+     * @param gold
+     */
     public void addGold(int gold) {
         character.addGold(gold);
     }
 
+    /**
+     * obtain exp
+     * @param exp
+     */
     public void addExp(int exp) {
         character.addExp(exp);
     }
 
+    /**
+     * to pick up a potion and add it to the list
+     * @return
+     */
     public List<Potion> pickUp() {
         List<Potion> picked = new ArrayList<>();
         List<Item> copied = new ArrayList<>();
@@ -1069,6 +1081,10 @@ public class LoopManiaWorld {
         return picked;
     }
 
+    /**
+     * to create a hero castle
+     * @return
+     */
     public HeroCastle getHeroCastle() {
         Pair<Integer, Integer> pos = orderedPath.get(0);
         SimpleIntegerProperty x = new SimpleIntegerProperty(pos.getValue0());
@@ -1080,10 +1096,20 @@ public class LoopManiaWorld {
         return a;
     }
 
+    /**
+     * get some reward after the item is destroyed
+     * @param i
+     */
     public void makeUpReward(Item i) {
         character.addGold((int)(i.getValueInGold()*0.1));
     }
 
+    /**
+     * to equip an inventory
+     * @param nodeX
+     * @param nodeY
+     * @return
+     */
     public Equipment covertEquippedToEquipped(int nodeX, int nodeY) {
         Equipment item = null;
         for (Entity c: unequippedInventoryItems){
@@ -1164,13 +1190,15 @@ public class LoopManiaWorld {
             removeUnequippedInventoryItem(item);
             return newShield;
         }
-        
- 
-
         return null;
 
     }
 
+    /**
+     * prevent concurrency exception
+     * @param nodeX
+     * @param nodeY
+     */
     public void consumePotion(int nodeX, int nodeY) {
         if (battleLock.get() == 0) {
             return;
@@ -1190,6 +1218,9 @@ public class LoopManiaWorld {
         battleLock.set(1);
     }
 
+    /**
+     * prevent concurrency exception
+     */
     public void consumePotion() {
         if (battleLock.get() == 0) {
             return;
@@ -1210,18 +1241,34 @@ public class LoopManiaWorld {
         battleLock.set(1);
     }
 
+    /**
+     * getter
+     * @return
+     */
     public Equipped getEquip() {
         return equippedItems;
     }
 
+    /**
+     * check if the goal of the game is achieved
+     * @return
+     */
     public boolean checkGoal() {
         return goal.checkGoal(this);
     }
 
+    /**
+     * getter
+     * @return
+     */
     public List<Item> getBoughtItem() {
         return boughtItems;
     }
 
+    /**
+     * check if the character is at the hero castle
+     * @return
+     */
     public boolean atHeroCastle() {
         Pair<Integer, Integer> pos = orderedPath.get(0);
         if (character.getX() == pos.getValue0() && character.getY() == pos.getValue1()){

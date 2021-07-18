@@ -10,6 +10,11 @@ public class VampireCastle extends Building {
         super(x,y);
     }
 
+    /**
+     * special effect
+     * @param world
+     * @return
+     */
     public Vampire produceVampire(LoopManiaWorld world) {
         
         if (world.getCycle().get()%5 == 0) {

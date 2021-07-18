@@ -9,10 +9,18 @@ public class Equipment extends Item{
     protected SimpleIntegerProperty level;
     protected SimpleIntegerProperty levelUpPrice;
 
+    /**
+     * 
+     * @return int of gold required to upgrade an equipment
+     */
     public int getLevelUpPrice() {
         return this.levelUpPrice.get();
     }
 
+    /**
+     * to be overriden
+     * @return calculate different pattern depending on the level
+     */
     public int nextLevelUpPrice() {
         return 0;
     }
@@ -27,19 +35,36 @@ public class Equipment extends Item{
         this.levelUpPrice.bind(Bindings.createIntegerBinding(()->nextLevelUpPrice(),this.level));
     }
 
+    /**
+     * 
+     * @return level of an equipment
+     */
     public int getLevel() {
         return this.level.get();
     }
 
+    /**
+     * upgrade an equipment
+     */
     public void levelUp() {
         this.level.set(this.level.get()+1);
     }
 
 
+    /**
+     * equip an equipment
+     * @param ch character to be equipped on
+     */
     public void equip(Character ch) {
 
     }
+
+    /**
+     * unequip an equipment
+     * @param ch
+     */
     public void unequip(Character ch) {
+
     }
 
     @Override

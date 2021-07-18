@@ -16,10 +16,18 @@ public class Outfit extends Equipment {
         //this.reduceRate.bind(Bindings.createDoubleBinding(()->this.nextReduceRate(),this.level));
     }
 
+    /**
+     * getter
+     * @return defense increases by the outfit
+     */
     public int getDefense() {
         return this.defense.get();
     }
 
+    /**
+     * relation between the defense increase next level and the level
+     * @return
+     */
     public int nextDefense() {
         return (int) 3 + this.level.get() * 10;
     }

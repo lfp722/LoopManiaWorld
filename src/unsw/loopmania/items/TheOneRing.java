@@ -9,12 +9,25 @@ public class TheOneRing extends Item {
         this.chanceAppearance.set(0.01);
     }
     
+    /**
+     * setter
+     * @param chanceAppearance
+     */
     public void setChanceAppearance(double chanceAppearance) {
         this.chanceAppearance.set(chanceAppearance);
     }
+
+    /**
+     * getter
+     * @return
+     */
     public double getChanceAppearance() {
         return this.chanceAppearance.get();
     }
+
+    /**
+     * show in particular chance
+     */
     public void appear(){
         double chanceTrance = Math.random();
         if (chanceTrance <= this.chanceAppearance.get()) {
