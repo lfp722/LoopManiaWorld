@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Barrack;
@@ -88,6 +89,7 @@ public class characterTest {
     public void test_character_equip() {
         Helper helper = new Helper();
         Character c = helper.testCharacterSetup(0, MAP1);
+        LoopManiaWorld world = helper.createWorld(MAP1);
         EntityAttribute characterAttr = c.getAttr();
         int health = characterAttr.getHealth().getValue();
         int attack = characterAttr.getAttack().getValue();
@@ -96,10 +98,9 @@ public class characterTest {
         assertEquals(attack, 5);
         assertEquals(defense, 0);
         
-        SimpleIntegerProperty x = new SimpleIntegerProperty();
-        SimpleIntegerProperty y = new SimpleIntegerProperty();
+
         //sword
-        Sword sword = new Sword(x, y);
+        Sword sword = world.addUnequippedSword();
         sword.equip(c);
         int damage_sword = sword.getDamage();
         assertEquals(attack, 5 + damage_sword);
@@ -107,7 +108,7 @@ public class characterTest {
         assertEquals(attack, 5);
 
         //stake
-        Stake stake = new Stake(x, y);
+        Stake stake = world.addUnequippedStake();
         stake.equip(c);
         int damage_stake = stake.getDamage();
         assertEquals(attack, 5 + damage_stake);
@@ -115,7 +116,7 @@ public class characterTest {
         assertEquals(attack, 5);
 
         //staff
-        Staff staff = new Staff(x, y);
+        Staff staff = world.addUnequippedStaff();
         staff.equip(c);
         int damage_staff = staff.getDamage();
         assertEquals(attack, 5 + damage_staff);
@@ -123,7 +124,7 @@ public class characterTest {
         assertEquals(attack, 5);
 
         //armour
-        Armour armour = new Armour(x, y);
+        Armour armour = world.addUnequippedArmour();
         armour.equip(c);
         int defense_armour = armour.getDefense();
         assertEquals(defense, 0 + defense_armour);
@@ -131,7 +132,7 @@ public class characterTest {
         assertEquals(defense, 0);
 
         //helmet
-        Helmet helmet = new Helmet(x, y);
+        Helmet helmet = world.addUnequippedHelmet();
         helmet.equip(c);
         int defense_helmet = helmet.getDefense();
         assertEquals(defense, 0 + defense_helmet);
@@ -139,7 +140,7 @@ public class characterTest {
         assertEquals(defense, 0);
 
         //shield
-        Shield shield = new Shield(x, y);
+        Shield shield = world.addUnequippedShield();
         shield.equip(c);
         int defense_shield = shield.getDefense();
         assertEquals(defense, 0 + defense_shield);
@@ -236,21 +237,26 @@ public class characterTest {
         assertEquals(characterAttr.getCurHealth().getValue(), health - vampire_attack);
     }
 
-    /*/Produce soldier
+    //Produce soldier
     @Test
     public void test_produce_soldier() {
         Helper helper = new Helper();
         LoopManiaWorld world = helper.createWorld(MAP1);
         Character character = helper.testCharacterSetup(0, MAP1);
         assertEquals(character.getArmy().size(), 0);
-
         SimpleIntegerProperty x = new SimpleIntegerProperty();
         SimpleIntegerProperty y = new SimpleIntegerProperty();
-        Barrack barrack = new Barrack(x, y);
-
-        barrack.soldierProducer(world);
+        Soldier s1 = new Soldier(x, y, character);
+        character.addSoldier(s1);
         assertEquals(character.getArmy().size(), 1);
+        Soldier s2 = new Soldier(x, y, character);
+        character.addSoldier(s2);
+        assertEquals(character.getArmy().size(), 2);
+
+        character.remSoldier(s2);
+        assertEquals(character.getArmy().size(), 1);
+
     }
-*/
+
 
 }
