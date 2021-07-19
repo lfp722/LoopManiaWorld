@@ -4,13 +4,18 @@ package test;
 import test.Helper;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
-import unsw.loopmania.Barrack;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
+import javax.swing.Painter;
+
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayNameGenerator.Simple;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import org.javatuples.Pair;
 
 public class buildingTest {
     private static final int CURRENT = 0;
@@ -64,11 +69,69 @@ public class buildingTest {
     public void test_barrack_produce() {
         Helper helper = new Helper();
         LoopManiaWorld world = helper.createWorld(MAP1);
-        Building barrack = helper.createBuildingSetup("Barrack", 1, world, CURRENT);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        PathPosition pathposition = new PathPosition(1, orderedPath);
+        SimpleIntegerProperty x = pathposition.getX();
+        SimpleIntegerProperty y = pathposition.getY();
+
+        Barrack barrack = new Barrack(x, y);
+
         Character character = helper.testCharacterSetup(1, MAP1);
-        Soldier soldier = barrack.soldierProducer(world);
+        barrack.soldierProducer(world);
+        assertEquals(character.getArmy().size(), 1);
 
     }
+
+    @Test
+    public void test_campfire() {
+        Helper helper = new Helper();
+        LoopManiaWorld world = helper.createWorld(MAP1);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        PathPosition pathposition = new PathPosition(1, orderedPath);
+        SimpleIntegerProperty x = pathposition.getX();
+        SimpleIntegerProperty y = pathposition.getY();
+        Character character = helper.testCharacterSetup(1, MAP1);
+        EntityAttribute chAttr = character.getAttr();
+        int attack = chAttr.getAttack().getValue();
+        assertEquals(attack, 5);        
+        CampFire campfire = new CampFire(x, y);
+        assertEquals(campfire.isInRadius(character), true);
+    }
+
+    //
+    @Test
+    public void test_tower() {
+        Helper helper = new Helper();
+        LoopManiaWorld world = helper.createWorld(MAP1);
+        List<Pair<Integer, Integer>> orderedPath = world.getOrderedPath();
+        PathPosition pathposition = new PathPosition(1, orderedPath);
+        SimpleIntegerProperty x = pathposition.getX();
+        SimpleIntegerProperty y = pathposition.getY();
+        Vampire v = helper.testVampireSetup(0, MAP1);
+        EntityAttribute vampireAttr = v.getAttribute();
+        int v_health = vampireAttr.getHealth().getValue();
+        int v_attack = vampireAttr.getAttack().getValue();
+        int v_CurHealth = vampireAttr.getCurHealth().getValue();
+
+        assertEquals(v_health, 53);
+        assertEquals(v_attack, 6);
+        assertEquals(v_CurHealth, 53);
+        Tower tower = new Tower(x, y);
+        assertEquals(tower.isInRadius(v), true);
+        
+        List<Enemy> enemies = new List<Enemy>();
+        enemies.add(v);
+        tower.attackIfInRadius(enemies);
+        assertEquals(v.getAttribute().getCurHealth().getValue(), 43);
+
+        
+    }
+
+
+
+
+
+
     
 
 }

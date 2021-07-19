@@ -119,6 +119,7 @@ public class Helper {
         SimpleIntegerProperty xCoord = new SimpleIntegerProperty(x);
         SimpleIntegerProperty yCoord = new SimpleIntegerProperty(y);
         Building building = new Building(xCoord, yCoord);
+        
         world.addEntity(building);
         return building;
     }
