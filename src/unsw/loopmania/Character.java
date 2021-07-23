@@ -24,6 +24,8 @@ public class Character extends MovingEntity{
     private SimpleIntegerProperty stakeVampireBuff;
     private SimpleDoubleProperty debuff;
     private LoopManiaWorld world;
+    private boolean isStunned;
+    private SimpleIntegerProperty Tsbuff;
 
 
     public Character(PathPosition position, LoopManiaWorld world) {
@@ -50,6 +52,8 @@ public class Character extends MovingEntity{
         attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
         this.equipped = world.getEquip();
         tranced = new ArrayList<>();
+        isStunned = false;
+        Tsbuff = new SimpleIntegerProperty(1);
     }
 
     /**
@@ -75,6 +79,8 @@ public class Character extends MovingEntity{
     // public void unequip(Equipment item) {
     //     item.unequip(this);
     // }
+    
+    
 
     /**
      * attack specific enemy
@@ -84,6 +90,14 @@ public class Character extends MovingEntity{
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
         equipped.specialAttack(enemy, world);
         enemy.underAttack(actualAttack);
+    }
+
+    public boolean isStunned() {
+        return isStunned;
+    }
+
+    public void setStunned(boolean isStunned) {
+        this.isStunned = isStunned;
     }
 
     /**
@@ -240,6 +254,11 @@ public class Character extends MovingEntity{
      */
     public SimpleIntegerProperty getNextLvExp() {
         return next_expr;
+    }
+
+
+    public SimpleIntegerProperty getTsBuff() {
+        return Tsbuff;
     }
 
 

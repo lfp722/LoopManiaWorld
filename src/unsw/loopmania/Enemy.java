@@ -11,6 +11,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     private int lv;
     private int goldAfterDeath;
     private int expAfterDeath;
+    private boolean isBoss = false;
 
 
     /**
@@ -284,6 +285,14 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         Integer valA = this.getAttribute().getCurHealth().get();
         Integer valB = b.getAttribute().getCurHealth().get();
         return valA.compareTo(valB);
+    }
+
+    public boolean getBoss() {
+        return isBoss;
+    }
+
+    public void setBoss() {
+        isBoss = true;
     }
 
 }

@@ -43,4 +43,8 @@ public class Outfit extends Equipment {
     // public double nextReduceRate() {
     //     return 0.5;
     // }
+
+    public SimpleIntegerProperty getDefenceProperty() {
+        return defense;
+    }
 }

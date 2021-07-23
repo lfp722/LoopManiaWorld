@@ -2,6 +2,8 @@ package unsw.loopmania.items;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Character;
+import unsw.loopmania.Enemy;
+import unsw.loopmania.LoopManiaWorld;
 public class Shield extends Outfit {
     public static final int initialPrice = 250;
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -43,4 +45,7 @@ public class Shield extends Outfit {
         return (int) Math.pow((100 * this.level.get()),2) - 150;
     }
     */
+
+    public void specialEffect(Enemy e, LoopManiaWorld world) {
+    }
 }

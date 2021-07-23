@@ -41,6 +41,8 @@ public class LoopManiaWorld {
     public static final int ringHeight = 0;
     public static final int ringWidth = 0;
 
+    private int doggiePrice;
+
     private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
 
     /**
@@ -124,6 +126,7 @@ public class LoopManiaWorld {
         maxNumTotal = new SimpleIntegerProperty();
         maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
         goal = new FinalGoal();
+        doggiePrice = 100;
 
         //map containing lists of different buildings
     }
@@ -146,6 +149,16 @@ public class LoopManiaWorld {
 
     public FinalGoal getGoal() {
         return goal;
+    }
+
+    
+
+    public int getDoggiePrice() {
+        return doggiePrice;
+    }
+
+    public void setDoggiePrice(int doggiePrice) {
+        this.doggiePrice = doggiePrice;
     }
 
     public TheOneRing addEquippedRing() {
@@ -213,6 +226,33 @@ public class LoopManiaWorld {
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), cycle.get());
             enemies.add(enemy);
             spawningEnemies.add(enemy);
+        }
+        return spawningEnemies;
+    }
+
+    public List<Doggie> possiblySpawnDoggies(){
+        // TODO = expand this very basic version
+        Pair<Integer, Integer> pos = possiblyGetDoggieSpawnPosition();
+        List<Doggie> spawningEnemies = new ArrayList<>();
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            Doggie enemy = new Doggie(new PathPosition(indexInPath, orderedPath), cycle.get());
+            enemies.add(enemy);
+            spawningEnemies.add(enemy);
+        }
+        return spawningEnemies;
+    }
+
+    public List<ElanMuske> possiblySpawnElans(){
+        // TODO = expand this very basic version
+        Pair<Integer, Integer> pos = possiblyGetElanSpawnPosition();
+        List<ElanMuske> spawningEnemies = new ArrayList<>();
+        if (pos != null){
+            int indexInPath = orderedPath.indexOf(pos);
+            ElanMuske enemy = new ElanMuske(new PathPosition(indexInPath, orderedPath), cycle.get());
+            enemies.add(enemy);
+            spawningEnemies.add(enemy);
+            enemy.increaseDoggiePrice(this);
         }
         return spawningEnemies;
     }
@@ -671,6 +711,38 @@ public class LoopManiaWorld {
         return sword;
     }
 
+    public Anduril addUnequippedAnduril(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new sword, as we know we have at least made a slot available...
+        Anduril anduril = new Anduril(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(anduril);
+        return anduril;
+    }
+
+    public TreeStump addUnequippedTreeStump(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new sword, as we know we have at least made a slot available...
+        TreeStump ts = new TreeStump(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(ts);
+        return ts;
+    }
+
     public Potion addPotion(){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
@@ -683,6 +755,22 @@ public class LoopManiaWorld {
         
         // now we insert the new sword, as we know we have at least made a slot available...
         Potion sword = new Potion(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(sword);
+        return sword;
+    }
+
+    public DoggieCoin addDoggie(){
+        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest sword
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new sword, as we know we have at least made a slot available...
+        DoggieCoin sword = new DoggieCoin(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
         unequippedInventoryItems.add(sword);
         return sword;
     }
@@ -805,6 +893,64 @@ public class LoopManiaWorld {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(3); // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 5)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
+    }
+
+    private Pair<Integer, Integer> possiblyGetDoggieSpawnPosition(){
+        // TODO = modify this
+        if (cycle.get() < 20) {
+            return null; 
+        }
+        
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(10); // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 5)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
+    }
+
+    private Pair<Integer, Integer> possiblyGetElanSpawnPosition(){
+        // TODO = modify this
+        if (cycle.get() < 40 || character.getExp() < 10000) {
+            return null; 
+        }
+        
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(20); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
         if ((choice == 0) && (enemies.size() < 5)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
@@ -1212,6 +1358,30 @@ public class LoopManiaWorld {
                 equippedItems.dropShield();
             }
             Shield newShield = new Shield(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipShield(newShield);
+            removeUnequippedInventoryItem(item);
+            return newShield;
+        }
+
+        else if (item instanceof Anduril) {
+            Weapon old = equippedItems.getWeapon();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropWeapon();
+            }
+            Anduril newWeapon = new Anduril(new SimpleIntegerProperty(weaponSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipWeapon(newWeapon);
+            removeUnequippedInventoryItem(item);
+            return newWeapon;
+        }
+
+        else if (item instanceof TreeStump) {
+            Shield old = equippedItems.getShield();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropShield();
+            }
+            TreeStump newShield = new TreeStump(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight));
             equippedItems.equipShield(newShield);
             removeUnequippedInventoryItem(item);
             return newShield;
