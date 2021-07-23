@@ -57,6 +57,8 @@ public class LoopManiaWorld {
 
     private List<Item> boughtItems = new ArrayList<>();
 
+    private List<Item> soldItems = new ArrayList<>();
+
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -73,7 +75,7 @@ public class LoopManiaWorld {
     private List<Card> cardEntities;
 
     // TODO = expand the range of items
-    private List<Entity> unequippedInventoryItems;
+    private List<Item> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
     private List<Building> buildingEntities;
@@ -1289,6 +1291,10 @@ public class LoopManiaWorld {
         return boughtItems;
     }
 
+    public List<Item> getSoldItem() {
+        return soldItems;
+    }
+
     /**
      * check if the character is at the hero castle
      * @return
@@ -1299,6 +1305,10 @@ public class LoopManiaWorld {
             return true;
         }
         return false;
+    }
+
+    public List<Item> getInventory() {
+        return unequippedInventoryItems;
     }
 
     

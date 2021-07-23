@@ -90,6 +90,7 @@ public class LoopManiaApplication extends Application {
         });
         mainController.setStoreSwitcher(() -> {
             storeController.initializeCounts();
+            storeController.initialize();
             mainController.pause();
             switchToRoot(scene, storeRoot, primaryStage);
         });
