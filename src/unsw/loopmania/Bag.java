@@ -56,4 +56,10 @@ public class Bag {
     public Item get(int index) {
         return items.get(index);
     }
+
+    public static void main(String[] args) {
+        List<String> a = new ArrayList<>();
+        a.add("1");
+        a.remove("2");
+    }
 }
