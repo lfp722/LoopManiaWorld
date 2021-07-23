@@ -10,3 +10,4 @@ Elan appear rate 5%;
 doggie coin price influenced by Elan: when appears, price = 3*price; when defeated, price = price / 4;
 equipped items are not to be sold;
 sold item price as 70% of original;
+boss will not be affected by staff;

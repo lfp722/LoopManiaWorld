@@ -76,7 +76,7 @@ enum DRAGGABLE_TYPE{
     POTION,
     THEONERING,
     ANDURIL,
-    TREESTUMP
+    TREESTUMP, DOGGIECOIN
 }
 
 /**
@@ -545,6 +545,15 @@ public class LoopManiaWorldController {
             for (Vampire newEnemy: newVampires){
                 onLoad(newEnemy);
             }
+            List<Doggie> newDoggies = world.possiblySpawnDoggies();
+            for (Doggie newEnemy: newDoggies){
+                onLoad(newEnemy);
+            }
+            List<ElanMuske> newElans = world.possiblySpawnElans();
+            for (ElanMuske newEnemy: newElans){
+                onLoad(newEnemy);
+            }
+            
             List<Gold> newGolds = world.possiblySpawnGold();
             List<Potion> newPotions = world.possiblySpawnPotion();
             for (Gold newGold: newGolds) {
@@ -1009,6 +1018,18 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
+    private void onLoad(Doggie enemy) {
+        ImageView view = new ImageView(doggieImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(ElanMuske enemy) {
+        ImageView view = new ImageView(elanImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
     private void onLoadPick(Potion enemy) {
         ImageView view = new ImageView(potionImage);
         addEntity(enemy, view);
@@ -1342,6 +1363,18 @@ public class LoopManiaWorldController {
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 world.consumePotion(nodeX, nodeY);
                                 break;
+                            case ANDURIL:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Anduril newAn = (Anduril) world.covertEquippedToEquipped(nodeX, nodeY);
+                                onEquip(newAn);
+                                break;
+                            case TREESTUMP:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                TreeStump newTS = (TreeStump) world.covertEquippedToEquipped(nodeX, nodeY);
+                                onEquip(newTS);
+                                break;
                             default:
                                 break;
                         }
@@ -1494,6 +1527,9 @@ public class LoopManiaWorldController {
                         break;
                     case POTION:
                         draggedEntity.setImage(potionImage);
+                        break;
+                    case DOGGIECOIN:
+                        draggedEntity.setImage(doggieCoinImage);
                         break;
                     default:
                         break;
