@@ -128,6 +128,12 @@
                      </image>
                   </ImageView>
 
+                  <ImageView id="dcLabel"  xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" GridPane.columnIndex="0" GridPane.rowIndex="6">    
+                     <image>
+                        <Image url="@../../images/doggiecoin.png"/>
+                     </image>
+                  </ImageView>
+
 
 
 
