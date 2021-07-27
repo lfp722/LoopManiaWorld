@@ -1403,12 +1403,16 @@ public class LoopManiaWorld {
         theOneRingExist = false;
         andurilExist = false;
         treeStumpExist = false;
-        
+        System.out.println(this.getCharacter().shouldExist().get());
         for (Entity i: nonSpecifiedEntities){
+            if (i instanceof Character) {
+                continue;
+            }
             i.destroy();
         }
+        System.out.println(this.getCharacter().shouldExist().get());
         nonSpecifiedEntities = new ArrayList<>();
-
+        System.out.println(this.getCharacter().shouldExist().get());
         for (Enemy i: enemies){
             i.destroy();
         }
@@ -1448,5 +1452,4 @@ public class LoopManiaWorld {
         character.initialize();
     }
 
-    
 }

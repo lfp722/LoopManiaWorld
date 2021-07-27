@@ -471,10 +471,12 @@ public class LoopManiaWorldController {
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             //System.out.println(world.checkGoal());
             if (world.checkGoal()) {
+                System.out.println("winning game");
                 switchToWin();
             }
             world.runTickMoves();
             if (world.atHeroCastle()) {
+                System.out.println("Switching to store");
                 switchToStore();
             }
             if (!world.getBoughtItem().isEmpty()) {
@@ -506,6 +508,7 @@ public class LoopManiaWorldController {
                     world.getEquip().getRing().destroy();
                     world.getEquip().dropRing();
                 } else {
+                    System.out.println("losing game");
                     switchToLose();
                 }
                 

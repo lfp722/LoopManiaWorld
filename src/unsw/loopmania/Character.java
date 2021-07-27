@@ -257,8 +257,10 @@ public class Character extends MovingEntity{
 
     public void initialize() {
         this.getPosition().setCurrentPositionInPath(0);
-        experience = new SimpleIntegerProperty();
         experience.set(0);
+        System.out.println(this.shouldExist().get());
+        attr.getCurHealth().set(attr.getHealth().get());
+        gold.set(0);
 
         for  (Soldier s: army) {
             s.destroy();
