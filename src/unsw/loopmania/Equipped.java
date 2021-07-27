@@ -58,6 +58,10 @@ public class Equipped {
     }
 
     public void dropRing() {
+        if (ring == null) {
+            return;
+        }
+        ring.destroy();
         ring = null;
     }
 
