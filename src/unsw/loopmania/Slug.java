@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.Random;
 
+import org.json.JSONObject;
+
 public class Slug extends Enemy {
 
     public Slug(PathPosition position, int cycle) {
@@ -15,6 +17,15 @@ public class Slug extends Enemy {
         this.getAttribute().getDefence().set(0);
         this.setGoldAfterDeath((new Random().nextInt(40) + 10) + 10 * this.getLv());
         this.setExpAfterDeath(20 + 100 * this.getLv());
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject enemy = new JSONObject();
+        enemy.put("type", "Slug");
+        enemy.put("lv", this.getLv());
+        enemy.put("position", this.getPosition().getCurrentPositionInPath());
+        return enemy;
     }
     
 }

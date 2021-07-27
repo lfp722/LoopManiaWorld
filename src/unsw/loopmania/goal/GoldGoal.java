@@ -13,6 +13,10 @@ public class GoldGoal implements Goal{
         gold = value;
     }
 
+    public int getGoal() {
+        return gold;
+    }
+
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
         return world.getCharacter().getGold() >= gold;

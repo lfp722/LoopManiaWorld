@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 //import unsw.loopmania.LoopManiaWorld;
 
@@ -24,5 +26,14 @@ public class Village extends Building{
         if(world.getCharacter().getX() == this.getX() && world.getCharacter().getY() == this.getY()){
             world.getCharacter().heal(regenRate);
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject b = new JSONObject();
+        b.put("type", "Village");
+        b.put("x", getX());
+        b.put("y", getY());
+        return b;
     }
 }

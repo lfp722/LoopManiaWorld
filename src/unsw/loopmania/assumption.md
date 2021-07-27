@@ -12,3 +12,4 @@ equipped items are not to be sold;
 sold item price as 70% of original;
 boss will not be affected by staff;
 Anduril and TreeStump will only be obtained after death of a boss;
+saving games will only occur outside a battle;

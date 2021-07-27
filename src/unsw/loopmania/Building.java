@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import org.javatuples.Pair;
+import org.json.JSONObject;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -34,6 +35,10 @@ public class Building extends StaticEntity{
      * @param world
      */
     public void specialEffect(LoopManiaWorld world) {
+    }
+
+    public JSONObject toJSON() {
+        return null;
     }
 
 }

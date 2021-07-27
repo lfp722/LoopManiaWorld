@@ -1,5 +1,8 @@
 package unsw.loopmania.items;
 import unsw.loopmania.*;
+
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -35,5 +38,15 @@ public class Stake extends Weapon {
         else {
             world.getCharacter().getStakeVampireBuff().set(1);
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "Stake");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        i.put("valueInGold", this.getValueInGold());
+        return i;
     }
 }

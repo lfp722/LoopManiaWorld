@@ -3,6 +3,9 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -255,6 +258,23 @@ public class Character extends MovingEntity{
         return equipped.getTsBuff();
     }
 
+    public JSONObject characterToJson() {
+        JSONObject character = new JSONObject();
+        character.put("curHealth", this.getAttr().getCurHealth().get());
+        character.put("exp", this.getExp());
+        character.put("gold", this.getGold());
+        JSONArray army = new JSONArray();
+        for (Soldier s: this.army) {
+            army.put(s.toJSON());
+        }
+        character.put("army", army);
+        // JSONArray tranced = new JSONArray();
+        // for (Enemy e: this.tranced) {
+        //     tranced.put(e.toJSON());
+        // }
+        // character.put("tranced", tranced);
+        return character;
+    }
 
 
 }

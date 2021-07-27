@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Pair;
 
@@ -30,5 +32,14 @@ public class Trap extends Building{
                 this.destroy();
             }
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject b = new JSONObject();
+        b.put("type", "Trap");
+        b.put("x", getX());
+        b.put("y", getY());
+        return b;
     }
 }

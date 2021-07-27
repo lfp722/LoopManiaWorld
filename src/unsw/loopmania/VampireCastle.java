@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.Random;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class VampireCastle extends Building {
@@ -25,12 +27,21 @@ public class VampireCastle extends Building {
         }
         if (((new Random()).nextInt(100)) < 1) {
             PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
-            Vampire vampire = new Vampire(pt, world.getCycle().intValue());
+            Vampire vampire = new Vampire(pt, (new Random()).nextInt(world.getCycle().intValue()));
             world.getEnemies().add(vampire);
             return vampire;
         }
         return null;
         
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject b = new JSONObject();
+        b.put("type", "VampireCastle");
+        b.put("x", getX());
+        b.put("y", getY());
+        return b;
     }
 
 }

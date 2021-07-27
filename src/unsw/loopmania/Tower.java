@@ -1,6 +1,8 @@
 package unsw.loopmania;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 
@@ -38,6 +40,15 @@ public class Tower extends Building{
                 a.underAttack(damage);
             }
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject b = new JSONObject();
+        b.put("type", "Tower");
+        b.put("x", getX());
+        b.put("y", getY());
+        return b;
     }
 
 }

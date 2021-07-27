@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class EntityAttribute {
@@ -67,4 +69,13 @@ public class EntityAttribute {
     public EntityAttribute copy(int discount) {
         return new EntityAttribute(attack.get() / discount + 1, defence.get() / discount + 1, health.get() / discount + 1);
     } 
+
+    public JSONObject toJSON() {
+        JSONObject attr = new JSONObject();
+        attr.put("health", health.get());
+        attr.put("curHealth", cur_health.get());
+        attr.put("attack", attack.get());
+        attr.put("defence", defence.get());
+        return attr;
+    }
 }

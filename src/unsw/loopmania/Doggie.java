@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 public class Doggie extends Enemy{
     private int critRateLimit = 40;
 
@@ -39,4 +41,12 @@ public class Doggie extends Enemy{
         attack(object, world);
     }
 
+    @Override
+    public JSONObject toJSON() {
+        JSONObject enemy = new JSONObject();
+        enemy.put("type", "Doggie");
+        enemy.put("lv", this.getLv());
+        enemy.put("position", this.getPosition().getCurrentPositionInPath());
+        return enemy;
+    }
 }
