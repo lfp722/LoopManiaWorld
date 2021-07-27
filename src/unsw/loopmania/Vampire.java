@@ -111,7 +111,7 @@ public class Vampire extends Enemy {
 
     @Override
     public void criticalAttack(Character object) {
-        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+        object.underAttack(this, this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
     }
     
     @Override

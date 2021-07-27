@@ -1,4 +1,6 @@
 package unsw.loopmania;
+import org.junit.jupiter.api.DisplayNameGenerator.Simple;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.*;
@@ -19,7 +21,7 @@ public class Equipped {
 
     public Equipped(LoopManiaWorld world) {
         this.world = world;
-        Tsbuff = world.getCharacter().getTsBuff();
+        Tsbuff = new SimpleIntegerProperty(1);
         equipDefense.bind(Bindings.createIntegerBinding(()->equipArmourDefence.get()+equipHelmetDefence.get()+equipShieldDefence.get()*Tsbuff.get(), equipArmourDefence, equipHelmetDefence, equipShieldDefence, Tsbuff));
     }
 
@@ -156,27 +158,15 @@ public class Equipped {
         return equipAttack;
     }
 
-    public void updateAttack() {
-        if (weapon == null) {
-            equipAttack.set(0);
-        }
-        else{
-            equipAttack.set(weapon.getDamage());
-        }
+    public SimpleIntegerProperty getTsBuff() {
+        return Tsbuff;
     }
 
-    public void updateDefence() {
-        int total = 0;
-        if (helmet != null){
-            total += helmet.getDefense();
+    public void specialDefence(Enemy e, LoopManiaWorld world) {
+        if (shield == null) {
+            return;
         }
-        if (armour != null){
-            total += armour.getDefense();
-        }
-        if (shield != null) {
-            total += shield.getDefense();
-        }
-        equipDefense.set(total);
+        shield.specialEffect(e, world);
     }
 
 
