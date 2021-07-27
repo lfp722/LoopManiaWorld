@@ -450,6 +450,14 @@ public class LoopManiaWorldController {
         attributeBar.add(cycleText,1,5);
 
 
+        Text dcText = new Text();
+        StringBinding dc = world.getDoggiePrice().asString();
+        dcText.textProperty().bind(dc);
+        dcText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        dcText.setFill(Color.ORANGE);
+        attributeBar.add(dcText,1,6);
+
+
 
         //String a = Integer.toString(world.getCharacter().getAttr().getAttack().get());
         //attack.setText(a);
