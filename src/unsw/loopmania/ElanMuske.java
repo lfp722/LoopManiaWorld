@@ -19,11 +19,11 @@ public class ElanMuske extends Enemy{
     }
 
     public void increaseDoggiePrice(LoopManiaWorld world) {
-        world.setDoggiePrice(world.getDoggiePrice() * 3);
+        world.getDoggiePrice().set(world.getDoggiePrice().get() * 3);
     }
 
     public void decreaseDoggiePrice(LoopManiaWorld world) {
-        world.setDoggiePrice(world.getDoggiePrice() / 4);
+        world.getDoggiePrice().set(world.getDoggiePrice().get() / 4);
     }
 
 }

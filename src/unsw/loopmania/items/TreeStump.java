@@ -7,6 +7,7 @@ import unsw.loopmania.LoopManiaWorld;
 public class TreeStump extends Shield{
     public TreeStump(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x,y);
+        this.setValueInGold(5000*this.getLevel());
         //this.reduceRate.set(1 - this.level.get() * 0.15);
     }
 

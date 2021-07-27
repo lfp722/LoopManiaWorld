@@ -40,7 +40,7 @@ public class LoopManiaWorld {
     public static final int ringHeight = 0;
     public static final int ringWidth = 0;
 
-    private int doggiePrice;
+    private SimpleIntegerProperty doggiePrice;
 
     private SimpleIntegerProperty battleLock = new SimpleIntegerProperty(1);
 
@@ -115,7 +115,7 @@ public class LoopManiaWorld {
         maxNumTotal = new SimpleIntegerProperty();
         maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
         goal = new FinalGoal();
-        doggiePrice = 100;
+        doggiePrice = new SimpleIntegerProperty(5000);
     }
 
     /**
@@ -148,13 +148,10 @@ public class LoopManiaWorld {
 
     
 
-    public int getDoggiePrice() {
+    public SimpleIntegerProperty getDoggiePrice() {
         return doggiePrice;
     }
 
-    public void setDoggiePrice(int doggiePrice) {
-        this.doggiePrice = doggiePrice;
-    }
 
     public TheOneRing addEquippedRing() {
         if (equippedItems.getRing() != null) {
@@ -702,7 +699,7 @@ public class LoopManiaWorld {
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        DoggieCoin sword = new DoggieCoin(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        DoggieCoin sword = new DoggieCoin(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()), this.doggiePrice);
         unequippedInventoryItems.add(sword);
         return sword;
     }
@@ -841,9 +838,9 @@ public class LoopManiaWorld {
     }
 
     private Pair<Integer, Integer> possiblyGetDoggieSpawnPosition(){
-        if (cycle.get() < 20) {
-            return null; 
-        }
+        // if (cycle.get() < 20) {
+        //     return null; 
+        // }
         
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
@@ -868,9 +865,9 @@ public class LoopManiaWorld {
     }
 
     private Pair<Integer, Integer> possiblyGetElanSpawnPosition(){
-        if (cycle.get() < 40 || character.getExp() < 10000) {
-            return null; 
-        }
+        // if (cycle.get() < 40 || character.getExp() < 10000) {
+        //     return null; 
+        // }
         
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
@@ -1268,7 +1265,17 @@ public class LoopManiaWorld {
             removeUnequippedInventoryItem(item);
             return newArmour;
         }
-
+        else if (item instanceof TreeStump) {
+            Shield old = equippedItems.getShield();
+            if (old != null) {
+                old.destroy();
+                equippedItems.dropShield();
+            }
+            TreeStump newShield = new TreeStump(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight));
+            equippedItems.equipShield(newShield);
+            removeUnequippedInventoryItem(item);
+            return newShield;
+        }
         else if (item instanceof Shield) {
             Shield old = equippedItems.getShield();
             if (old != null) {
@@ -1291,18 +1298,6 @@ public class LoopManiaWorld {
             equippedItems.equipWeapon(newWeapon);
             removeUnequippedInventoryItem(item);
             return newWeapon;
-        }
-
-        else if (item instanceof TreeStump) {
-            Shield old = equippedItems.getShield();
-            if (old != null) {
-                old.destroy();
-                equippedItems.dropShield();
-            }
-            TreeStump newShield = new TreeStump(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight));
-            equippedItems.equipShield(newShield);
-            removeUnequippedInventoryItem(item);
-            return newShield;
         }
         return null;
 

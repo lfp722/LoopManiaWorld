@@ -76,7 +76,8 @@ enum DRAGGABLE_TYPE{
     POTION,
     THEONERING,
     ANDURIL,
-    TREESTUMP, DOGGIECOIN
+    TREESTUMP, 
+    DOGGIECOIN
 }
 
 /**
@@ -665,9 +666,19 @@ public class LoopManiaWorldController {
         if(enemy instanceof Slug) {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());
+            int choice = new Random().nextInt(100);
             if ((new Random()).nextInt(100) < 30) {
                 loadCard();
             } 
+            if (world.isTheOneRing() && choice < 30) {
+                loadTheOneRing();
+            }
+            else if (world.isAnduril() && choice < 60) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 90) {
+                loadTreeStump();
+            }
         } else if (enemy instanceof Vampire) {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());

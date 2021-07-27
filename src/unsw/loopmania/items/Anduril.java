@@ -7,6 +7,7 @@ import unsw.loopmania.*;
 public class Anduril extends Weapon{
     public Anduril(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
+        this.setValueInGold(5000*this.getLevel());
         //this.damage.set(5);
     }
 
