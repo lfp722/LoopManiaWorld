@@ -178,8 +178,9 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
 
     /**
      * take in different type of object of its attack, have different behaviour
-     * @param object
+     * @param 
      */
+
     public void criticalAttack(Character object){
 
     }

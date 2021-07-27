@@ -17,20 +17,6 @@ public class Item extends StaticEntity {
     }
 
     /**
-     * use an item(potion)
-     */
-    public void use() {
-        return;
-    }
-
-    /**
-     * destroy an item
-     */
-    public void abandon() {
-        return;
-    }
-
-    /**
      * getter
      * @return the value of item in gold
      * i.e. how much gold will be obtained

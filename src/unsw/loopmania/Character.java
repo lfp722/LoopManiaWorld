@@ -72,15 +72,6 @@ public class Character extends MovingEntity{
         army.remove(soldier);
     }
 
-    // public void equip(Equipment item) {
-    //     item.equip(this);
-    // }
-
-    // public void unequip(Equipment item) {
-    //     item.unequip(this);
-    // }
-    
-    
 
     /**
      * attack specific enemy
@@ -92,6 +83,10 @@ public class Character extends MovingEntity{
         enemy.underAttack(actualAttack);
     }
 
+    /**
+     * getter for stunned status
+     * @return
+     */
     public boolean isStunned() {
         return isStunned;
     }

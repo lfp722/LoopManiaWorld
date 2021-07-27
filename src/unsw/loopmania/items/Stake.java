@@ -9,8 +9,6 @@ public class Stake extends Weapon {
     public static final int initialPrice = 250;
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        //TODO Auto-generated constructor stub
-        //damage.set(4);
     }
 
 
@@ -28,14 +26,6 @@ public class Stake extends Weapon {
     public int currentPrice() {
         return (int) Math.pow((100 * (this.level.get() - 1)),2) + 250;
     }
-    //Convenient for later change
-    /* 
-    @Override
-    
-    public int nextLevelUpPrice() {
-        return (int) Math.pow((100 * this.level.get()),2) - 150;
-    }
-    */
 
     @Override
     public void specialEffect(Enemy e, LoopManiaWorld world) {

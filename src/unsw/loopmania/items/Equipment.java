@@ -1,7 +1,6 @@
 package unsw.loopmania.items;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.Character;
 public class Equipment extends Item{
 
     protected SimpleIntegerProperty level;
@@ -53,24 +52,4 @@ public class Equipment extends Item{
         return 0;
     }
 
-    /**
-     * equip an equipment
-     * @param ch character to be equipped on
-     */
-    public void equip(Character ch) {
-
-    }
-
-    /**
-     * unequip an equipment
-     * @param ch
-     */
-    public void unequip(Character ch) {
-
-    }
-
-    @Override
-    public void abandon(){
-        throw new IllegalArgumentException("Equipment_Error == ABANDON: the Equipment cannot be abandoned!");
-    }
 }

@@ -8,5 +8,5 @@ public class TreeStump extends Shield{
         //this.reduceRate.set(1 - this.level.get() * 0.15);
     }
 
-    //ToDo: check if enemy is boss and increase Defense
+    //TODO: check if enemy is boss and increase Defense
 }

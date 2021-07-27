@@ -14,7 +14,4 @@ public class TheOneRing extends Item {
         world.getCharacter().shouldExist().set(true);
     }
     
-
-
-    
 }
