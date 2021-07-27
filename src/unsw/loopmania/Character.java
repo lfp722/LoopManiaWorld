@@ -25,7 +25,6 @@ public class Character extends MovingEntity{
     private SimpleDoubleProperty debuff;
     private LoopManiaWorld world;
     private boolean isStunned;
-    private SimpleIntegerProperty Tsbuff;
 
 
     public Character(PathPosition position, LoopManiaWorld world) {
@@ -53,7 +52,6 @@ public class Character extends MovingEntity{
         this.equipped = world.getEquip();
         tranced = new ArrayList<>();
         isStunned = false;
-        Tsbuff = new SimpleIntegerProperty(1);
     }
 
     /**
@@ -99,7 +97,8 @@ public class Character extends MovingEntity{
      * to be called when it is attacked by an enemy
      * @param attack
      */
-    public void underAttack(int attack) {
+    public void underAttack(Enemy e, int attack) {
+        equipped.specialDefence(e, world);
         if (attack <= equipped.getDefence().get()) {
             return;
         }
@@ -253,7 +252,7 @@ public class Character extends MovingEntity{
 
 
     public SimpleIntegerProperty getTsBuff() {
-        return Tsbuff;
+        return equipped.getTsBuff();
     }
 
 

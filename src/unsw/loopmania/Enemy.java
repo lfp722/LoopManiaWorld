@@ -142,7 +142,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         if ((new Random()).nextInt(100) < this.critRate) {
             criticalAttack(object);
         } else {
-            object.underAttack(this.attribute.getAttack().get());
+            object.underAttack(this, this.attribute.getAttack().get());
         }
 
     }
