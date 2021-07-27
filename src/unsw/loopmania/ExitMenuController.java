@@ -12,10 +12,18 @@ public class ExitMenuController {
      * facilitates switching to main game
      */
     private MenuSwitcher resumeGameSwitcher;
+
+    private MenuSwitcher restartGameSwitcher;
+
+    private MenuSwitcher saveGameSwitcher;
     
 
     public void setResumeGameSwitcher(MenuSwitcher gameSwitcher){
         this.resumeGameSwitcher = gameSwitcher;
+    }
+
+    public void setRestartGameSwitcher(MenuSwitcher gameSwitcher){
+        this.restartGameSwitcher = gameSwitcher;
     }
 
     /**
@@ -30,6 +38,15 @@ public class ExitMenuController {
     @FXML
     private void quit() throws IOException {
         System.exit(0);
+    }
+
+    @FXML
+    private void restart() throws IOException {
+        restartGameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void save() throws IOException {
     }
 
     

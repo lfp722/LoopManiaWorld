@@ -88,25 +88,41 @@ public class Equipped {
     public void dropHelmet() {
         equipHelmetDefence.unbind();
         equipHelmetDefence.set(0);
+        if (helmet == null) {
+            return;
+        }
+        helmet.destroy();
         helmet = null;
     }
 
     public void dropArmour() {
         equipArmourDefence.unbind();
         equipArmourDefence.set(0);
+        if (armour == null) {
+            return;
+        }
+        armour.destroy();
         armour = null;
     }
 
     public void dropShield() {
         equipShieldDefence.unbind();
         equipShieldDefence.set(0);
+        if (shield == null) {
+            return;
+        }
+        shield.destroy();
         shield = null;
     }
 
-    public void dropWeapon() {
-        weapon = null;
+    public void dropWeapon() {       
         equipAttack.unbind();
         equipAttack.set(0);
+        if (weapon == null) {
+            return;
+        }
+        weapon.destroy();
+        weapon = null;
     }
 
     /**
