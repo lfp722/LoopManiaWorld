@@ -102,6 +102,7 @@ enum DRAGGABLE_TYPE{
  *     This is run on the JavaFX application thread when it has enough time.
  */
 public class LoopManiaWorldController {
+    private Sound sound;
 
     @FXML
     private Label maxHealth;
@@ -1528,6 +1529,8 @@ public class LoopManiaWorldController {
      */
     public void setWinSwitcher(MenuSwitcher mainMenuSwitcher){
         // TODO = possibly set other menu switchers
+        sound.stopBackground();
+        sound.playWin();
         this.winSwitcher = mainMenuSwitcher;
     }
 
@@ -1537,6 +1540,8 @@ public class LoopManiaWorldController {
      */
     public void setLoseSwitcher(MenuSwitcher mainMenuSwitcher){
         // TODO = possibly set other menu switchers
+        sound.stopBackground();
+        sound.playLost();
         this.loseSwitcher = mainMenuSwitcher;
     }
 
