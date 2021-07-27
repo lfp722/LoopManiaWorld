@@ -1,5 +1,6 @@
 package unsw.loopmania;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -7,6 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * the main application
@@ -19,6 +23,7 @@ public class LoopManiaApplication extends Application {
      * the controller for the game. Stored as a field so can terminate it when click exit button
      */
     private LoopManiaWorldController mainController;
+    private Sound sound;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -68,7 +73,7 @@ public class LoopManiaApplication extends Application {
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
-
+        
         //Scene scene = new Scene(storeRoot);
         
         // set functions which are activated when button click to switch menu is pressed
@@ -125,11 +130,13 @@ public class LoopManiaApplication extends Application {
         gameRoot.requestFocus();
         primaryStage.setScene(scene);
         primaryStage.show();
+        sound.playBackground();
     }
 
     @Override
     public void stop(){
         // wrap up activities when exit program
+        sound.stopBackground();
         mainController.terminate();
     }
 
