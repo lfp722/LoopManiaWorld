@@ -1402,5 +1402,56 @@ public class LoopManiaWorld {
         return treeStumpExist;
     }
 
+    public void restart() {
+        doggiePrice.set(5000);
+        battleLock.set(1);
+        theOneRingExist = false;
+        andurilExist = false;
+        treeStumpExist = false;
+        
+        for (Entity i: nonSpecifiedEntities){
+            i.destroy();
+        }
+        nonSpecifiedEntities = new ArrayList<>();
+
+        for (Enemy i: enemies){
+            i.destroy();
+        }
+        enemies = new ArrayList<>();
+
+        for (Card i: cardEntities){
+            i.destroy();
+        }
+        cardEntities = new ArrayList<>();
+
+        for (Item i: unequippedInventoryItems){
+            i.destroy();
+        }
+        unequippedInventoryItems = new ArrayList<>();
+
+        for (Building i: buildingEntities){
+            if (i instanceof HeroCastle) {
+                continue;
+            }
+            i.destroy();
+        }
+        buildingEntities = new ArrayList<>();
+
+        for (Item i: spawnItems){
+            i.destroy();
+        }
+        spawnItems = new ArrayList<>();
+
+        cycle.set(1);
+
+        equippedItems.dropArmour();
+        equippedItems.dropHelmet();
+        equippedItems.dropRing();
+        equippedItems.dropShield();
+        equippedItems.dropWeapon();
+
+        character.initialize();
+    }
+
     
 }

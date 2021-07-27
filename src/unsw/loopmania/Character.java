@@ -255,6 +255,22 @@ public class Character extends MovingEntity{
         return equipped.getTsBuff();
     }
 
+    public void initialize() {
+        this.getPosition().setCurrentPositionInPath(0);
+        experience = new SimpleIntegerProperty();
+        experience.set(0);
+
+        for  (Soldier s: army) {
+            s.destroy();
+        }
+        army.clear();
+
+        campFireBuff.set(1);
+        stakeVampireBuff.set(1);
+        debuff.set(1);
+
+        isStunned = false;
+    }
 
 
 }

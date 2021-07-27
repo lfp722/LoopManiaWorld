@@ -564,7 +564,8 @@ public class LoopManiaWorldController {
 
     public void terminate(){
         //pause();
-        timeline.stop();
+        System.out.println("exiting");
+        System.exit(0);
     }
 
     /**
@@ -664,6 +665,7 @@ public class LoopManiaWorldController {
         TreeStump helmet = world.addUnequippedTreeStump();
         onLoad(helmet);
     }
+
     
 
     /**
@@ -1829,6 +1831,10 @@ public class LoopManiaWorldController {
 
     public LoopManiaWorld getWorld() {
         return world;
+    }
+
+    public void restart() {
+        world.restart();
     }
 
     /**
