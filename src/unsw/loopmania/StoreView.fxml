@@ -169,6 +169,11 @@
                   <Image url="@../../images/gold_pile.png" />
                </image>
             </ImageView>
+            <ImageView fitHeight="32.0" fitWidth="33.0" layoutX="200.0" layoutY="680.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/doggiecoin.png" />
+               </image>
+            </ImageView>
             <Text layoutX="40.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upgrade">
                <font>
                   <Font name="Bodoni MT" size="19.0" />

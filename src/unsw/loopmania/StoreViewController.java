@@ -401,6 +401,14 @@ public class StoreViewController  {
         goldTotal.setLayoutY(700);
         ap.getChildren().add(goldTotal);
 
+        Text dcTotal = new Text("0");
+        dcTotal.textProperty().bind(world.getDoggiePrice().asString());
+        dcTotal.setFill(Color.GREEN);
+        dcTotal.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        dcTotal.setLayoutX(250);
+        dcTotal.setLayoutY(700);
+        ap.getChildren().add(dcTotal);
+
         List<Item> copied = new ArrayList<>(world.getInventory());
 
         soldBag.getChildren().clear();
