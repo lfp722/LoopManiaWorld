@@ -60,8 +60,6 @@ public class LoopManiaWorld {
 
     private List<Item> boughtItems = new ArrayList<>();
 
-    private List<Item> soldItems = new ArrayList<>();
-
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -818,7 +816,7 @@ public class LoopManiaWorld {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(3); 
-        if ((choice == 0) && (enemies.size() < 5)){
+        if ((choice == 0) && (enemies.size() < this.getMaxNumTotal().get())){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -845,7 +843,7 @@ public class LoopManiaWorld {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(10); 
-        if ((choice == 0) && (enemies.size() < 5)){
+        if ((choice == 0) && (enemies.size() < this.getMaxNumTotal().get())){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -872,7 +870,7 @@ public class LoopManiaWorld {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(20); 
-        if ((choice == 0) && (enemies.size() < 5)){
+        if ((choice == 0) && (enemies.size() < this.getMaxNumTotal().get())){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -1374,9 +1372,6 @@ public class LoopManiaWorld {
         return boughtItems;
     }
 
-    public List<Item> getSoldItem() {
-        return soldItems;
-    }
 
     /**
      * check if the character is at the hero castle
