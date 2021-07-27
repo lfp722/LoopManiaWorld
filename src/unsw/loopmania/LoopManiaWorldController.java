@@ -323,7 +323,6 @@ public class LoopManiaWorldController {
 
     @FXML
     public void initialize() {
-        // TODO = load more images/entities during initialization
         
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
@@ -449,29 +448,6 @@ public class LoopManiaWorldController {
         cycleText.setFill(Color.BLACK);
         attributeBar.add(cycleText,1,5);
 
-
-
-        //String a = Integer.toString(world.getCharacter().getAttr().getAttack().get());
-        //attack.setText(a);
-        // String d = Integer.toString(world.getCharacter().getAttr().getDefence().get());
-        // defence.setText(d);
-
-        // StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
-        // StringBinding d = world.getEquip().getDefence().asString("Defence: %d");
-        // attack.textProperty().bind(a);
-        // defence.textProperty().bind(d);
-
-        // StringBinding l = world.getCharacter().getLevel().asString("Lv: %d");
-        // StringBinding es = world.getCharacter().getExperience().asString("Exp: %d");
-        // level.textProperty().bind(l);
-        // experience.textProperty().bind(es);
-
-        // StringBinding gm = world.getCharacter().getG().asString("Gold: %d");
-        // gold.textProperty().bind(gm);
-
-        // StringBinding c = world.getCycle().asString("Cycle: %d");
-        // cycle.textProperty().bind(c);
-
     }
 
 
@@ -480,7 +456,6 @@ public class LoopManiaWorldController {
      * create and run the timer
      */
     public void startTimer(){
-        // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
@@ -682,31 +657,20 @@ public class LoopManiaWorldController {
     }
     
 
-
-
-    
-    
-    // private void reactToEnemyDefeat(Enemy enemy){
-    //     // react to character defeating an enemy
-    //     // in starter code, spawning extra card/weapon...
-    //     // TODO = provide different benefits to defeating the enemy based on the type of enemy
-    //     loadSword();
-    //     loadVampireCard();
-    // }
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
     public void reactToEnemyDefeat(Enemy enemy) {
         if(enemy instanceof Slug) {
-            loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
-            loadExp(20 + 100 * this.world.getCycle().get());
+            loadGold(enemy.getGoldAfterDeath());
+            loadExp(enemy.getExpAfterDeath());
             if ((new Random()).nextInt(100) < 30) {
                 loadCard();
             } 
         } else if (enemy instanceof Vampire) {
-            loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
-            loadExp(500 + 500 * this.world.getCycle().get());
+            loadGold(enemy.getGoldAfterDeath());
+            loadExp(enemy.getExpAfterDeath());
             Random random = new Random();
             int choice = random.nextInt(1000);
             if (choice < 100) {
@@ -731,8 +695,8 @@ public class LoopManiaWorldController {
                 loadTheOneRing();
             }
         } else if (enemy instanceof Zombie) {
-            loadGold(new Random().nextInt(100)+100+15*world.getCycle().get());
-            loadExp(200+150*world.getCycle().get());
+            loadGold(enemy.getGoldAfterDeath());
+            loadExp(enemy.getExpAfterDeath());
     
             Random random = new Random();
             int choice = random.nextInt(100);

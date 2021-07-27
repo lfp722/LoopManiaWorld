@@ -168,14 +168,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
 
     }
 
-    // public void attack(Enemy object) {
-    //     if ((new Random()).nextInt(100) < this.critRate) {
-    //         criticalAttack(object);
-    //     } else {
-    //         object.underAttack(this.attribute.getAttack().get());
-    //     }
-    // }
-
     /**
      * take in different type of object of its attack, have different behaviour
      * @param 
@@ -205,24 +197,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         }
     }
 
-    // /**
-    //  * 
-    //  * @param object
-    //  * @return if an character is in the range of detection
-    //  */
-    // public boolean detect(Character object) {
-    //     return (Math.pow(object.getX() - this.getX(), 2) + Math.pow(object.getY() - this.getY(), 2) < Math.pow(detectRange, 2));
-    // }
-
-    // /**
-    //  * 
-    //  * @param battle
-    //  * @return if a battle is in the range of support
-    //  */
-    // public boolean ifInSupport(PathPosition battleLocation) {
-    //     return (Math.pow(battleLocation.getX().get() - this.getX(), 2) + Math.pow(battleLocation.getY().get() - this.getY(), 2) < Math.pow(supportRange, 2));
-    // }
-
     /** 
      * 
      * movement pattern of an enemy
@@ -239,29 +213,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         }
         
     }
-
-    // /**
-    //  * TODO: special effect for staff
-    //  * @return
-    //  */
-    // public void applyStaffEffect() {
-    //     //destroy the zombie
-    //     //create an ally with its attribute
-    //     //add it into ally list
-    //     this.destory();
-    //     Character a = new Character();
-        
-    // }
-
-    // /**
-    //  * TODO: after the special effect
-    //  * @return
-    //  */
-    // public void afterStaffEffect() {
-    //     //destroy that ally
-    //     //create a zombie with remaining attribute
-    //     //add it into enemy list
-    // }
 
     /**
      * Helper methods

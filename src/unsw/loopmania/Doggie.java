@@ -1,7 +1,5 @@
 package unsw.loopmania;
 
-import java.util.Random;
-
 public class Doggie extends Enemy{
     private int critRateLimit = 40;
 

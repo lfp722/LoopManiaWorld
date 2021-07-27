@@ -19,7 +19,7 @@ public class Zombie extends Enemy {
         this.getAttribute().getHealth().set((int) (this.getLv() * 10));
         this.getAttribute().getCurHealth().set(this.getAttribute().getHealth().get());
         this.getAttribute().getDefence().set(0);
-        this.setGoldAfterDeath((new Random().nextInt(100) + 100));
+        this.setGoldAfterDeath(new Random().nextInt(100)+100+15*this.getLv());
         this.setExpAfterDeath(200 + 150 * this.getLv());
         this.cycle = cycle;
     }
