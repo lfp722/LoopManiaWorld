@@ -1426,7 +1426,6 @@ public class LoopManiaWorldController {
                             case POTION:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
-                                world.consumePotion(nodeX, nodeY);
                                 break;
                             case ANDURIL:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
