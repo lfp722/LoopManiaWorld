@@ -11,6 +11,15 @@ public class TreeStump extends Shield{
         //this.reduceRate.set(1 - this.level.get() * 0.15);
     }
 
+    @Override
+    public int nextLevelUpPrice() {
+        return (int) Math.pow((100 * (this.level.get())),2) + 5000;
+    }
+
+    @Override
+    public int currentPrice() {
+        return (int) Math.pow((100 * (this.level.get() - 1)),2) + 5000;
+    }
     //TODO: check if enemy is boss and increase Defense
     @Override
     public void specialEffect(Enemy e, LoopManiaWorld world) {
