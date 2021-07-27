@@ -56,7 +56,7 @@ public class FinalGoal implements Goal{
         g.put("goldGoal", this.goldGoal.getGoal());
         g.put("expGoal", this.expGoal.getGoal());
         g.put("cycleGoal", this.cycleGoal.getGoal());
-        g.put("bossGoal", this.bossGoal.getGoal());
+        //g.put("bossGoal", this.bossGoal.getGoal());
         return g;
     }
 }
