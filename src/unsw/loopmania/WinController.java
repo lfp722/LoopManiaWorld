@@ -5,12 +5,14 @@ import javafx.scene.control.Button;
 
 public class WinController {
     private MenuSwitcher mainMenuSwitcher;
+    private Sound sound;
 
     @FXML
     private Button returnToMainMenu;
 
     @FXML
     private void switchToMainMenu(){
+        sound.stopWin();
         mainMenuSwitcher.switchMenu();
     }
 
