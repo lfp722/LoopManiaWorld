@@ -694,6 +694,15 @@ public class LoopManiaWorldController {
             else if (world.isTheOneRing() && choice < 601) {
                 loadTheOneRing();
             }
+            else if (world.isAnduril() && choice < 602) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 603) {
+                loadTreeStump();
+            }
+            else{
+
+            }
         } else if (enemy instanceof Zombie) {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());
@@ -712,15 +721,83 @@ public class LoopManiaWorldController {
             else if (choice < 15) {
                 loadPotion();
             }
+            else{
+
+            }
         } else if (enemy instanceof Doggie) {
             loadExp(enemy.getExpAfterDeath());
             loadDoggieCoin();
+            Random random = new Random();
+            int choice = random.nextInt(800);
+            if (choice < 100) {
+                loadSword();
+            }
+            else if (choice < 200) {
+                loadArmour();
+            }
+            else if (choice < 300) {
+                loadShield();
+            }
+            else if (choice < 400) {
+                loadHelmet();
+            }
+            else if (choice < 500) {
+                loadPotion();
+            }
+            else if (choice < 600) {
+                loadCard();
+            } 
+            else if (world.isTheOneRing() && choice < 601) {
+                loadTheOneRing();
+            }
+            else if (world.isAnduril() && choice < 602) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 603) {
+                loadTreeStump();
+            }
+            else{
+
+            }
+            
 
         } else if (enemy instanceof ElanMuske) {
             loadExp(enemy.getExpAfterDeath());
             loadGold(enemy.getGoldAfterDeath());
             ElanMuske e = (ElanMuske) enemy;
             e.decreaseDoggiePrice(world);
+            Random random = new Random();
+            int choice = random.nextInt(700);
+            if (choice < 100) {
+                loadSword();
+            }
+            else if (choice < 200) {
+                loadArmour();
+            }
+            else if (choice < 300) {
+                loadShield();
+            }
+            else if (choice < 400) {
+                loadHelmet();
+            }
+            else if (choice < 500) {
+                loadPotion();
+            }
+            else if (choice < 600) {
+                loadCard();
+            } 
+            else if (world.isTheOneRing() && choice < 601) {
+                loadTheOneRing();
+            }
+            else if (world.isAnduril() && choice < 602) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 603) {
+                loadTreeStump();
+            }
+            else{
+
+            }
         }
     }
 
