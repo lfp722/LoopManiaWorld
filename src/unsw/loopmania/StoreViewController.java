@@ -36,6 +36,9 @@ public class StoreViewController  {
     private Image staffImage;
     private Image potionImage;
     private Image swordImage;
+    private Image doggieCoinImage;
+    private Image andurilImage;
+    private Image treeStumpImage;
 
     public static final int NOLIMIT = 9999999;
     private StoreSwitcher gameSwitcher;
@@ -94,6 +97,9 @@ public class StoreViewController  {
         stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
         staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
         potionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
+        andurilImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
     }
     
 
@@ -332,6 +338,18 @@ public class StoreViewController  {
         }
         else if (i instanceof Armour) {
             ImageView image = new ImageView(armourImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Anduril) {
+            ImageView image = new ImageView(andurilImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof DoggieCoin) {
+            ImageView image = new ImageView(doggieCoinImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof TreeStump) {
+            ImageView image = new ImageView(treeStumpImage);
             b.setGraphic(image);
         }
         else if (i instanceof Shield) {
