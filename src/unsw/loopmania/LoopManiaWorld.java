@@ -51,6 +51,8 @@ public class LoopManiaWorld {
     private int width;
 
     private boolean theOneRingExist = false;
+    private boolean andurilExist = false;
+    private boolean treeStumpExist = false;
 
     /**
      * height of the world in GridPane cells
@@ -141,6 +143,14 @@ public class LoopManiaWorld {
 
     public void allowTheOneRing() {
         this.theOneRingExist = true;
+    }
+
+    public void allowAnduril() {
+        this.andurilExist = true;
+    }
+
+    public void allowTreeStump() {
+        this.treeStumpExist = true;
     }
 
     public boolean isTheOneRing() {
@@ -1477,6 +1487,14 @@ public class LoopManiaWorld {
 
     public List<Item> getInventory() {
         return unequippedInventoryItems;
+    }
+
+    public boolean isAnduril() {
+        return andurilExist;
+    }
+
+    public boolean isTreeStump() {
+        return treeStumpExist;
     }
 
     
