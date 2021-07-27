@@ -16,7 +16,7 @@ public class ZombiePitCard extends Card{
         card.put("x", this.getX());
         card.put("y", this.getY());
         card.put("type", "ZombieCard");
-        return null;
+        return card;
     }
     
 }

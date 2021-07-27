@@ -114,6 +114,10 @@ public class LoopManiaApplication extends Application {
             mainController.startTimer();
         });
 
+        exitController.setSaveGameSwitcher(() -> {
+            mainController.save();
+        });
+
         mainController.setLoseSwitcher(() -> {
             switchToRoot(scene, loseRoot, primaryStage);
             stop();

@@ -16,6 +16,6 @@ public class VampireCastleCard extends Card{
         card.put("x", this.getX());
         card.put("y", this.getY());
         card.put("type", "VampireCard");
-        return null;
+        return card;
     }
 }

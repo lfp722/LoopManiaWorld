@@ -16,7 +16,7 @@ public class TrapCard extends Card{
         card.put("x", this.getX());
         card.put("y", this.getY());
         card.put("type", "TrapCard");
-        return null;
+        return card;
     }
     
 }

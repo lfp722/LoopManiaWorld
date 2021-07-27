@@ -16,7 +16,7 @@ public class BarrackCard extends Card{
         card.put("x", this.getX());
         card.put("y", this.getY());
         card.put("type", "BarrackCard");
-        return null;
+        return card;
     }
     
 }

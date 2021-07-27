@@ -16,6 +16,6 @@ public class VillageCard extends Card{
         card.put("x", this.getX());
         card.put("y", this.getY());
         card.put("type", "VillageCard");
-        return null;
+        return card;
     }
 }

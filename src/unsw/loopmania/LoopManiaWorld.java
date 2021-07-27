@@ -1148,6 +1148,7 @@ public class LoopManiaWorld {
                 if (temp instanceof Gold) {
                     addGold(temp.getValueInGold());
                     temp.destroy();
+                    spawnItems.remove(temp);
                 }
                 else {
 
@@ -1452,7 +1453,7 @@ public class LoopManiaWorld {
     //write and read JSON files for saving games
     public void writeToJSON () {
         try {
-            FileWriter writer = new FileWriter(LocalDateTime.now().toString() + ".json");
+            FileWriter writer = new FileWriter("archive/" + LocalDateTime.now().toString() + ".json");
             JSONObject character = this.character.characterToJson();
             JSONArray enemies = new JSONArray();
             for (Enemy e: this.getEnemies()) {
@@ -1476,7 +1477,7 @@ public class LoopManiaWorld {
             JSONObject goal = new JSONObject();
             goal.put("goal", this.goal.toJSON());
             JSONObject doggie = new JSONObject();
-            doggie.put("doggiePrice", this.doggiePrice);
+            doggie.put("doggiePrice", this.doggiePrice.get());
             JSONObject world = new JSONObject();
             world.put("character", character);
             world.put("enemies", enemies);
@@ -1493,5 +1494,9 @@ public class LoopManiaWorld {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void readFromJSON(String path) {
+        
     }
 }

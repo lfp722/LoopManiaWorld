@@ -16,7 +16,7 @@ public class TowerCard extends Card{
         card.put("x", this.getX());
         card.put("y", this.getY());
         card.put("type", "TowerCard");
-        return null;
+        return card;
     }
     
 }

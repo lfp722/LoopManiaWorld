@@ -26,6 +26,10 @@ public class ExitMenuController {
         this.restartGameSwitcher = gameSwitcher;
     }
 
+    public void setSaveGameSwitcher(MenuSwitcher gameSwitcher) {
+        this.saveGameSwitcher = gameSwitcher;
+    }
+
     /**
      * facilitates switching to main game upon button click
      * @throws IOException
@@ -47,6 +51,7 @@ public class ExitMenuController {
 
     @FXML
     private void save() throws IOException {
+        saveGameSwitcher.switchMenu();
     }
 
     

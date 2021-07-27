@@ -1839,6 +1839,10 @@ public class LoopManiaWorldController {
         world.restart();
     }
 
+    public void save() {
+        world.writeToJSON();
+    }
+
     /**
      * we added this method to help with debugging so you could check your code is running on the application thread.
      * By running everything on the application thread, you will not need to worry about implementing locks, which is outside the scope of the course.
