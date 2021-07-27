@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.Random;
 
+import org.json.JSONObject;
+
 public class Zombie extends Enemy {
     private int critRateLimit = 90;
     private int cycle;
@@ -73,6 +75,15 @@ public class Zombie extends Enemy {
             moveDownPath();
         }
         
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject enemy = new JSONObject();
+        enemy.put("type", "Zombie");
+        enemy.put("lv", this.getLv());
+        enemy.put("position", this.getPosition().getCurrentPositionInPath());
+        return enemy;
     }
 
 }

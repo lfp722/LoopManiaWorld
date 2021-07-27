@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.Random;
 
+import org.json.JSONObject;
+
 public class ElanMuske extends Enemy{
     
     public ElanMuske(PathPosition position, int cycle) {
@@ -24,6 +26,15 @@ public class ElanMuske extends Enemy{
 
     public void decreaseDoggiePrice(LoopManiaWorld world) {
         world.getDoggiePrice().set(world.getDoggiePrice().get() / 4);
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject enemy = new JSONObject();
+        enemy.put("type", "Elan");
+        enemy.put("lv", this.getLv());
+        enemy.put("position", this.getPosition().getCurrentPositionInPath());
+        return enemy;
     }
 
 }

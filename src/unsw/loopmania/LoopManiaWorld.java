@@ -2,11 +2,16 @@ package unsw.loopmania;
 import unsw.loopmania.goal.FinalGoal;
 import unsw.loopmania.items.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.javatuples.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -63,7 +68,7 @@ public class LoopManiaWorld {
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
-    private List<Entity> nonSpecifiedEntities;
+    //private List<Entity> nonSpecifiedEntities;
 
     private Character character;
     private List<Enemy> enemies;
@@ -100,7 +105,7 @@ public class LoopManiaWorld {
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
         this.width = width;
         this.height = height;
-        nonSpecifiedEntities = new ArrayList<>();
+        //nonSpecifiedEntities = new ArrayList<>();
         character = null;
         enemies = new ArrayList<>();
         cardEntities = new ArrayList<>();
@@ -197,10 +202,10 @@ public class LoopManiaWorld {
      * add a generic entity (without it's own dedicated method for adding to the world)
      * @param entity
      */
-    public void addEntity(Entity entity) {
-        // for adding non-specific entities (ones without another dedicated list)
-        nonSpecifiedEntities.add(entity);
-    }
+    // public void addEntity(Entity entity) {
+    //     // for adding non-specific entities (ones without another dedicated list)
+    //     nonSpecifiedEntities.add(entity);
+    // }
 
     /**
      * spawns enemies if the conditions warrant it, adds to world
@@ -211,7 +216,7 @@ public class LoopManiaWorld {
         List<Slug> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), cycle.get());
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), (new Random()).nextInt(cycle.get()));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -223,7 +228,7 @@ public class LoopManiaWorld {
         List<Doggie> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            Doggie enemy = new Doggie(new PathPosition(indexInPath, orderedPath), cycle.get());
+            Doggie enemy = new Doggie(new PathPosition(indexInPath, orderedPath), (new Random()).nextInt(cycle.get()));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -235,7 +240,7 @@ public class LoopManiaWorld {
         List<ElanMuske> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            ElanMuske enemy = new ElanMuske(new PathPosition(indexInPath, orderedPath), cycle.get());
+            ElanMuske enemy = new ElanMuske(new PathPosition(indexInPath, orderedPath), (new Random()).nextInt(cycle.get()));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
             enemy.increaseDoggiePrice(this);
@@ -284,7 +289,7 @@ public class LoopManiaWorld {
             int indexInPath = orderedPath.indexOf(pos);
             int value = new Random().nextInt(40)+10;
             Gold i = new Gold((new PathPosition(indexInPath, orderedPath).getX()), (new PathPosition(indexInPath, orderedPath).getY()), value);
-            nonSpecifiedEntities.add(i);
+            //nonSpecifiedEntities.add(i);
             spawningItems.add(i);
             spawnItems.add(i);
         }
@@ -301,7 +306,7 @@ public class LoopManiaWorld {
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             Potion i = new Potion((new PathPosition(indexInPath, orderedPath).getX()), (new PathPosition(indexInPath, orderedPath).getY()));
-            nonSpecifiedEntities.add(i);
+            //nonSpecifiedEntities.add(i);
             spawningItems.add(i);
             spawnItems.add(i);
         }
@@ -898,7 +903,7 @@ public class LoopManiaWorld {
         // has a chance spawning an item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); 
-        if ((choice == 0) && (nonSpecifiedEntities.size() < 4)){
+        if ((choice == 0) && (spawnItems.size() < 4)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -926,7 +931,7 @@ public class LoopManiaWorld {
         // has a chance spawning an item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); 
-        if ((choice == 0) && (nonSpecifiedEntities.size() < 4)){
+        if ((choice == 0) && (spawnItems.size() < 4)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -1403,16 +1408,7 @@ public class LoopManiaWorld {
         theOneRingExist = false;
         andurilExist = false;
         treeStumpExist = false;
-        System.out.println(this.getCharacter().shouldExist().get());
-        for (Entity i: nonSpecifiedEntities){
-            if (i instanceof Character) {
-                continue;
-            }
-            i.destroy();
-        }
-        System.out.println(this.getCharacter().shouldExist().get());
-        nonSpecifiedEntities = new ArrayList<>();
-        System.out.println(this.getCharacter().shouldExist().get());
+        
         for (Enemy i: enemies){
             i.destroy();
         }
@@ -1452,4 +1448,50 @@ public class LoopManiaWorld {
         character.initialize();
     }
 
+
+    //write and read JSON files for saving games
+    public void writeToJSON () {
+        try {
+            FileWriter writer = new FileWriter(LocalDateTime.now().toString() + ".json");
+            JSONObject character = this.character.characterToJson();
+            JSONArray enemies = new JSONArray();
+            for (Enemy e: this.getEnemies()) {
+               enemies.put(e.toJSON()); 
+            }
+            JSONArray cards = new JSONArray();
+            for (Card c: this.cardEntities) {
+                cards.put(c.toJSON());
+            }
+            JSONArray buildings = new JSONArray();
+            for (Building b: this.buildingEntities) {
+                buildings.put(b.toJSON());
+            }
+            JSONArray spawnItems = new JSONArray();
+            for (Item i: this.spawnItems) {
+                spawnItems.put(i.toJSON());
+            }
+            JSONObject equippedItems = this.equippedItems.toJSON();
+            JSONObject cycle = new JSONObject();
+            cycle.put("cycle", this.cycle.get());
+            JSONObject goal = new JSONObject();
+            goal.put("goal", this.goal.toJSON());
+            JSONObject doggie = new JSONObject();
+            doggie.put("doggiePrice", this.doggiePrice);
+            JSONObject world = new JSONObject();
+            world.put("character", character);
+            world.put("enemies", enemies);
+            world.put("cards", cards);
+            world.put("buildings", buildings);
+            world.put("spawnItems", spawnItems);
+            world.put("equippedItems", equippedItems);
+            world.put("cycle", cycle);
+            world.put("goal", goal);
+            world.put("doggie", doggie);
+            writer.write(world.toString());
+            writer.close();
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

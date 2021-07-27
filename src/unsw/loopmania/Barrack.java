@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Barrack extends Building{
@@ -24,5 +26,14 @@ public class Barrack extends Building{
         } else {
             return null;
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject b = new JSONObject();
+        b.put("type", "Barrack");
+        b.put("x", getX());
+        b.put("y", getY());
+        return b;
     }
 }

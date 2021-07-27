@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.lang.Math;
 import java.util.Random;
 
+import org.json.JSONObject;
+
 import unsw.loopmania.*;
 /**
  * represents an equipped or unequipped sword in the backend world
@@ -38,6 +40,16 @@ public class Staff extends Weapon {
     @Override
     public int currentPrice() {
         return (int) Math.pow((200 * (this.level.get() - 1)),2) + 400;
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "Staff");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        i.put("valueInGold", this.getValueInGold());
+        return i;
     }
     
 }

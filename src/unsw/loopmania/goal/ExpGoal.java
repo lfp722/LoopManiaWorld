@@ -11,6 +11,10 @@ public class ExpGoal implements Goal{
     public void setGoal(int value) {
         exp = value;
     }
+
+    public int getGoal() {
+        return exp;
+    }
     
     @Override
     public boolean checkGoal(LoopManiaWorld world) {

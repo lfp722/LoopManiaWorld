@@ -3,6 +3,8 @@ package unsw.loopmania.goal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import unsw.loopmania.*;
 
 public class FinalGoal implements Goal{
@@ -47,5 +49,14 @@ public class FinalGoal implements Goal{
             }
         }
         return true;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject g = new JSONObject();
+        g.put("goldGoal", this.goldGoal.getGoal());
+        g.put("expGoal", this.expGoal.getGoal());
+        g.put("cycleGoal", this.cycleGoal.getGoal());
+        //g.put("bossGoal", this.bossGoal.getGoal());
+        return g;
     }
 }

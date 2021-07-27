@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.Random;
 
+import org.json.JSONObject;
+
 
 public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     private EntityAttribute attribute;
@@ -19,10 +21,10 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
      * @param position
      * @param cycle
      */
-    public Enemy (PathPosition position, int cycle) {
+    public Enemy (PathPosition position, int level) {
         super(position);
         this.attribute = new EntityAttribute();
-        this.lv = (new Random()).nextInt(cycle) + 1;
+        this.lv = level + 1;
     }
 
     /**
@@ -245,6 +247,10 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
 
     public void setBoss() {
         isBoss = true;
+    }
+
+    public JSONObject toJSON() {
+        return null;
     }
 
 }

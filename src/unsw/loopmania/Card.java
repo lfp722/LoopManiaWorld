@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -13,4 +15,7 @@ public abstract class Card extends StaticEntity {
     }
 
 
+    public JSONObject toJSON() {
+        return null;
+    }
 }

@@ -2,6 +2,8 @@ package unsw.loopmania;
 
 import java.util.Random;
 
+import org.json.JSONObject;
+
 public class Vampire extends Enemy {
     
     private int radusCampfire;
@@ -122,5 +124,14 @@ public class Vampire extends Enemy {
     @Override
     public void criticalAttack(Enemy object) {
         object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject enemy = new JSONObject();
+        enemy.put("type", "Vampire");
+        enemy.put("lv", this.getLv());
+        enemy.put("position", this.getPosition().getCurrentPositionInPath());
+        return enemy;
     }
 }

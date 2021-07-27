@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Soldier extends StaticEntity{
@@ -42,6 +44,14 @@ public class Soldier extends StaticEntity{
         general.remSoldier(this);
         this.destroy();
         return attr;
+    }
+
+    public JSONObject toJSON() {
+        JSONObject soldier = new JSONObject();
+        soldier.put("attr", attr.toJSON());
+        soldier.put("x", getX());
+        soldier.put("y", getY());
+        return soldier;
     }
 
 }
