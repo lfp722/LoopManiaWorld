@@ -514,7 +514,18 @@ public class LoopManiaWorldController {
                     world.getEquip().getRing().rebirth(world);
                     world.getEquip().getRing().destroy();
                     world.getEquip().dropRing();
-                } else {
+                } 
+                else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
+                    Item i = world.getEquip().getSecondHealth().get(0);
+                    i.secondEffect(world, null);
+                    if (i instanceof Shield) {
+                        world.getEquip().dropShield();
+                    }
+                    else if (i instanceof Weapon) {
+                        world.getEquip().dropWeapon();
+                    }
+                }
+                else {
                     System.out.println("losing game");
                     switchToLose();
                 }
@@ -1632,6 +1643,12 @@ public class LoopManiaWorldController {
                     case DOGGIECOIN:
                         draggedEntity.setImage(doggieCoinImage);
                         break;
+                    case ANDURIL:
+                        draggedEntity.setImage(andurilImage);
+                        break;
+                    case TREESTUMP:
+                        draggedEntity.setImage(treeStumpImage);
+                        break;
                     default:
                         break;
                 }
@@ -1957,5 +1974,9 @@ public class LoopManiaWorldController {
         System.out.println("current method = "+currentMethodLabel);
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
+    }
+
+    public void setConfusing() {
+        world.setConfusing();
     }
 }

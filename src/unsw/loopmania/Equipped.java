@@ -1,7 +1,10 @@
 package unsw.loopmania;
 
-import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.*;
@@ -16,6 +19,12 @@ public class Equipped {
     private SimpleIntegerProperty equipArmourDefence = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty equipShieldDefence = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty equipAttack = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty confusingAttack = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty confusingDefence = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty equipWeaponAttack = new SimpleIntegerProperty(0);
+    private List<Item> secondAttack = new ArrayList<>();
+    private List<Item> secondDefence = new ArrayList<>();
+    private List<Item> secondHealth = new ArrayList<>();
     private LoopManiaWorld world;
     private TheOneRing ring;
     private SimpleIntegerProperty Tsbuff;
@@ -23,7 +32,8 @@ public class Equipped {
     public Equipped(LoopManiaWorld world) {
         this.world = world;
         Tsbuff = new SimpleIntegerProperty(1);
-        equipDefense.bind(Bindings.createIntegerBinding(()->equipArmourDefence.get()+equipHelmetDefence.get()+equipShieldDefence.get()*Tsbuff.get(), equipArmourDefence, equipHelmetDefence, equipShieldDefence, Tsbuff));
+        equipDefense.bind(Bindings.createIntegerBinding(()->equipArmourDefence.get()+equipHelmetDefence.get()+equipShieldDefence.get()*Tsbuff.get()+confusingDefence.get(), equipArmourDefence, equipHelmetDefence, equipShieldDefence, Tsbuff, confusingDefence));
+        equipAttack.bind(Bindings.createIntegerBinding(()->equipWeaponAttack.get()+confusingAttack.get(), equipWeaponAttack, confusingAttack));
     }
 
     /**
@@ -34,25 +44,30 @@ public class Equipped {
         this.helmet = helmet;
         equipHelmetDefence.bind(helmet.getDefenceProperty());
         world.getCharacter().getDebuff().set(0.8);
+        checkSecondAdd(helmet);
     }
 
     public void equipArmour(Armour armour) {
         this.armour = armour;
         equipArmourDefence.bind(armour.getDefenceProperty());
+        checkSecondAdd(armour);
     }
 
     public void equipShield(Shield shield) {
         this.shield = shield;
         equipShieldDefence.bind(shield.getDefenceProperty());
+        checkSecondAdd(shield);
     }
 
     public void equipWeapon(Weapon weapon) {
         this.weapon = weapon;
-        equipAttack.bind(weapon.getAttack());
+        equipWeaponAttack.bind(weapon.getAttack());
+        checkSecondAdd(weapon);
     }
 
     public void equipRing(TheOneRing ring) {
         this.ring = ring;
+        checkSecondAdd(ring);
     }
 
     public TheOneRing getRing() {
@@ -64,6 +79,7 @@ public class Equipped {
             return;
         }
         ring.destroy();
+        checkSecondRem(ring);
         ring = null;
     }
 
@@ -72,12 +88,7 @@ public class Equipped {
      * @return
      */
     public int getAttack() {
-        if (weapon == null) {
-            return 0;
-        }
-        else {
-            return weapon.getDamage();
-        }
+        return equipAttack.get();
     }
 
     /**
@@ -98,6 +109,7 @@ public class Equipped {
             return;
         }
         helmet.destroy();
+        checkSecondRem(helmet);
         helmet = null;
     }
 
@@ -108,6 +120,7 @@ public class Equipped {
             return;
         }
         armour.destroy();
+        checkSecondRem(armour);
         armour = null;
     }
 
@@ -118,16 +131,22 @@ public class Equipped {
             return;
         }
         shield.destroy();
+        System.out.println(confusingAttack.get());
+        checkSecondRem(shield);
+        System.out.println(confusingAttack.get());
         shield = null;
     }
 
     public void dropWeapon() {       
-        equipAttack.unbind();
-        equipAttack.set(0);
+        equipWeaponAttack.unbind();
+        equipWeaponAttack.set(0);
         if (weapon == null) {
             return;
         }
         weapon.destroy();
+        System.out.println(confusingDefence.get());
+        checkSecondRem(weapon);
+        System.out.println(confusingDefence.get());
         weapon = null;
     }
 
@@ -161,6 +180,12 @@ public class Equipped {
         if (weapon != null) {
             weapon.specialEffect(enemy, world);
         }
+
+        if (!secondAttack.isEmpty()) {
+            for (Item i: secondAttack) {
+                i.secondEffect(world, enemy);
+            }
+        }
     }
 
     /**
@@ -184,10 +209,69 @@ public class Equipped {
     }
 
     public void specialDefence(Enemy e, LoopManiaWorld world) {
+        if (shield == null && secondDefence.isEmpty()) {
+            return;
+        }
         if (shield == null) {
+            for (Item i: secondDefence) {
+                i.secondEffect(world, e);
+            }
             return;
         }
         shield.specialEffect(e, world);
+ 
+    }
+
+    public void checkSecondAdd(Item i) {
+        if (!world.isConfusing()) {
+            return;
+        }
+        if (!i.isRare()) {
+            return;
+        }
+        if (i.getSecondType() == Item.DEFAULT) {
+            return;
+        }
+
+        if (i.getSecondType() == Item.DEFENCE) {
+            confusingDefence.set(confusingDefence.get()+i.getSecondValue());
+            secondDefence.add(i);
+        }
+        else if (i.getSecondType() == Item.ATTACK) {
+            confusingAttack.set(confusingAttack.get()+i.getSecondValue());
+            secondAttack.add(i);
+        }
+        else {
+            secondHealth.add(i);
+        }
+    }
+
+    public void checkSecondRem(Item i) {
+        if (!world.isConfusing()) {
+            return;
+        }
+        if (!i.isRare()) {
+            return;
+        }
+        if (i.getSecondType() == Item.DEFAULT) {
+            return;
+        }
+
+        if (i.getSecondType() == Item.DEFENCE) {
+            confusingDefence.set(confusingDefence.get()-i.getSecondValue());
+            secondDefence.remove(i);
+        }
+        else if (i.getSecondType() == Item.ATTACK) {
+            confusingAttack.set(confusingAttack.get()-i.getSecondValue());
+            secondAttack.remove(i);
+        }
+        else {
+            secondHealth.remove(i);
+        }
+    }
+
+    public List<Item> getSecondHealth() {
+        return secondHealth;
     }
 
     public JSONObject toJSON() {

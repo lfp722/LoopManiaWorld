@@ -26,7 +26,7 @@ public class Outfit extends Equipment {
      * @return
      */
     public int nextDefense() {
-        return (int) 3 + this.level.get() * 10;
+        return (int) 3 + this.level.get() * 5;
     }
 
 

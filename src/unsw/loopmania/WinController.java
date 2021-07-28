@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 public class WinController {
     private MenuSwitcher mainMenuSwitcher;
 
+    private MenuSwitcher retrySwitcher;
+
     @FXML
     private Button returnToMainMenu;
 
@@ -14,8 +16,17 @@ public class WinController {
         mainMenuSwitcher.switchMenu();
     }
 
+    @FXML
+    private void retry() {
+        retrySwitcher.switchMenu();
+    }
+
     public void setWinMenu(MenuSwitcher menu) {
         mainMenuSwitcher = menu;
+    }
+
+    public void setRetry(MenuSwitcher menu) {
+        retrySwitcher = menu;
     }
 }
 

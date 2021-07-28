@@ -173,6 +173,9 @@ public abstract class LoopManiaWorldLoader {
             case "gold":
                 world.getGoal().setGoldGoal(goalCond.getInt("quantity"));
                 break;
+            case "boss":
+                world.getGoal().setBossGoal(goalCond.getInt("quantity"));
+                break;
             default:
                 break;
         }

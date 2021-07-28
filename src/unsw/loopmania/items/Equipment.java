@@ -1,6 +1,7 @@
 package unsw.loopmania.items;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.LoopManiaWorld;
 public class Equipment extends Item{
 
     protected SimpleIntegerProperty level;
@@ -51,5 +52,4 @@ public class Equipment extends Item{
     public int currentPrice() {
         return 0;
     }
-
 }

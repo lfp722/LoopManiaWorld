@@ -91,6 +91,10 @@ public class LoopManiaWorld {
 
     private List<Item> spawnItems;
 
+    private SimpleIntegerProperty defeatedBoss;
+
+    private boolean confusing = false;
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -124,6 +128,7 @@ public class LoopManiaWorld {
         maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
         goal = new FinalGoal();
         doggiePrice = new SimpleIntegerProperty(5000);
+        defeatedBoss = new SimpleIntegerProperty(0);
     }
 
     /**
@@ -171,7 +176,7 @@ public class LoopManiaWorld {
         if (equippedItems.getRing() != null) {
             equippedItems.getRing().destroy();
         }
-        TheOneRing ring = new TheOneRing(new SimpleIntegerProperty(ringWidth), new SimpleIntegerProperty(ringHeight));
+        TheOneRing ring = new TheOneRing(new SimpleIntegerProperty(ringWidth), new SimpleIntegerProperty(ringHeight), isConfusing());
         equippedItems.equipRing(ring);
         return ring;
     }
@@ -390,6 +395,9 @@ public class LoopManiaWorld {
                 s.attack(target);
                 //System.out.println("Tranced enemy attack enemy");
                 if (!target.shouldExist().get()) {
+                    if (target.getBoss()) {
+                        defeatBoss();
+                    }
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
                     //System.out.println("Enemy defeated");
@@ -490,6 +498,7 @@ public class LoopManiaWorld {
         }
 
         battle(battleEnemies, defeatedEnemies, character);
+        character.getStakeVampireBuff().set(1);
         for (Enemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
@@ -697,7 +706,7 @@ public class LoopManiaWorld {
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        Anduril anduril = new Anduril(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        Anduril anduril = new Anduril(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()), isConfusing());
         unequippedInventoryItems.add(anduril);
         return anduril;
     }
@@ -711,7 +720,7 @@ public class LoopManiaWorld {
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        TreeStump ts = new TreeStump(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        TreeStump ts = new TreeStump(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()), isConfusing());
         unequippedInventoryItems.add(ts);
         return ts;
     }
@@ -1312,7 +1321,7 @@ public class LoopManiaWorld {
                 old.destroy();
                 equippedItems.dropShield();
             }
-            TreeStump newShield = new TreeStump(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight));
+            TreeStump newShield = new TreeStump(new SimpleIntegerProperty(shieldSlot), new SimpleIntegerProperty(equippedHeight), isConfusing());
             equippedItems.equipShield(newShield);
             removeUnequippedInventoryItem(item);
             return newShield;
@@ -1335,7 +1344,7 @@ public class LoopManiaWorld {
                 old.destroy();
                 equippedItems.dropWeapon();
             }
-            Anduril newWeapon = new Anduril(new SimpleIntegerProperty(weaponSlot), new SimpleIntegerProperty(equippedHeight));
+            Anduril newWeapon = new Anduril(new SimpleIntegerProperty(weaponSlot), new SimpleIntegerProperty(equippedHeight), isConfusing());
             equippedItems.equipWeapon(newWeapon);
             removeUnequippedInventoryItem(item);
             return newWeapon;
@@ -1486,6 +1495,20 @@ public class LoopManiaWorld {
         character.initialize();
     }
 
+    public SimpleIntegerProperty getDefeatedBoss() {
+        return defeatedBoss;
+    }
+
+    public void defeatBoss() {
+        defeatedBoss.set(defeatedBoss.get()+1);
+    }
+
+    public void setConfusing() {
+        confusing = true;
+    }
+
+    public boolean isConfusing() {
+        return confusing;
 
     //write and read JSON files for saving games
     public void writeToJSON () {

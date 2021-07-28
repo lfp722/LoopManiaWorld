@@ -88,6 +88,11 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+        mainMenuController.setConfusingGameSwitcher(()->{
+            mainController.setConfusing();
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
         mainController.setStoreSwitcher(() -> {
             storeController.initializeCounts();
             storeController.initialize();
@@ -95,12 +100,10 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, storeRoot, primaryStage);
         });
         mainController.setWinSwitcher(() -> {
-            
             switchToRoot(scene, winRoot, primaryStage);
         });
         mainController.setLoseSwitcher(() -> {
             switchToRoot(scene, loseRoot, primaryStage);
-            
         });
         
         exitController.setResumeGameSwitcher(() -> {
@@ -126,7 +129,24 @@ public class LoopManiaApplication extends Application {
         winController.setWinMenu(() -> {
             System.exit(0);
         });
+
+        winController.setRetry(()-> {
+            mainController.restart();
+            switchToRoot(scene, gameRoot, primaryStage);            
+            mainController.startTimer();
+        }
+
+        );
+
         loseController.setWinMenu(() -> {System.exit(0);});
+
+        loseController.setRetry(()-> {
+            mainController.restart();
+            switchToRoot(scene, gameRoot, primaryStage);            
+            mainController.startTimer();
+        }
+
+        );
 
         
         // deploy the main onto the stage
