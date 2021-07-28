@@ -24,6 +24,7 @@ public class Character extends MovingEntity{
     private SimpleIntegerProperty stakeVampireBuff;
     private SimpleDoubleProperty debuff;
     private LoopManiaWorld world;
+    private boolean isStunned;
 
 
     public Character(PathPosition position, LoopManiaWorld world) {
@@ -50,6 +51,7 @@ public class Character extends MovingEntity{
         attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
         this.equipped = world.getEquip();
         tranced = new ArrayList<>();
+        isStunned = false;
     }
 
     /**
@@ -68,13 +70,6 @@ public class Character extends MovingEntity{
         army.remove(soldier);
     }
 
-    // public void equip(Equipment item) {
-    //     item.equip(this);
-    // }
-
-    // public void unequip(Equipment item) {
-    //     item.unequip(this);
-    // }
 
     /**
      * attack specific enemy
@@ -87,10 +82,23 @@ public class Character extends MovingEntity{
     }
 
     /**
+     * getter for stunned status
+     * @return
+     */
+    public boolean isStunned() {
+        return isStunned;
+    }
+
+    public void setStunned(boolean isStunned) {
+        this.isStunned = isStunned;
+    }
+
+    /**
      * to be called when it is attacked by an enemy
      * @param attack
      */
-    public void underAttack(int attack) {
+    public void underAttack(Enemy e, int attack) {
+        equipped.specialDefence(e, world);
         if (attack <= equipped.getDefence().get()) {
             return;
         }
@@ -242,6 +250,29 @@ public class Character extends MovingEntity{
         return next_expr;
     }
 
+
+    public SimpleIntegerProperty getTsBuff() {
+        return equipped.getTsBuff();
+    }
+
+    public void initialize() {
+        this.getPosition().setCurrentPositionInPath(0);
+        experience.set(0);
+        System.out.println(this.shouldExist().get());
+        attr.getCurHealth().set(attr.getHealth().get());
+        gold.set(0);
+
+        for  (Soldier s: army) {
+            s.destroy();
+        }
+        army.clear();
+
+        campFireBuff.set(1);
+        stakeVampireBuff.set(1);
+        debuff.set(1);
+
+        isStunned = false;
+    }
 
 
 }

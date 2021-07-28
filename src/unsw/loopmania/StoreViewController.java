@@ -3,20 +3,42 @@ import unsw.loopmania.items.*;
 
 import javafx.fxml.FXML;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class StoreViewController  {
+
+    @FXML
+    private GridPane soldBag;
+
+    private Image armourImage;
+    private Image shieldImage;
+    private Image helmetImage;
+    private Image stakeImage;
+    private Image staffImage;
+    private Image potionImage;
+    private Image swordImage;
+    private Image doggieCoinImage;
+    private Image andurilImage;
+    private Image treeStumpImage;
 
     public static final int NOLIMIT = 9999999;
     private StoreSwitcher gameSwitcher;
@@ -67,8 +89,17 @@ public class StoreViewController  {
         // goldTotal.setLayoutX(121);
         // goldTotal.setLayoutY(529);
         // ap.getChildren().add(goldTotal);
-        
 
+        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
+        armourImage = new Image((new File("src/images/armour.png")).toURI().toString());
+        shieldImage = new Image((new File("src/images/shield.png")).toURI().toString());
+        helmetImage = new Image((new File("src/images/helmet.png")).toURI().toString());
+        stakeImage = new Image((new File("src/images/stake.png")).toURI().toString());
+        staffImage = new Image((new File("src/images/staff.png")).toURI().toString());
+        potionImage = new Image((new File("src/images/brilliant_blue_new.png")).toURI().toString());
+        doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
+        andurilImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
     }
     
 
@@ -84,6 +115,7 @@ public class StoreViewController  {
                 gold.set(gold.get()-Helmet.initialPrice);
                 bought.add(h);
                 outfitCount += 1;
+                addSellButton(h);
             }
             
         }
@@ -104,6 +136,7 @@ public class StoreViewController  {
                 gold.set(gold.get()-Armour.initialPrice);
                 bought.add(h); 
                 outfitCount += 1;
+                addSellButton(h);
             }
             
         }
@@ -124,6 +157,7 @@ public class StoreViewController  {
                 gold.set(gold.get()- Shield.initialPrice);
                 bought.add(h); 
                 outfitCount += 1;
+                addSellButton(h);
             }
             
         }
@@ -139,6 +173,7 @@ public class StoreViewController  {
                 Sword h = world.addUnequippedSword();
                 gold.set(gold.get()-Sword.initialPrice);
                 bought.add(h);
+                addSellButton(h);
             }
             
         }
@@ -154,6 +189,7 @@ public class StoreViewController  {
                 Stake h = world.addUnequippedStake();
                 gold.set(gold.get()-Stake.initialPrice);
                 bought.add(h);
+                addSellButton(h);
             }
         }
         else {
@@ -169,6 +205,7 @@ public class StoreViewController  {
                 Staff h = world.addUnequippedStaff();
                 gold.set(gold.get()-Staff.initialPrice);
                 bought.add(h);
+                addSellButton(h);
             }
             
         }
@@ -189,6 +226,7 @@ public class StoreViewController  {
                 gold.set(gold.get()-Potion.initialPrice);
                 bought.add(h);
                 potionCount += 1;
+                addSellButton(h);
             }
             
         }
@@ -281,15 +319,125 @@ public class StoreViewController  {
         }
     }
 
+    private void addImage(Item i, Button b) {
+        if (i instanceof Sword) {
+            ImageView image = new ImageView(swordImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Stake) {
+            ImageView image = new ImageView(stakeImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Staff) {
+            ImageView image = new ImageView(staffImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Helmet) {
+            ImageView image = new ImageView(helmetImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Armour) {
+            ImageView image = new ImageView(armourImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Anduril) {
+            ImageView image = new ImageView(andurilImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof DoggieCoin) {
+            ImageView image = new ImageView(doggieCoinImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof TreeStump) {
+            ImageView image = new ImageView(treeStumpImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Shield) {
+            ImageView image = new ImageView(shieldImage);
+            b.setGraphic(image);
+        }
+        else if (i instanceof Potion) {
+            ImageView image = new ImageView(potionImage);
+            b.setGraphic(image);
+        }
+    }
+
+    public void addSellButton(Item i) {
+        Button b = new Button("SELL");
+            GridPane.setColumnIndex(b, i.getX());
+            GridPane.setRowIndex(b, i.getY());
+            b.setText("Sell");
+            addImage(i, b);  
+            b.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e) {
+                        boolean ans = popUpSuccess("sell", "item");
+                        if (ans) {
+                            world.removeUnequippedInventoryItemByCoordinates(i.getX(), i.getY());
+                            gold.set(gold.get()+(int)(0.7*i.getValueInGold()));
+                            bought.remove(i);
+                            // b.setText("Sold");
+                            // ImageView none = new ImageView();
+                            // b.setGraphic(none);
+                            // b.setOnAction(null);
+                            soldBag.getChildren().remove(b);
+                            
+                        }
+
+                    }
+                }
+            );
+            soldBag.getChildren().add(b);
+    }
+
+
     @FXML
-    void initialize() {
+    public void initialize() {
         Text goldTotal = new Text("0");
         goldTotal.textProperty().bind(gold.asString());
         goldTotal.setFill(Color.GREEN);
         goldTotal.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         goldTotal.setLayoutX(121);
-        goldTotal.setLayoutY(529);
+        goldTotal.setLayoutY(700);
         ap.getChildren().add(goldTotal);
+
+        Text dcTotal = new Text("0");
+        dcTotal.textProperty().bind(world.getDoggiePrice().asString());
+        dcTotal.setFill(Color.GREEN);
+        dcTotal.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        dcTotal.setLayoutX(250);
+        dcTotal.setLayoutY(700);
+        ap.getChildren().add(dcTotal);
+
+        List<Item> copied = new ArrayList<>(world.getInventory());
+
+        soldBag.getChildren().clear();
+        for (Item i: copied) {
+            // Button b = new Button("SELL");
+            // GridPane.setColumnIndex(b, i.getX());
+            // GridPane.setRowIndex(b, i.getY());
+            // b.setText("Sell");
+            // addImage(i, b);  
+            // b.setOnAction(
+            //     new EventHandler<ActionEvent>() {
+            //         @Override public void handle(ActionEvent e) {
+            //             boolean ans = popUpSuccess("sell", "item");
+            //             if (ans) {
+            //                 world.removeUnequippedInventoryItemByCoordinates(i.getX(), i.getY());
+            //                 gold.set(gold.get()+(int)(0.7*i.getValueInGold()));
+            //                 b.setText("Sold");
+            //                 ImageView none = new ImageView();
+            //                 b.setGraphic(none);
+            //                 b.setOnAction(null);
+                            
+            //             }
+
+            //         }
+            //     }
+            // );
+            // soldBag.getChildren().add(b); 
+            addSellButton(i);        
+        }
     }
 
 }

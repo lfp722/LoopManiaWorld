@@ -16,14 +16,6 @@ public class Potion extends Item{
         this.ValueInGold.set(1000);
     }
 
-    // public double getRecoverRate() {
-    //     return this.recoverRate.get();
-    // }
-
-    // public void setRecoverRate(double recoverRate) {
-    //     this.recoverRate.set(recoverRate);
-    // }
-
     /**
      * heal specific character
      * @param ch
@@ -37,17 +29,4 @@ public class Potion extends Item{
         }
     }
 
-    // @Override
-    // public void use(){
-    //     if (this.owner != null) {
-    //         this.recoverHealth();
-    //         return;
-    //     }
-    //     throw new RuntimeException("Portion_Error == USE: the owner is not set!");
-    // }
-
-    // @Override
-    // public void abandon(){
-    //     throw new RuntimeException("Portion_Error == DROP: the Portion cannot be dropped!");
-    // }
 }

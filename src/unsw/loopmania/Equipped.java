@@ -1,4 +1,6 @@
 package unsw.loopmania;
+
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.*;
 
@@ -8,12 +10,18 @@ public class Equipped {
     private Shield shield;
     private Weapon weapon;
     private SimpleIntegerProperty equipDefense = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty equipHelmetDefence = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty equipArmourDefence = new SimpleIntegerProperty(0);
+    private SimpleIntegerProperty equipShieldDefence = new SimpleIntegerProperty(0);
     private SimpleIntegerProperty equipAttack = new SimpleIntegerProperty(0);
     private LoopManiaWorld world;
     private TheOneRing ring;
+    private SimpleIntegerProperty Tsbuff;
 
     public Equipped(LoopManiaWorld world) {
         this.world = world;
+        Tsbuff = new SimpleIntegerProperty(1);
+        equipDefense.bind(Bindings.createIntegerBinding(()->equipArmourDefence.get()+equipHelmetDefence.get()+equipShieldDefence.get()*Tsbuff.get(), equipArmourDefence, equipHelmetDefence, equipShieldDefence, Tsbuff));
     }
 
     /**
@@ -22,23 +30,23 @@ public class Equipped {
      */
     public void equipHelmet(Helmet helmet) {
         this.helmet = helmet;
-        equipDefense.set(equipDefense.get()+helmet.getDefense());
+        equipHelmetDefence.bind(helmet.getDefenceProperty());
         world.getCharacter().getDebuff().set(0.8);
     }
 
     public void equipArmour(Armour armour) {
         this.armour = armour;
-        equipDefense.set(equipDefense.get()+armour.getDefense());
+        equipArmourDefence.bind(armour.getDefenceProperty());
     }
 
     public void equipShield(Shield shield) {
         this.shield = shield;
-        equipDefense.set(equipDefense.get() + shield.getDefense());
+        equipShieldDefence.bind(shield.getDefenceProperty());
     }
 
     public void equipWeapon(Weapon weapon) {
         this.weapon = weapon;
-        equipAttack.set(weapon.getDamage());
+        equipAttack.bind(weapon.getAttack());
     }
 
     public void equipRing(TheOneRing ring) {
@@ -50,6 +58,10 @@ public class Equipped {
     }
 
     public void dropRing() {
+        if (ring == null) {
+            return;
+        }
+        ring.destroy();
         ring = null;
     }
 
@@ -78,23 +90,43 @@ public class Equipped {
      * unequip an equipment of different type
      */
     public void dropHelmet() {
-        equipDefense.set(equipDefense.get()-helmet.getDefense());
+        equipHelmetDefence.unbind();
+        equipHelmetDefence.set(0);
+        if (helmet == null) {
+            return;
+        }
+        helmet.destroy();
         helmet = null;
     }
 
     public void dropArmour() {
-        equipDefense.set(equipDefense.get()-armour.getDefense());
+        equipArmourDefence.unbind();
+        equipArmourDefence.set(0);
+        if (armour == null) {
+            return;
+        }
+        armour.destroy();
         armour = null;
     }
 
     public void dropShield() {
-        equipDefense.set(equipDefense.get()-shield.getDefense());
+        equipShieldDefence.unbind();
+        equipShieldDefence.set(0);
+        if (shield == null) {
+            return;
+        }
+        shield.destroy();
         shield = null;
     }
 
-    public void dropWeapon() {
-        weapon = null;
+    public void dropWeapon() {       
+        equipAttack.unbind();
         equipAttack.set(0);
+        if (weapon == null) {
+            return;
+        }
+        weapon.destroy();
+        weapon = null;
     }
 
     /**
@@ -145,27 +177,15 @@ public class Equipped {
         return equipAttack;
     }
 
-    public void updateAttack() {
-        if (weapon == null) {
-            equipAttack.set(0);
-        }
-        else{
-            equipAttack.set(weapon.getDamage());
-        }
+    public SimpleIntegerProperty getTsBuff() {
+        return Tsbuff;
     }
 
-    public void updateDefence() {
-        int total = 0;
-        if (helmet != null){
-            total += helmet.getDefense();
+    public void specialDefence(Enemy e, LoopManiaWorld world) {
+        if (shield == null) {
+            return;
         }
-        if (armour != null){
-            total += armour.getDefense();
-        }
-        if (shield != null) {
-            total += shield.getDefense();
-        }
-        equipDefense.set(total);
+        shield.specialEffect(e, world);
     }
 
 

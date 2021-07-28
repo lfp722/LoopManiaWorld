@@ -74,7 +74,10 @@ enum DRAGGABLE_TYPE{
     STAKE,
     STAFF,
     POTION,
-    THEONERING
+    THEONERING,
+    ANDURIL,
+    TREESTUMP, 
+    DOGGIECOIN
 }
 
 /**
@@ -208,6 +211,11 @@ public class LoopManiaWorldController {
     private Image campfireImage;
     private Image soldierImage;
     private Image theOneRingImage;
+    private Image doggieImage;
+    private Image elanImage;
+    private Image doggieCoinImage;
+    private Image andurilImage;
+    private Image treeStumpImage;
 
 
     private Text expLabel;
@@ -297,6 +305,11 @@ public class LoopManiaWorldController {
         campfireImage = new Image((new File("src/images/campfire.png")).toURI().toString());
         soldierImage = new Image((new File("src/images/deep_elf_master_archer.png")).toURI().toString());
         theOneRingImage = new Image((new File("src/images/the_one_ring.png")).toURI().toString());
+        doggieImage = new Image((new File("src/images/doggie.png")).toURI().toString());
+        elanImage = new Image((new File("src/images/ElanMuske.png")).toURI().toString());
+        doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
+        andurilImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString());
+        treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -311,7 +324,6 @@ public class LoopManiaWorldController {
 
     @FXML
     public void initialize() {
-        // TODO = load more images/entities during initialization
         
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
@@ -438,27 +450,12 @@ public class LoopManiaWorldController {
         attributeBar.add(cycleText,1,5);
 
 
-
-        //String a = Integer.toString(world.getCharacter().getAttr().getAttack().get());
-        //attack.setText(a);
-        // String d = Integer.toString(world.getCharacter().getAttr().getDefence().get());
-        // defence.setText(d);
-
-        // StringBinding a = world.getCharacter().getAttr().getAttack().asString("Attack: %d");
-        // StringBinding d = world.getEquip().getDefence().asString("Defence: %d");
-        // attack.textProperty().bind(a);
-        // defence.textProperty().bind(d);
-
-        // StringBinding l = world.getCharacter().getLevel().asString("Lv: %d");
-        // StringBinding es = world.getCharacter().getExperience().asString("Exp: %d");
-        // level.textProperty().bind(l);
-        // experience.textProperty().bind(es);
-
-        // StringBinding gm = world.getCharacter().getG().asString("Gold: %d");
-        // gold.textProperty().bind(gm);
-
-        // StringBinding c = world.getCycle().asString("Cycle: %d");
-        // cycle.textProperty().bind(c);
+        Text dcText = new Text();
+        StringBinding dc = world.getDoggiePrice().asString();
+        dcText.textProperty().bind(dc);
+        dcText.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+        dcText.setFill(Color.ORANGE);
+        attributeBar.add(dcText,1,6);
 
     }
 
@@ -468,17 +465,18 @@ public class LoopManiaWorldController {
      * create and run the timer
      */
     public void startTimer(){
-        // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             //System.out.println(world.checkGoal());
             if (world.checkGoal()) {
+                System.out.println("winning game");
                 switchToWin();
             }
             world.runTickMoves();
             if (world.atHeroCastle()) {
+                System.out.println("Switching to store");
                 switchToStore();
             }
             if (!world.getBoughtItem().isEmpty()) {
@@ -510,6 +508,7 @@ public class LoopManiaWorldController {
                     world.getEquip().getRing().destroy();
                     world.getEquip().dropRing();
                 } else {
+                    System.out.println("losing game");
                     switchToLose();
                 }
                 
@@ -533,6 +532,15 @@ public class LoopManiaWorldController {
             for (Vampire newEnemy: newVampires){
                 onLoad(newEnemy);
             }
+            List<Doggie> newDoggies = world.possiblySpawnDoggies();
+            for (Doggie newEnemy: newDoggies){
+                onLoad(newEnemy);
+            }
+            List<ElanMuske> newElans = world.possiblySpawnElans();
+            for (ElanMuske newEnemy: newElans){
+                onLoad(newEnemy);
+            }
+            
             List<Gold> newGolds = world.possiblySpawnGold();
             List<Potion> newPotions = world.possiblySpawnPotion();
             for (Gold newGold: newGolds) {
@@ -559,7 +567,8 @@ public class LoopManiaWorldController {
 
     public void terminate(){
         //pause();
-        timeline.stop();
+        System.out.println("exiting");
+        System.exit(0);
     }
 
     /**
@@ -639,31 +648,53 @@ public class LoopManiaWorldController {
         onEquip(ring);
     }
 
+    private void loadDoggieCoin(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        DoggieCoin potion = world.addDoggie();
+        onLoad(potion);
+    }
 
+    private void loadAnduril(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        Anduril helmet = world.addUnequippedAnduril();
+        onLoad(helmet);
+    }
+
+    private void loadTreeStump(){
+        // TODO = load more types of weapon
+        // start by getting first available coordinates
+        TreeStump helmet = world.addUnequippedTreeStump();
+        onLoad(helmet);
+    }
 
     
-    
-    // private void reactToEnemyDefeat(Enemy enemy){
-    //     // react to character defeating an enemy
-    //     // in starter code, spawning extra card/weapon...
-    //     // TODO = provide different benefits to defeating the enemy based on the type of enemy
-    //     loadSword();
-    //     loadVampireCard();
-    // }
+
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
     public void reactToEnemyDefeat(Enemy enemy) {
         if(enemy instanceof Slug) {
-            loadGold((new Random()).nextInt(40) + 10 + (this.world.getCycle().get() * 10));
-            loadExp(20 + 100 * this.world.getCycle().get());
+            loadGold(enemy.getGoldAfterDeath());
+            loadExp(enemy.getExpAfterDeath());
+            int choice = new Random().nextInt(100);
             if ((new Random()).nextInt(100) < 30) {
                 loadCard();
             } 
+            if (world.isTheOneRing() && choice < 30) {
+                loadTheOneRing();
+            }
+            else if (world.isAnduril() && choice < 60) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 90) {
+                loadTreeStump();
+            }
         } else if (enemy instanceof Vampire) {
-            loadGold((new Random()).nextInt(1300) + 200 + (this.world.getCycle().get() * 20));
-            loadExp(500 + 500 * this.world.getCycle().get());
+            loadGold(enemy.getGoldAfterDeath());
+            loadExp(enemy.getExpAfterDeath());
             Random random = new Random();
             int choice = random.nextInt(1000);
             if (choice < 100) {
@@ -687,9 +718,18 @@ public class LoopManiaWorldController {
             else if (world.isTheOneRing() && choice < 601) {
                 loadTheOneRing();
             }
+            else if (world.isAnduril() && choice < 602) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 603) {
+                loadTreeStump();
+            }
+            else{
+
+            }
         } else if (enemy instanceof Zombie) {
-            loadGold(new Random().nextInt(100)+100+15*world.getCycle().get());
-            loadExp(200+150*world.getCycle().get());
+            loadGold(enemy.getGoldAfterDeath());
+            loadExp(enemy.getExpAfterDeath());
     
             Random random = new Random();
             int choice = random.nextInt(100);
@@ -704,6 +744,83 @@ public class LoopManiaWorldController {
             }
             else if (choice < 15) {
                 loadPotion();
+            }
+            else{
+
+            }
+        } else if (enemy instanceof Doggie) {
+            loadExp(enemy.getExpAfterDeath());
+            loadDoggieCoin();
+            Random random = new Random();
+            int choice = random.nextInt(800);
+            if (choice < 100) {
+                loadSword();
+            }
+            else if (choice < 200) {
+                loadArmour();
+            }
+            else if (choice < 300) {
+                loadShield();
+            }
+            else if (choice < 400) {
+                loadHelmet();
+            }
+            else if (choice < 500) {
+                loadPotion();
+            }
+            else if (choice < 600) {
+                loadCard();
+            } 
+            else if (world.isTheOneRing() && choice < 601) {
+                loadTheOneRing();
+            }
+            else if (world.isAnduril() && choice < 602) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 603) {
+                loadTreeStump();
+            }
+            else{
+
+            }
+            
+
+        } else if (enemy instanceof ElanMuske) {
+            loadExp(enemy.getExpAfterDeath());
+            loadGold(enemy.getGoldAfterDeath());
+            ElanMuske e = (ElanMuske) enemy;
+            e.decreaseDoggiePrice(world);
+            Random random = new Random();
+            int choice = random.nextInt(700);
+            if (choice < 100) {
+                loadSword();
+            }
+            else if (choice < 200) {
+                loadArmour();
+            }
+            else if (choice < 300) {
+                loadShield();
+            }
+            else if (choice < 400) {
+                loadHelmet();
+            }
+            else if (choice < 500) {
+                loadPotion();
+            }
+            else if (choice < 600) {
+                loadCard();
+            } 
+            else if (world.isTheOneRing() && choice < 601) {
+                loadTheOneRing();
+            }
+            else if (world.isAnduril() && choice < 602) {
+                loadAnduril();
+            }
+            else if (world.isTreeStump() && choice < 603) {
+                loadTreeStump();
+            }
+            else{
+
             }
         }
     }
@@ -922,6 +1039,27 @@ public class LoopManiaWorldController {
         unequippedInventory.getChildren().add(view);
     }
 
+    private void onLoad(DoggieCoin potion) {
+        ImageView view = new ImageView(doggieCoinImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, unequippedInventory, equippedItems);
+        addEntity(potion, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(Anduril potion) {
+        ImageView view = new ImageView(andurilImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.ANDURIL, unequippedInventory, equippedItems);
+        addEntity(potion, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
+    private void onLoad(TreeStump potion) {
+        ImageView view = new ImageView(treeStumpImage);
+        addDragEventHandlers(view, DRAGGABLE_TYPE.TREESTUMP, unequippedInventory, equippedItems);
+        addEntity(potion, view);
+        unequippedInventory.getChildren().add(view);
+    }
+
 
     /**
      * load an enemy into the GUI
@@ -941,6 +1079,18 @@ public class LoopManiaWorldController {
 
     private void onLoad(Vampire enemy) {
         ImageView view = new ImageView(vampireImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(Doggie enemy) {
+        ImageView view = new ImageView(doggieImage);
+        addEntity(enemy, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(ElanMuske enemy) {
+        ImageView view = new ImageView(elanImage);
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }
@@ -1027,6 +1177,15 @@ public class LoopManiaWorldController {
         }
         else if (i instanceof Potion) {
             Potion a = (Potion) i;
+            onLoad(a);
+        } else if (i instanceof Anduril) {
+            Anduril a = (Anduril) i;
+            onLoad(a);
+        } else if (i instanceof TreeStump) {
+            TreeStump a = (TreeStump) i;
+            onLoad(a);
+        } else if (i instanceof DoggieCoin) {
+            DoggieCoin a = (DoggieCoin) i;
             onLoad(a);
         }
     }
@@ -1117,6 +1276,18 @@ public class LoopManiaWorldController {
 
     private void onEquip(TheOneRing s) {
         ImageView view = new ImageView(theOneRingImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(Anduril s) {
+        ImageView view = new ImageView(andurilImage);
+        addEntity(s, view);
+        equippedItems.getChildren().add(view);
+    }
+
+    private void onEquip(TreeStump s) {
+        ImageView view = new ImageView(treeStumpImage);
         addEntity(s, view);
         equippedItems.getChildren().add(view);
     }
@@ -1255,7 +1426,18 @@ public class LoopManiaWorldController {
                             case POTION:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
-                                world.consumePotion(nodeX, nodeY);
+                                break;
+                            case ANDURIL:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                Anduril newAn = (Anduril) world.covertEquippedToEquipped(nodeX, nodeY);
+                                onEquip(newAn);
+                                break;
+                            case TREESTUMP:
+                                removeDraggableDragEventHandlers(draggableType, targetGridPane);
+                                // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
+                                TreeStump newTS = (TreeStump) world.covertEquippedToEquipped(nodeX, nodeY);
+                                onEquip(newTS);
                                 break;
                             default:
                                 break;
@@ -1409,6 +1591,9 @@ public class LoopManiaWorldController {
                         break;
                     case POTION:
                         draggedEntity.setImage(potionImage);
+                        break;
+                    case DOGGIECOIN:
+                        draggedEntity.setImage(doggieCoinImage);
                         break;
                     default:
                         break;
@@ -1648,6 +1833,10 @@ public class LoopManiaWorldController {
 
     public LoopManiaWorld getWorld() {
         return world;
+    }
+
+    public void restart() {
+        world.restart();
     }
 
     /**

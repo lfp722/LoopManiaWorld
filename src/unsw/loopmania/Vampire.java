@@ -29,7 +29,7 @@ public class Vampire extends Enemy {
         this.getAttribute().getHealth().set((int) (Math.pow(this.getLv(), 1.5) * 3 + 50));
         this.getAttribute().getCurHealth().set(this.getAttribute().getHealth().get());
         this.getAttribute().getDefence().set(0);
-        this.setGoldAfterDeath((new Random().nextInt(1300) + 200));
+        this.setGoldAfterDeath((new Random()).nextInt(1300) + 200 + (this.getLv() * 20));
         this.setExpAfterDeath(500 + 500 * this.getLv());
     }
 
@@ -111,7 +111,7 @@ public class Vampire extends Enemy {
 
     @Override
     public void criticalAttack(Character object) {
-        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+        object.underAttack(this, this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
     }
     
     @Override

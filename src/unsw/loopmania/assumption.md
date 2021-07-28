@@ -1,0 +1,14 @@
+doggie stunning will last for one loop only;
+doggie will have critical rate of maximum 40%;
+doggie critical attack entities other than character will only perform normal attack;
+doggie attack = lv^2 * 2;
+doggie health = lv^2 * 5;
+doggie appear rate = 10%;
+Elan attack = lv^2.5 * 2;
+Elan health = lv^2 * 6;
+Elan appear rate 5%;
+doggie coin price influenced by Elan: when appears, price = 3*price; when defeated, price = price / 4;
+equipped items are not to be sold;
+sold item price as 70% of original;
+boss will not be affected by staff;
+Anduril and TreeStump will only be obtained after death of a boss;
