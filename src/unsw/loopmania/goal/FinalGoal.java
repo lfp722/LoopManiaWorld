@@ -52,7 +52,7 @@ public class FinalGoal implements Goal{
         g.put("goldgoal", this.goldGoal.getGoal());
         g.put("expgoal", this.expGoal.getGoal());
         g.put("cyclegoal", this.cycleGoal.getGoal());
-        g.put("bossgoal", this.bossGoal.getGoal());
+        g.put("bossgoal", this.bossGoal.getBoss());
         return g;
     }
 }

@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class Item extends StaticEntity {
     
     protected SimpleIntegerProperty ValueInGold;
-    protected Character owner;
     protected boolean isRare;
     protected int rareType;
 
@@ -25,7 +24,6 @@ public class Item extends StaticEntity {
         super(x, y);
         ValueInGold = new SimpleIntegerProperty();
         this.ValueInGold.set(0);
-        this.owner = null;
         isRare = false;
         rareType = DEFAULT;
     }

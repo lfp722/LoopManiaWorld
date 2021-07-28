@@ -279,6 +279,7 @@ public class Character extends MovingEntity{
         campFireBuff.set(1);
         stakeVampireBuff.set(1);
         debuff.set(1);
+        shouldExist().set(true);
 
         isStunned = false;
     }

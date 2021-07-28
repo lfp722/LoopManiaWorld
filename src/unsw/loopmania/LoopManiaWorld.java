@@ -395,9 +395,7 @@ public class LoopManiaWorld {
                 s.attack(target);
                 //System.out.println("Tranced enemy attack enemy");
                 if (!target.shouldExist().get()) {
-                    if (target.getBoss()) {
-                        defeatBoss();
-                    }
+                    
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
                     //System.out.println("Enemy defeated");
@@ -503,6 +501,9 @@ public class LoopManiaWorld {
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
+            if (e.getBoss()) {
+                defeatBoss();
+            }
             killEnemy(e);
         }
         battleLock.set(1);
@@ -1455,6 +1456,7 @@ public class LoopManiaWorld {
         theOneRingExist = false;
         andurilExist = false;
         treeStumpExist = false;
+        defeatedBoss.set(0);
         
         for (Enemy i: enemies){
             i.destroy();
@@ -1509,7 +1511,7 @@ public class LoopManiaWorld {
 
     public boolean isConfusing() {
         return confusing;
-
+    }
     //write and read JSON files for saving games
     public void writeToJSON () {
         try {
@@ -1609,10 +1611,10 @@ public class LoopManiaWorld {
                     Item i4 = new Helmet(x, y);
                     unequippedInventoryItems.add(i4);
                 case "Anduril":
-                    Item i5 = new Anduril(x, y);
+                    Item i5 = new Anduril(x, y, isConfusing());
                     unequippedInventoryItems.add(i5);
                 case "TreeStump":
-                    Item i6 = new TreeStump(x, y);
+                    Item i6 = new TreeStump(x, y, isConfusing());
                     unequippedInventoryItems.add(i6);
                 case "DoggieCoin":
                     Item i7 = new DoggieCoin(x, y, this.doggiePrice);
@@ -1721,7 +1723,7 @@ public class LoopManiaWorld {
             SimpleIntegerProperty x = new SimpleIntegerProperty(ring.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(ring.getInt("y"));
             
-            TheOneRing a = new TheOneRing(x, y);
+            TheOneRing a = new TheOneRing(x, y, isConfusing());
             
             equippedItems.equipRing(a);
         }

@@ -13,6 +13,13 @@ public class BossGoal implements Goal{
         boss = value;
     }
 
+    
+
+    public int getBoss() {
+        return boss;
+    }
+
+
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
         return world.getDefeatedBoss().get() >= boss;
