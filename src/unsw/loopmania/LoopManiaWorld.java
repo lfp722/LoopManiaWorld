@@ -1496,7 +1496,8 @@ public class LoopManiaWorld {
         }
     }
 
+    //TODO:
     public void readFromJSON(String path) {
-        
+
     }
 }
