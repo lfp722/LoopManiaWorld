@@ -20,6 +20,12 @@ public class LoopManiaApplication extends Application {
      */
     private LoopManiaWorldController mainController;
 
+    private String path = "world_with_twists_and_turns.json";
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         // set title on top of window bar
@@ -29,8 +35,20 @@ public class LoopManiaApplication extends Application {
         // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
         primaryStage.setResizable(false);
 
+        StartMenuController startController = new StartMenuController();
+        FXMLLoader startLoader = new FXMLLoader(getClass().getResource("StartMenu.fxml"));
+        startLoader.setController(startController);
+        Parent startMenuRoot = startLoader.load();
+
+        LoadMenuController loadController = new LoadMenuController();
+        FXMLLoader loadLoader = new FXMLLoader(getClass().getResource("LoadMenu.fxml"));
+        loadLoader.setController(loadController);
+        Parent loadMenuRoot = loadLoader.load();
+
+    
+
         // load the main game
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json");
+        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader(path);
         mainController = loopManiaLoader.loadController();
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
         gameLoader.setController(mainController);
@@ -67,12 +85,22 @@ public class LoopManiaApplication extends Application {
         Parent exitRoot = exitLoader.load();
 
         // create new scene with the main menu (so we start with the main menu)
-        Scene scene = new Scene(mainMenuRoot);
+        Scene scene = new Scene(startMenuRoot);
 
         //Scene scene = new Scene(storeRoot);
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
+        startController.setNewSwitcher(()->{switchToRoot(scene, mainMenuRoot, primaryStage);});
+
+        startController.setLoadSwitcher(()->{switchToRoot(scene, loadMenuRoot, primaryStage);});
+
+        loadController.setStartSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
+
+        loadController.setLoadSwitcher((String path)->{
+            setPath(path);
+        });
+
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
         mainMenuController.setNormalGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);

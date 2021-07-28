@@ -364,30 +364,30 @@ public class StoreViewController  {
 
     public void addSellButton(Item i) {
         Button b = new Button("SELL");
-            GridPane.setColumnIndex(b, i.getX());
-            GridPane.setRowIndex(b, i.getY());
-            b.setText("Sell");
-            addImage(i, b);  
-            b.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent e) {
-                        boolean ans = popUpSuccess("sell", "item");
-                        if (ans) {
-                            world.removeUnequippedInventoryItemByCoordinates(i.getX(), i.getY());
-                            gold.set(gold.get()+(int)(0.7*i.getValueInGold()));
-                            bought.remove(i);
-                            // b.setText("Sold");
-                            // ImageView none = new ImageView();
-                            // b.setGraphic(none);
-                            // b.setOnAction(null);
-                            soldBag.getChildren().remove(b);
-                            
-                        }
-
+        GridPane.setColumnIndex(b, i.getX());
+        GridPane.setRowIndex(b, i.getY());
+        b.setText("Sell");
+        addImage(i, b);  
+        b.setOnAction(
+            new EventHandler<ActionEvent>() {
+                @Override public void handle(ActionEvent e) {
+                    boolean ans = popUpSuccess("sell", "item");
+                    if (ans) {
+                        world.removeUnequippedInventoryItemByCoordinates(i.getX(), i.getY());
+                        gold.set(gold.get()+(int)(0.7*i.getValueInGold()));
+                        bought.remove(i);
+                        // b.setText("Sold");
+                        // ImageView none = new ImageView();
+                        // b.setGraphic(none);
+                        // b.setOnAction(null);
+                        soldBag.getChildren().remove(b);
+                        
                     }
+
                 }
-            );
-            soldBag.getChildren().add(b);
+            }
+        );
+        soldBag.getChildren().add(b);
     }
 
 
