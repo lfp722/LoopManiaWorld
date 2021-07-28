@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class CampFire extends Building{
@@ -37,6 +39,15 @@ public class CampFire extends Building{
             world.getCharacter().getCampFireBuff().set(1);
             buffed = false;
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject b = new JSONObject();
+        b.put("type", "Campfire");
+        b.put("x", getX());
+        b.put("y", getY());
+        return b;
     }
 
 }

@@ -1,6 +1,7 @@
 package unsw.loopmania.items;
 
 import java.util.Random;
+import org.json.JSONObject;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Enemy;
@@ -49,5 +50,15 @@ public class TreeStump extends Shield{
         else {
             world.getCharacter().getTsBuff().set(1);
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "TreeStump");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        i.put("level", this.getLevel());
+        return i;
     }
 }

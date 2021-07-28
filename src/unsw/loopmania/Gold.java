@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.items.Item;
 
@@ -9,5 +11,13 @@ public class Gold extends Item{
         this.ValueInGold.set(value); 
     }
 
-    
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "Gold");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        i.put("valueingold", this.getValueInGold());
+        return i;
+    }
 }

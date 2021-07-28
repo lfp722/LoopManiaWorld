@@ -8,6 +8,12 @@ import java.util.Random;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
+import org.javatuples.Pair;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -19,6 +25,7 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -1071,7 +1078,19 @@ public class LoopManiaWorldController {
         unequippedInventory.getChildren().add(view);
     }
 
-
+    private void onLoad(Enemy enemy) {
+        if (enemy instanceof Slug) {
+            onLoad((Slug) enemy);
+        } else if (enemy instanceof Zombie) {
+            onLoad((Zombie) enemy);
+        }  else if (enemy instanceof Vampire) {
+            onLoad((Vampire) enemy);
+        }  else if (enemy instanceof ElanMuske) {
+            onLoad((ElanMuske) enemy);
+        }  else if (enemy instanceof Doggie) {
+            onLoad((Doggie) enemy);
+        }
+    }
     /**
      * load an enemy into the GUI
      * @param enemy
@@ -1198,6 +1217,24 @@ public class LoopManiaWorldController {
         } else if (i instanceof DoggieCoin) {
             DoggieCoin a = (DoggieCoin) i;
             onLoad(a);
+        }
+    }
+
+    private void onLoad(Card card) {
+        if (card instanceof CampFireCard) {
+            onLoad((CampFireCard) card);
+        } else if (card instanceof BarrackCard) {
+            onLoad((BarrackCard) card);
+        } else if (card instanceof TowerCard) {
+            onLoad((TowerCard) card);
+        } else if (card instanceof TrapCard) {
+            onLoad((TrapCard) card);
+        } else if (card instanceof VillageCard) {
+            onLoad((VillageCard) card);
+        } else if (card instanceof VampireCastleCard) {
+            onLoad((VampireCastleCard) card);
+        } else if (card instanceof ZombiePitCard) {
+            onLoad((ZombiePitCard) card);
         }
     }
 
@@ -1855,6 +1892,75 @@ public class LoopManiaWorldController {
     public void restart() {
         world.restart();
     }
+
+    public void save() {
+        world.writeToJSON();
+    }
+
+    public void reload(String path) throws FileNotFoundException {
+        JSONObject json = getJSON(path);
+        world.readFromJSON(json);
+        for (Card c: world.getCardEntities()) {
+            onLoad(c);
+        }
+        for (Building b: world.getBuildingEntities()) {
+            onLoad(b);
+        }
+        for (Item i: world.getSpawnItems()) {
+            if (i instanceof Potion) {
+                onLoadPick((Potion) i);
+            } else {
+                onLoad(i);
+            }
+        }
+        for (Item i: world.getInventory()) {
+            onLoad(i);
+        }
+        for (Enemy e: world.getEnemies()) {
+            onLoad(e);
+        }
+        Armour b = world.getEquip().getArmour();
+        if (b != null) {
+            onEquip(b);
+        }
+        Weapon a = world.getEquip().getWeapon();
+        if (a != null) {
+            if (a instanceof Sword) {
+                onEquip((Sword) a);
+            } else if (a instanceof Staff) {
+                onEquip((Staff) a);
+            } else if (a instanceof Stake) {
+                onEquip((Stake) a);
+            } else if (a instanceof Anduril) {
+                onEquip((Anduril) a);
+            }
+        }
+        Helmet h = world.getEquip().getHelmet();
+        if (h != null) {
+            onEquip(h);
+        }
+        Shield s = world.getEquip().getShield();
+        if (a != null) {
+            if (s instanceof TreeStump) {
+                onEquip((TreeStump) s);
+            } else {
+                onEquip(s);
+            }
+            
+        }
+        TheOneRing ring = world.getEquip().getRing();
+        if (ring != null) {
+            onEquip(ring);
+        }
+        
+    }
+
+    public JSONObject getJSON(String path) throws FileNotFoundException {
+        JSONObject json = new JSONObject(new JSONTokener(new FileReader("archive/" + path)));
+        return json;
+    }
+
+
 
     /**
      * we added this method to help with debugging so you could check your code is running on the application thread.

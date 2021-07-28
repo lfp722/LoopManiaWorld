@@ -2,11 +2,19 @@ package unsw.loopmania;
 import unsw.loopmania.goal.FinalGoal;
 import unsw.loopmania.items.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.javatuples.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -63,7 +71,7 @@ public class LoopManiaWorld {
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
-    private List<Entity> nonSpecifiedEntities;
+    //private List<Entity> nonSpecifiedEntities;
 
     private Character character;
     private List<Enemy> enemies;
@@ -94,6 +102,8 @@ public class LoopManiaWorld {
 
     private FinalGoal goal;
 
+    private String pathOfMap;
+
     /**
      * create the world (constructor)
      * 
@@ -104,7 +114,7 @@ public class LoopManiaWorld {
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
         this.width = width;
         this.height = height;
-        nonSpecifiedEntities = new ArrayList<>();
+        //nonSpecifiedEntities = new ArrayList<>();
         character = null;
         enemies = new ArrayList<>();
         cardEntities = new ArrayList<>();
@@ -149,7 +159,13 @@ public class LoopManiaWorld {
         return goal;
     }
 
-    
+    public void setPath(String path) {
+        this.pathOfMap = path;
+    }
+
+    public String getPath() {
+        return pathOfMap;
+    }
 
     public SimpleIntegerProperty getDoggiePrice() {
         return doggiePrice;
@@ -171,6 +187,24 @@ public class LoopManiaWorld {
 
     public SimpleIntegerProperty getMaxNumTotal() {
         return maxNumTotal;
+    }
+
+    
+
+    public List<Card> getCardEntities() {
+        return cardEntities;
+    }
+
+    public Equipped getEquippedItems() {
+        return equippedItems;
+    }
+
+    public void setEquippedItems(Equipped equippedItems) {
+        this.equippedItems = equippedItems;
+    }
+
+    public List<Item> getSpawnItems() {
+        return spawnItems;
     }
 
     public void addEnemy(Enemy e) {
@@ -202,10 +236,10 @@ public class LoopManiaWorld {
      * add a generic entity (without it's own dedicated method for adding to the world)
      * @param entity
      */
-    public void addEntity(Entity entity) {
-        // for adding non-specific entities (ones without another dedicated list)
-        nonSpecifiedEntities.add(entity);
-    }
+    // public void addEntity(Entity entity) {
+    //     // for adding non-specific entities (ones without another dedicated list)
+    //     nonSpecifiedEntities.add(entity);
+    // }
 
     /**
      * spawns enemies if the conditions warrant it, adds to world
@@ -216,7 +250,7 @@ public class LoopManiaWorld {
         List<Slug> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), cycle.get());
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath), (new Random()).nextInt(cycle.get()));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -228,7 +262,7 @@ public class LoopManiaWorld {
         List<Doggie> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            Doggie enemy = new Doggie(new PathPosition(indexInPath, orderedPath), cycle.get());
+            Doggie enemy = new Doggie(new PathPosition(indexInPath, orderedPath), (new Random()).nextInt(cycle.get()));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -240,7 +274,7 @@ public class LoopManiaWorld {
         List<ElanMuske> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            ElanMuske enemy = new ElanMuske(new PathPosition(indexInPath, orderedPath), cycle.get());
+            ElanMuske enemy = new ElanMuske(new PathPosition(indexInPath, orderedPath), (new Random()).nextInt(cycle.get()));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
             enemy.increaseDoggiePrice(this);
@@ -289,7 +323,7 @@ public class LoopManiaWorld {
             int indexInPath = orderedPath.indexOf(pos);
             int value = new Random().nextInt(40)+10;
             Gold i = new Gold((new PathPosition(indexInPath, orderedPath).getX()), (new PathPosition(indexInPath, orderedPath).getY()), value);
-            nonSpecifiedEntities.add(i);
+            //nonSpecifiedEntities.add(i);
             spawningItems.add(i);
             spawnItems.add(i);
         }
@@ -306,7 +340,7 @@ public class LoopManiaWorld {
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             Potion i = new Potion((new PathPosition(indexInPath, orderedPath).getX()), (new PathPosition(indexInPath, orderedPath).getY()));
-            nonSpecifiedEntities.add(i);
+            //nonSpecifiedEntities.add(i);
             spawningItems.add(i);
             spawnItems.add(i);
         }
@@ -405,11 +439,19 @@ public class LoopManiaWorld {
             for (Enemy e: battleEnemies) {
                 if (ch.getArmy().isEmpty()) {
                     e.attack(ch);
+                    if (e instanceof ElanMuske) {
+                        ElanMuske elan = (ElanMuske) e;
+                        elan.healEnemy(battleEnemies);
+                    }
                     //System.out.println("Enemy attack character");
                 }
                 else{
                     Soldier brave = ch.getArmy().get(0);
                     e.attack(brave, this);
+                    if (e instanceof ElanMuske) {
+                        ElanMuske elan = (ElanMuske) e;
+                        elan.healEnemy(battleEnemies);
+                    }
                     //System.out.println("Enemy attack soldier");
                 }
             }
@@ -907,7 +949,7 @@ public class LoopManiaWorld {
         // has a chance spawning an item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); 
-        if ((choice == 0) && (nonSpecifiedEntities.size() < 4)){
+        if ((choice == 0) && (spawnItems.size() < 4)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -935,7 +977,7 @@ public class LoopManiaWorld {
         // has a chance spawning an item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); 
-        if ((choice == 0) && (nonSpecifiedEntities.size() < 4)){
+        if ((choice == 0) && (spawnItems.size() < 4)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
@@ -1152,6 +1194,7 @@ public class LoopManiaWorld {
                 if (temp instanceof Gold) {
                     addGold(temp.getValueInGold());
                     temp.destroy();
+                    spawnItems.remove(temp);
                 }
                 else {
 
@@ -1412,16 +1455,7 @@ public class LoopManiaWorld {
         theOneRingExist = false;
         andurilExist = false;
         treeStumpExist = false;
-        System.out.println(this.getCharacter().shouldExist().get());
-        for (Entity i: nonSpecifiedEntities){
-            if (i instanceof Character) {
-                continue;
-            }
-            i.destroy();
-        }
-        System.out.println(this.getCharacter().shouldExist().get());
-        nonSpecifiedEntities = new ArrayList<>();
-        System.out.println(this.getCharacter().shouldExist().get());
+        
         for (Enemy i: enemies){
             i.destroy();
         }
@@ -1475,6 +1509,352 @@ public class LoopManiaWorld {
 
     public boolean isConfusing() {
         return confusing;
+
+    //write and read JSON files for saving games
+    public void writeToJSON () {
+        try {
+            FileWriter writer = new FileWriter("archive/" + LocalDateTime.now().toString() + ".json");
+            JSONObject character = this.character.characterToJson();
+            JSONArray enemies = new JSONArray();
+            for (Enemy e: this.getEnemies()) {
+               enemies.put(e.toJSON()); 
+            }
+            JSONArray cards = new JSONArray();
+            for (Card c: this.cardEntities) {
+                cards.put(c.toJSON());
+            }
+            JSONArray buildings = new JSONArray();
+            for (Building b: this.buildingEntities) {
+                buildings.put(b.toJSON());
+            }
+            JSONArray spawnItems = new JSONArray();
+            for (Item i: this.spawnItems) {
+                spawnItems.put(i.toJSON());
+            }
+            JSONArray bag = new JSONArray();
+            for (Item i: this.unequippedInventoryItems) {
+                bag.put(i.toJSON());
+            }
+            JSONObject equippedItems = this.equippedItems.toJSON();
+            JSONObject cycle = new JSONObject();
+            cycle.put("cycle", this.cycle.get());
+            JSONObject goal = new JSONObject();
+            goal.put("goal", this.goal.toJSON());
+            JSONObject doggie = new JSONObject();
+            doggie.put("doggiePrice", this.doggiePrice.get());
+            JSONObject world = new JSONObject();
+            world.put("character", character);
+            world.put("enemies", enemies);
+            world.put("cards", cards);
+            world.put("buildings", buildings);
+            world.put("spawnitems", spawnItems);
+            world.put("equippeditems", equippedItems);
+            world.put("cycle", cycle);
+            world.put("goal", goal);
+            world.put("doggie", doggie);
+            world.put("theonering", theOneRingExist);
+            world.put("anduril", andurilExist);
+            world.put("treestump", treeStumpExist);
+            world.put("height", getHeight());
+            world.put("width", getWidth());
+            world.put("path", pathOfMap);
+            world.put("bag", bag);
+            writer.write(world.toString());
+            writer.close();
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    
+
+    //TODO:
+    public void readFromJSON(JSONObject json) {
+        reloadCharacter(json);
+        reloadCard(json);
+        this.doggiePrice = new SimpleIntegerProperty(json.getJSONObject("doggie").getInt("doggiePrice"));
+        reloadBuilding(json);
+        reloadSpawnItem(json);
+        reloadEquippedItem(json);
+        reloadEnemies(json);
+        reloadGoal(json);
+        reloadBag(json);
+        this.cycle = new SimpleIntegerProperty(json.getJSONObject("cycle").getInt("cycle"));
+        this.theOneRingExist = json.getBoolean("theonering");
+        this.andurilExist = json.getBoolean("anduril");
+        this.treeStumpExist = json.getBoolean("treestump");
+    }
+
+    public void reloadBag(JSONObject json) {
+        JSONArray bag = json.getJSONArray("bag");
+        for (int i = 0; i < bag.length(); i++) {
+            JSONObject item = bag.getJSONObject(i);
+            SimpleIntegerProperty x = new SimpleIntegerProperty(item.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(item.getInt("y"));
+            switch (item.getString("type")) {
+                case "Potion":
+                    Item i0 = new Potion(x, y);
+                    unequippedInventoryItems.add(i0);
+                case "Sword":
+                    Item i1 = new Sword(x, y);
+                    unequippedInventoryItems.add(i1);
+                case "Shield":
+                    Item i2 = new Shield(x, y);
+                    unequippedInventoryItems.add(i2);
+                case "Armour":
+                    Item i3 = new Armour(x, y);
+                    unequippedInventoryItems.add(i3);
+                case "Helmet":
+                    Item i4 = new Helmet(x, y);
+                    unequippedInventoryItems.add(i4);
+                case "Anduril":
+                    Item i5 = new Anduril(x, y);
+                    unequippedInventoryItems.add(i5);
+                case "TreeStump":
+                    Item i6 = new TreeStump(x, y);
+                    unequippedInventoryItems.add(i6);
+                case "DoggieCoin":
+                    Item i7 = new DoggieCoin(x, y, this.doggiePrice);
+                    unequippedInventoryItems.add(i7);
+                case "Staff":
+                    Item i8 = new Staff(x, y);
+                    unequippedInventoryItems.add(i8);
+                case "Stake":
+                    Item i9 = new Stake(x, y);
+                    unequippedInventoryItems.add(i9);
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void reloadEnemies(JSONObject json) {
+        JSONArray enemies = json.getJSONArray("enemies");
+        for (int i = 0; i < enemies.length(); i++) {
+            JSONObject enemy = enemies.getJSONObject(i);
+            int x = enemy.getInt("position");
+            int lv = enemy.getInt("lv");
+            PathPosition position = new PathPosition(x, orderedPath);
+            switch (enemy.getString("type")) {
+                case "Slug":
+                    Enemy e = new Slug(position, lv);
+                    this.enemies.add(e);
+                case "Zombie":
+                    Enemy en = new Zombie(position, lv);
+                    this.enemies.add(en);
+                case "Vampire":
+                    Enemy ene = new Vampire(position, lv);
+                    this.enemies.add(ene);
+                case "Doggie":
+                    Enemy enem = new Doggie(position, lv);
+                    this.enemies.add(enem);
+                case "Elan":
+                    Enemy enemys = new ElanMuske(position, lv);
+                    this.enemies.add(enemys);
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void reloadGoal(JSONObject json) {
+        JSONObject goal = json.getJSONObject("goal");
+        int goldGoal = goal.getInt("goldgoal");
+        int expGoal = goal.getInt("expgoal");
+        int cyclegoal = goal.getInt("cyclegoal");
+        int bossgoal = goal.getInt("bossgoal");
+        this.goal.setCycleGoal(cyclegoal);
+        this.goal.setExpGoal(expGoal);
+        this.goal.setGoldGoal(goldGoal);
+        this.goal.setBossGoal(bossgoal);
+    }
+
+    public void reloadEquippedItem(JSONObject json) {
+        JSONObject items = json.getJSONObject("equippeditems");
+        JSONObject armour = items.getJSONObject("armour");
+        JSONObject helmet = items.getJSONObject("helmet");
+        JSONObject weapon = items.getJSONObject("weapon");
+        JSONObject shield = items.getJSONObject("shield");
+        JSONObject ring = items.getJSONObject("ring");
+        if (!armour.isEmpty()) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(armour.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(armour.getInt("y"));
+            int level = armour.getInt("level");
+            Armour a = new Armour(x, y);
+            for (int i = 0; i < level - 1; i++) {
+                a.levelUp();
+            }
+            equippedItems.equipArmour(a);
+        }
+        if (!helmet.isEmpty()) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(helmet.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(helmet.getInt("y"));
+            int level = helmet.getInt("level");
+            Helmet a = new Helmet(x, y);
+            for (int i = 0; i < level - 1; i++) {
+                a.levelUp();
+            }
+            equippedItems.equipHelmet(a);
+        }
+        if (!weapon.isEmpty()) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(weapon.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(weapon.getInt("y"));
+            int level = weapon.getInt("level");
+            Weapon a = new Weapon(x, y);
+            for (int i = 0; i < level - 1; i++) {
+                a.levelUp();
+            }
+            equippedItems.equipWeapon(a);
+        }
+        if (!shield.isEmpty()) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(shield.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(shield.getInt("y"));
+            int level = shield.getInt("level");
+            Shield a = new Shield(x, y);
+            for (int i = 0; i < level - 1; i++) {
+                a.levelUp();
+            }
+            equippedItems.equipShield(a);
+        }
+        if (!ring.isEmpty()) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(ring.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(ring.getInt("y"));
+            
+            TheOneRing a = new TheOneRing(x, y);
+            
+            equippedItems.equipRing(a);
+        }
+    }
+
+    public void reloadSpawnItem(JSONObject json) {
+        JSONArray items = json.getJSONArray("spawnitems");
+
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject item = items.getJSONObject(i);
+            SimpleIntegerProperty x = new SimpleIntegerProperty(item.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(item.getInt("y"));
+            int value = item.getInt("valueingold");
+            switch (item.getString("type")) {
+                case "potion":
+                    Item potion = new Potion(x, y);
+                    spawnItems.add(potion);
+                case "gold":
+                    Item gold = new Gold(x, y, value);
+                    spawnItems.add(gold);
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void reloadBuilding(JSONObject json) {
+        JSONArray buildings = json.getJSONArray("buildings");
+
+        for (int i = 0; i < buildings.length(); i++) {
+            JSONObject building = buildings.getJSONObject(i);
+            SimpleIntegerProperty x = new SimpleIntegerProperty(building.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(building.getInt("y"));
+
+            switch (building.getString("type")) {
+                case "Barrack":
+                    Building b = new Barrack(x, y);
+                    this.buildingEntities.add(b);
+                case "Campfire":
+                    Building c = new CampFire(x, y);
+                    this.buildingEntities.add(c);
+                case "Tower":
+                    Building d = new Tower(x, y);
+                    this.buildingEntities.add(d);
+                case "Trap":
+                    Building e = new Trap(x, y);
+                    this.buildingEntities.add(e);
+                case "VampireCastle":
+                    Building v = new VampireCastle(x, y);
+                    this.buildingEntities.add(v);
+                case "Village":
+                    Building f = new Village(x, y);
+                    this.buildingEntities.add(f);
+                case "ZombiePit":
+                    Building z = new ZombiePit(x, y);
+                    this.buildingEntities.add(z);
+                default:
+                    break;
+            
+            }
+        }
+    }
+
+    public void reloadCard(JSONObject json) {
+        JSONArray cards = json.getJSONArray("cards");
+        
+        for (int i = 0; i < cards.length(); i++) {
+            JSONObject card = cards.getJSONObject(i);
+            SimpleIntegerProperty x = new SimpleIntegerProperty(card.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(card.getInt("y"));
+
+            switch (card.getString("type")) {
+                case "BarrackCard":
+                    Card b = new BarrackCard(x, y);
+                    this.cardEntities.add(b);
+                case "CampfireCard":
+                    Card c = new CampFireCard(x, y);
+                    this.cardEntities.add(c);
+                case "TowerCard":
+                    Card d = new TowerCard(x, y);
+                    this.cardEntities.add(d);
+                case "TrapCard":
+                    Card e = new TrapCard(x, y);
+                    this.cardEntities.add(e);
+                case "VampireCard":
+                    Card v = new VampireCastleCard(x, y);
+                    this.cardEntities.add(v);
+                case "VillageCard":
+                    Card f = new VillageCard(x, y);
+                    this.cardEntities.add(f);
+                case "ZombieCard":
+                    Card z = new ZombiePitCard(x, y);
+                    this.cardEntities.add(z);
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void reloadCharacter(JSONObject jsonn) {
+        JSONObject json = jsonn.getJSONObject("character");
+        int gold = json.getInt("gold");
+        int curHealth = json.getInt("curHealth");
+        int exp = json.getInt("exp"); 
+        int curPosition = json.getInt("position");
+        List<Soldier> army = reloadSoldier(json, this.character);
+        this.character.getG().set(gold);
+        this.character.setArmy(army);
+        this.character.getExperience().set(exp);
+        this.character.getAttr().getCurHealth().set(curHealth);
+        this.character.getPosition().setCurrentPositionInPath(curPosition);
+    }
+
+    public List<Soldier> reloadSoldier(JSONObject json, Character ch) {
+        JSONArray army = json.getJSONArray("army");
+        List<Soldier>  soldiers = new ArrayList<>();
+        for (int i = 0; i < army.length(); i++) {
+            JSONObject soldier = army.getJSONObject(i);
+            SimpleIntegerProperty x = new SimpleIntegerProperty(soldier.getInt("x"));
+            SimpleIntegerProperty y = new SimpleIntegerProperty(soldier.getInt("y"));
+            EntityAttribute attr = reloadAttr(soldier.getJSONObject("attr"));
+            Soldier s = new Soldier(x, y, ch);
+            s.setAttr(attr);
+            soldiers.add(s);
+        }
+        return soldiers;
+        
+    }
+
+    public EntityAttribute reloadAttr(JSONObject json) {
+        EntityAttribute attr = new EntityAttribute(json.getInt("attack"), json.getInt("defence"), json.getInt("health"));
+        attr.getCurHealth().set(json.getInt("curHealth"));
+        return attr;
     }
 
 }

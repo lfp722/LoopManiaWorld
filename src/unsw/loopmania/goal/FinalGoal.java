@@ -1,5 +1,10 @@
 package unsw.loopmania.goal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
+
 import unsw.loopmania.*;
 
 public class FinalGoal implements Goal{
@@ -40,5 +45,14 @@ public class FinalGoal implements Goal{
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
         return bossGoal.checkGoal(world) && goldGoal.checkGoal(world) && expGoal.checkGoal(world) && cycleGoal.checkGoal(world);
+    }
+
+    public JSONObject toJSON() {
+        JSONObject g = new JSONObject();
+        g.put("goldgoal", this.goldGoal.getGoal());
+        g.put("expgoal", this.expGoal.getGoal());
+        g.put("cyclegoal", this.cycleGoal.getGoal());
+        g.put("bossgoal", this.bossGoal.getGoal());
+        return g;
     }
 }

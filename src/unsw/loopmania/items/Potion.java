@@ -2,6 +2,7 @@ package unsw.loopmania.items;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+import org.json.JSONObject;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.Character;
@@ -27,6 +28,15 @@ public class Potion extends Item{
         if (curH.get() >= maxH.get()) {
             curH.set(maxH.get());
         }
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "Potion");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        return i;
     }
 
 }

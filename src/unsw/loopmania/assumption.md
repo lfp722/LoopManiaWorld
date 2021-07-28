@@ -12,3 +12,11 @@ equipped items are not to be sold;
 sold item price as 70% of original;
 boss will not be affected by staff;
 Anduril and TreeStump will only be obtained after death of a boss;
+saving games will only occur outside a battle;
+world json will not change, making a new world will create a new json file;
+boss goal is set to 10;
+Elan will not heal himself, and will heal others enemies in battle after an attack;
+Confusion mode:
+other rare items with additional effect of the one ring will be destroyed after the effect is triggered;
+effect of tree stump and anduril will only be triggered once, even if there will be other same effect triggered at the same time;
+probability of getting a second effect: 20%;

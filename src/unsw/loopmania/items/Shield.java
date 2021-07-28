@@ -1,5 +1,7 @@
 package unsw.loopmania.items;
 
+import org.json.JSONObject;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Enemy;
 import unsw.loopmania.LoopManiaWorld;
@@ -20,5 +22,15 @@ public class Shield extends Outfit {
     }
 
     public void specialEffect(Enemy e, LoopManiaWorld world) {
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "Shield");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        i.put("level", this.getLevel());
+        return i;
     }
 }

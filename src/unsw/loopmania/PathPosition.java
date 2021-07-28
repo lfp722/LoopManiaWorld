@@ -3,8 +3,11 @@ package unsw.loopmania;
 import java.util.List;
 
 import org.javatuples.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.PathTile.Direction;
 
 /**
  * objects of this class represents the position in the path.
@@ -88,5 +91,26 @@ public class PathPosition{
 
     public SimpleIntegerProperty getY(){
         return y;
+    }
+
+    /**
+     * convert a complete path into JSONObject
+     * @return
+     */
+    public JSONObject toJSON() {
+        JSONObject path = new JSONObject();
+        JSONArray pathTiles = new JSONArray();
+        Pair<Integer, Integer> pt = new Pair<Integer,Integer>(0, 0);
+        for (int i = 0; i < orderedPath.size() - 1; i++) {
+            pt = orderedPath.get(i);
+            Pair<Integer, Integer> nextPt = orderedPath.get(i + 1);
+            Direction d = PathTile.Direction.getDirectionFromOffset(pt.getValue0(), pt.getValue1(), nextPt.getValue0(), nextPt.getValue1());
+            pathTiles.put(d);
+        }
+        path.put("path", pathTiles);
+        path.put("type", "path_tile");
+        path.put("x", 0);
+        path.put("y", 0);
+        return path;
     }
 }

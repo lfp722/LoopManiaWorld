@@ -1,6 +1,7 @@
 package unsw.loopmania.items;
 
 import java.util.Random;
+import org.json.JSONObject;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -51,4 +52,13 @@ public class Anduril extends Weapon{
         }
     }
 
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "Anduril");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        i.put("level", this.getLevel());
+        return i;
+    }
 }

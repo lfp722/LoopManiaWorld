@@ -1,5 +1,6 @@
 package unsw.loopmania.items;
 import java.util.Random;
+import org.json.JSONObject;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Enemy;
@@ -30,6 +31,15 @@ public class TheOneRing extends Item {
         SimpleIntegerProperty maxH = world.getCharacter().getAttr().getHealth();
         curH.set(maxH.get());
         world.getCharacter().shouldExist().set(true);
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject i = new JSONObject();
+        i.put("type", "TheOneRing");
+        i.put("x", this.getX());
+        i.put("y", this.getY());
+        return i;
     }
     
 }
