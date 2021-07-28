@@ -31,7 +31,7 @@ public class Helmet extends Outfit {
         i.put("type", "Helmet");
         i.put("x", this.getX());
         i.put("y", this.getY());
-        i.put("valueInGold", this.getValueInGold());
+        i.put("level", this.getLevel());
         return i;
     }
     

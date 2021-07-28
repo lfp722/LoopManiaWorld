@@ -26,7 +26,7 @@ public class Armour extends Outfit {
         i.put("type", "Armour");
         i.put("x", this.getX());
         i.put("y", this.getY());
-        i.put("valueInGold", this.getValueInGold());
+        i.put("level", this.getLevel());
         return i;
     }
     

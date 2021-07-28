@@ -26,9 +26,12 @@ import java.util.List;
  */
 public abstract class LoopManiaWorldLoader {
     private JSONObject json;
+    private String filename;
 
     public LoopManiaWorldLoader(String filename) throws FileNotFoundException {
+        this.filename = filename;
         json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
+        
     }
 
     /**
@@ -42,6 +45,8 @@ public abstract class LoopManiaWorldLoader {
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
 
         LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+
+        world.setPath(filename);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

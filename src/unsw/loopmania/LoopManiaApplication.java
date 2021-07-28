@@ -95,12 +95,12 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, storeRoot, primaryStage);
         });
         mainController.setWinSwitcher(() -> {
-            stop();
+            
             switchToRoot(scene, winRoot, primaryStage);
         });
         mainController.setLoseSwitcher(() -> {
             switchToRoot(scene, loseRoot, primaryStage);
-            stop();
+            
         });
         
         exitController.setResumeGameSwitcher(() -> {
@@ -118,10 +118,6 @@ public class LoopManiaApplication extends Application {
             mainController.save();
         });
 
-        mainController.setLoseSwitcher(() -> {
-            switchToRoot(scene, loseRoot, primaryStage);
-            stop();
-        });
         storeController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();

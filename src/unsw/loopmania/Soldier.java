@@ -15,6 +15,20 @@ public class Soldier extends StaticEntity{
         general = ch;
     }
     
+    
+
+    public EntityAttribute getAttr() {
+        return attr;
+    }
+
+
+
+    public void setAttr(EntityAttribute attr) {
+        this.attr = attr;
+    }
+
+
+
     /**
      * attack specific enemy
      * @param e

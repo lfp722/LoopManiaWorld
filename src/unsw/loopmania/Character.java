@@ -134,6 +134,12 @@ public class Character extends MovingEntity{
         return army;
     }
 
+    
+
+    public void setArmy(List<Soldier> army) {
+        this.army = army;
+    }
+
     /**
      * getter
      * @return
@@ -288,6 +294,7 @@ public class Character extends MovingEntity{
             army.put(s.toJSON());
         }
         character.put("army", army);
+        character.put("position", this.getPosition().getCurrentPositionInPath());
         // JSONArray tranced = new JSONArray();
         // for (Enemy e: this.tranced) {
         //     tranced.put(e.toJSON());

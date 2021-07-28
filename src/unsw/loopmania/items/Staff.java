@@ -48,7 +48,7 @@ public class Staff extends Weapon {
         i.put("type", "Staff");
         i.put("x", this.getX());
         i.put("y", this.getY());
-        i.put("valueInGold", this.getValueInGold());
+        i.put("level", this.getLevel());
         return i;
     }
     

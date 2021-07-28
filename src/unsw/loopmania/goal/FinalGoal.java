@@ -53,10 +53,10 @@ public class FinalGoal implements Goal{
 
     public JSONObject toJSON() {
         JSONObject g = new JSONObject();
-        g.put("goldGoal", this.goldGoal.getGoal());
-        g.put("expGoal", this.expGoal.getGoal());
-        g.put("cycleGoal", this.cycleGoal.getGoal());
-        //g.put("bossGoal", this.bossGoal.getGoal());
+        g.put("goldgoal", this.goldGoal.getGoal());
+        g.put("expgoal", this.expGoal.getGoal());
+        g.put("cyclegoal", this.cycleGoal.getGoal());
+        g.put("bossgoal", this.bossGoal.getGoal());
         return g;
     }
 }

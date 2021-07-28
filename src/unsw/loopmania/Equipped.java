@@ -200,17 +200,17 @@ public class Equipped {
         if (this.helmet != null) {
             e.put("helmet", this.helmet.toJSON());
         } else {
-            e.put("armour", new JSONObject());
+            e.put("helmet", new JSONObject());
         }
         if (this.weapon != null) {
             e.put("weapon", this.weapon.toJSON());
         } else {
-            e.put("armour", new JSONObject());
+            e.put("weapon", new JSONObject());
         }
         if (this.shield != null) {
             e.put("shield", this.shield.toJSON());
         } else {
-            e.put("armour", new JSONObject());
+            e.put("shield", new JSONObject());
         }
         if (this.ring != null) {
             e.put("ring", this.ring.toJSON());

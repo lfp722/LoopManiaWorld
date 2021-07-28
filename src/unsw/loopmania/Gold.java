@@ -17,7 +17,7 @@ public class Gold extends Item{
         i.put("type", "Gold");
         i.put("x", this.getX());
         i.put("y", this.getY());
-        i.put("valueInGold", this.getValueInGold());
+        i.put("valueingold", this.getValueInGold());
         return i;
     }
 }

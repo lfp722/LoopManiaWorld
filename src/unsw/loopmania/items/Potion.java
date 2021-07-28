@@ -36,7 +36,6 @@ public class Potion extends Item{
         i.put("type", "Potion");
         i.put("x", this.getX());
         i.put("y", this.getY());
-        i.put("valueInGold", this.getValueInGold());
         return i;
     }
 

@@ -34,7 +34,7 @@ public class Sword extends Weapon {
         i.put("type", "Sword");
         i.put("x", this.getX());
         i.put("y", this.getY());
-        i.put("valueInGold", this.getValueInGold());
+        i.put("level", this.getLevel());
         return i;
     }
     
