@@ -1,25 +1,19 @@
 package unsw.loopmania.goal;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import unsw.loopmania.*;
 
 public class FinalGoal implements Goal{
-    private List<Goal> goals;
 
     private GoldGoal goldGoal;
     private ExpGoal expGoal;
     private CycleGoal cycleGoal;
+    private BossGoal bossGoal;
 
     public FinalGoal() {
-        goals = new ArrayList<>();
         goldGoal = new GoldGoal(0);
         expGoal = new ExpGoal(0);
         cycleGoal = new CycleGoal(1);
-        goals.add(goldGoal);
-        goals.add(expGoal);
-        goals.add(cycleGoal);
+        bossGoal = new BossGoal(0);
     }
 
     public void setGoldGoal(int value) {
@@ -34,6 +28,10 @@ public class FinalGoal implements Goal{
         cycleGoal.setGoal(value);
     }
 
+    public void setBossGoal(int value) {
+        bossGoal.setGoal(value);
+    }
+
     /**
      * 
      * @param g
@@ -41,11 +39,6 @@ public class FinalGoal implements Goal{
 
     @Override
     public boolean checkGoal(LoopManiaWorld world) {
-        for (Goal temp: goals) {
-            if (!temp.checkGoal(world)) {
-                return false;
-            }
-        }
-        return true;
+        return bossGoal.checkGoal(world) && goldGoal.checkGoal(world) && expGoal.checkGoal(world) && cycleGoal.checkGoal(world);
     }
 }

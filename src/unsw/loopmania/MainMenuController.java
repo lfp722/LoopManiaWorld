@@ -14,6 +14,7 @@ public class MainMenuController {
     private MenuSwitcher normalGameSwitcher;
     private MenuSwitcher berserkerGameSwitcher;
     private MenuSwitcher survivalGameSwitcher;
+    private MenuSwitcher confusingGameSwitcher;
 
     public void setNormalGameSwitcher(MenuSwitcher gameSwitcher){
         this.normalGameSwitcher = gameSwitcher;
@@ -25,6 +26,10 @@ public class MainMenuController {
 
     public void setSurvivalGameSwitcher(MenuSwitcher gameSwitcher){
         this.survivalGameSwitcher = gameSwitcher;
+    }
+
+    public void setConfusingGameSwitcher(MenuSwitcher gamSwitcher){
+        this.confusingGameSwitcher = gamSwitcher;
     }
 
     /**
@@ -44,5 +49,10 @@ public class MainMenuController {
     @FXML
     private void switchToSurvivalGame() throws IOException {
         survivalGameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToConfusingGame() throws IOException {
+        confusingGameSwitcher.switchMenu();
     }
 }

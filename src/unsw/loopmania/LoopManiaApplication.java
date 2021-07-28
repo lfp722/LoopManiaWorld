@@ -88,6 +88,11 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+        mainMenuController.setConfusingGameSwitcher(()->{
+            mainController.setConfusing();
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
         mainController.setStoreSwitcher(() -> {
             storeController.initializeCounts();
             storeController.initialize();
@@ -112,10 +117,6 @@ public class LoopManiaApplication extends Application {
             mainController.startTimer();
         });
 
-        mainController.setLoseSwitcher(() -> {
-            switchToRoot(scene, loseRoot, primaryStage);
-            stop();
-        });
         storeController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
