@@ -1662,6 +1662,7 @@ public class LoopManiaWorld {
 
     public void reloadGoal(JSONObject json) {
         JSONObject goal = json.getJSONObject("goal");
+        goal = goal.getJSONObject("goal");
         int goldGoal = goal.getInt("goldgoal");
         int expGoal = goal.getInt("expgoal");
         int cyclegoal = goal.getInt("cyclegoal");
@@ -1736,12 +1737,13 @@ public class LoopManiaWorld {
             JSONObject item = items.getJSONObject(i);
             SimpleIntegerProperty x = new SimpleIntegerProperty(item.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(item.getInt("y"));
-            int value = item.getInt("valueingold");
+            
             switch (item.getString("type")) {
                 case "potion":
                     Item potion = new Potion(x, y);
                     spawnItems.add(potion);
                 case "gold":
+                    int value = item.getInt("valueingold");
                     Item gold = new Gold(x, y, value);
                     spawnItems.add(gold);
                 default:
