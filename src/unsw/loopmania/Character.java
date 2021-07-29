@@ -2,11 +2,14 @@ package unsw.loopmania;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -29,6 +32,16 @@ public class Character extends MovingEntity{
     private LoopManiaWorld world;
     private boolean isStunned;
 
+    private SimpleIntegerProperty techPoints;
+    private SimpleIntegerProperty attackPoints;
+    private SimpleIntegerProperty defencePoints;
+    private SimpleIntegerProperty healthPoints;
+
+    private SimpleIntegerProperty rage;
+    private SimpleBooleanProperty miss;
+
+    private boolean counterMiss = false;
+
 
     public Character(PathPosition position, LoopManiaWorld world) {
         super(position);
@@ -49,12 +62,23 @@ public class Character extends MovingEntity{
         debuff.set(1);
         level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(3000).get())+1, experience));
         next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*3000, level));
-        attr.getHealth().bind(level.multiply(20).add(15));
-        attr.getDefence().set(0);
-        attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)level.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get(), level,campFireBuff, stakeVampireBuff, debuff));
+
+        techPoints = new SimpleIntegerProperty();
+        attackPoints = new SimpleIntegerProperty(1);
+        healthPoints = new SimpleIntegerProperty(1);
+        defencePoints = new SimpleIntegerProperty(1);
+        rage = new SimpleIntegerProperty(1);
+        miss = new SimpleBooleanProperty(false);
+
+        techPoints.bind(Bindings.createIntegerBinding(()->level.get()+2-attackPoints.get()-healthPoints.get()-defencePoints.get(), level,attackPoints,defencePoints,healthPoints));
+
+        attr.getHealth().bind(healthPoints.multiply(20).add(15));
+        attr.getDefence().bind(defencePoints);
+        attr.getAttack().bind(Bindings.createDoubleBinding(()->(double)attackPoints.multiply(2).add(3).get()*campFireBuff.get()*stakeVampireBuff.get()*debuff.get()*rage.get(), attackPoints,campFireBuff, stakeVampireBuff, debuff, rage));
         this.equipped = world.getEquip();
         tranced = new ArrayList<>();
         isStunned = false;
+
     }
 
     /**
@@ -101,6 +125,15 @@ public class Character extends MovingEntity{
      * @param attack
      */
     public void underAttack(Enemy e, int attack) {
+        if (counterMiss) {
+            if (miss.get()) {
+                setMiss();
+                return;
+            }
+            else {
+                setMiss();
+            }
+        }
         equipped.specialDefence(e, world);
         if (attack <= equipped.getDefence().get()) {
             return;
@@ -303,6 +336,63 @@ public class Character extends MovingEntity{
         // character.put("tranced", tranced);
         return character;
     }
+
+    public void setRage() {
+        rage.bind(Bindings.createIntegerBinding(()->angry(), this.getAttr().getCurHealth(), this.getAttr().getHealth()));
+    }
+
+    private int angry() {
+        int curH = this.getAttr().getCurHealth().get();
+        int maxH = this.getAttr().getHealth().get();
+        double ratio = (double)curH/maxH;
+        if (ratio < 0.3) {
+            return 2;
+        }
+        return 1;
+    }
+
+    public void setMiss() {
+        int possibility = new Random().nextInt(100);
+        if (possibility < 20) {
+            miss.set(true);
+        }
+        else {
+            miss.set(false);
+        }
+    }
+
+    public void startMiss() {
+        counterMiss = true;
+    }
+
+    public void addAttackPoints() {
+        if (techPoints.get()<=0) {
+            return;
+        }
+        attackPoints.set(attackPoints.get()+1);
+        if (attackPoints.get() == 10) {
+            setRage();
+        }
+    }
+
+    public void addHealthPoints() {
+        if (techPoints.get()<=0) {
+            return;
+        }
+        healthPoints.set(healthPoints.get()+1);
+    }
+
+    public void addDefencePoints() {
+        if (techPoints.get()<=0) {
+            return;
+        }
+        defencePoints.set(defencePoints.get()+1);
+        if (defencePoints.get() == 10) {
+            startMiss();
+        }
+    }
+
+
 
 
 }
