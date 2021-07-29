@@ -1,6 +1,13 @@
 package unsw.loopmania;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +27,30 @@ public class LoopManiaApplication extends Application {
      */
     private LoopManiaWorldController mainController;
 
+    private LoopManiaWorldControllerLoader loopManiaLoader;
+
+    private FXMLLoader gameLoader;
+
+    private Parent gameRoot;
+
     private String path = "world_with_twists_and_turns.json";
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void setMainController(String path){
+        try {
+            loopManiaLoader = new LoopManiaWorldControllerLoader(path);
+            mainController = loopManiaLoader.loadController();
+            gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+            gameLoader.setController(mainController);
+            gameRoot = gameLoader.load();
+        }
+        catch (IOException e) {
+            return;
+        }
+
     }
 
     @Override
@@ -45,14 +72,15 @@ public class LoopManiaApplication extends Application {
         loadLoader.setController(loadController);
         Parent loadMenuRoot = loadLoader.load();
 
-    
+        
+        setMainController(path);
 
         // load the main game
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader(path);
-        mainController = loopManiaLoader.loadController();
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
-        gameLoader.setController(mainController);
-        Parent gameRoot = gameLoader.load();
+        // LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader(path);
+        // mainController = loopManiaLoader.loadController();
+        // FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+        // gameLoader.setController(mainController);
+        // Parent gameRoot = gameLoader.load();
 
         // load the main menu
         MainMenuController mainMenuController = new MainMenuController();
@@ -98,7 +126,28 @@ public class LoopManiaApplication extends Application {
         loadController.setStartSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
 
         loadController.setLoadSwitcher((String path)->{
-            setPath(path);
+            JSONObject json = new JSONObject();
+            try {
+                json = new JSONObject(new JSONTokener(new FileReader(path)));
+                System.out.println("json");
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            String newPath = "/tmp_amd/glass/export/glass/3/z5271819/comp2511/proj/techT/21T2-cs2511-project/worlds/"+json.getString("path");
+            setMainController(newPath);
+            try {
+                mainController.reload(path);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+            
         });
 
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});

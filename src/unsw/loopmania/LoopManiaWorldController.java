@@ -1898,7 +1898,7 @@ public class LoopManiaWorldController {
     }
 
     public void reload(String path) throws FileNotFoundException {
-        JSONObject json = getJSON(path);
+        JSONObject json = new JSONObject(new JSONTokener(new FileReader(path)));
         world.readFromJSON(json);
         for (Card c: world.getCardEntities()) {
             onLoad(c);

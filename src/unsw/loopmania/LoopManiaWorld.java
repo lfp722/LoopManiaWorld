@@ -1753,7 +1753,7 @@ public class LoopManiaWorld {
     public void reloadBuilding(JSONObject json) {
         JSONArray buildings = json.getJSONArray("buildings");
 
-        for (int i = 0; i < buildings.length(); i++) {
+        for (int i = 1; i < buildings.length(); i++) {
             JSONObject building = buildings.getJSONObject(i);
             SimpleIntegerProperty x = new SimpleIntegerProperty(building.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(building.getInt("y"));

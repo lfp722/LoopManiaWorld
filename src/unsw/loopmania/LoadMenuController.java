@@ -33,7 +33,8 @@ public class LoadMenuController {
 
     @FXML
     public void initialize() {
-        final File folder = new File("/tmp_amd/glass/export/glass/3/z5271819/comp2511/proj/techT/21T2-cs2511-project/archive");
+        String path = "/tmp_amd/glass/export/glass/3/z5271819/comp2511/proj/techT/21T2-cs2511-project/archive";
+        final File folder = new File(path);
         int rowIndex = 0;
         int columnIndex = 0;
         for (final File fileEntry: folder.listFiles()) {
@@ -45,7 +46,7 @@ public class LoadMenuController {
                 new EventHandler<ActionEvent>(){
                     @Override
                     public void handle(ActionEvent e) {
-                        loadSwitcher.convey(fileEntry.getName());
+                        loadSwitcher.convey(path+'/'+fileEntry.getName());
                     }
                 }
             );
