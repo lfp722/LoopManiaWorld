@@ -8,7 +8,6 @@ import java.util.Random;
 
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
-import org.javatuples.Pair;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -25,7 +24,6 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -517,28 +515,28 @@ public class LoopManiaWorldController {
             System.out.println(world.getCharacter().getAttr().getCurHealth().get());
             System.out.println(world.getCharacter().shouldExist().get());
             System.out.println(world.getCharacter().getAttr().getHealth().get());
-            // if (!world.getCharacter().shouldExist().get()) {
-            //     if (world.getEquip().getRing() != null) {
-            //         world.getEquip().getRing().rebirth(world);
-            //         world.getEquip().getRing().destroy();
-            //         world.getEquip().dropRing();
-            //     } 
-            //     else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
-            //         Item i = world.getEquip().getSecondHealth().get(0);
-            //         i.secondEffect(world, null);
-            //         if (i instanceof Shield) {
-            //             world.getEquip().dropShield();
-            //         }
-            //         else if (i instanceof Weapon) {
-            //             world.getEquip().dropWeapon();
-            //         }
-            //     }
-            //     else {
-            //         System.out.println("losing game");
-            //         switchToLose();
-            //     }
+            if (!world.getCharacter().shouldExist().get()) {
+                if (world.getEquip().getRing() != null) {
+                    world.getEquip().getRing().rebirth(world);
+                    world.getEquip().getRing().destroy();
+                    world.getEquip().dropRing();
+                } 
+                else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
+                    Item i = world.getEquip().getSecondHealth().get(0);
+                    i.secondEffect(world, null);
+                    if (i instanceof Shield) {
+                        world.getEquip().dropShield();
+                    }
+                    else if (i instanceof Weapon) {
+                        world.getEquip().dropWeapon();
+                    }
+                }
+                else {
+                    System.out.println("losing game");
+                    switchToLose();
+                }
                 
-            // }
+            }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {
                 onLoad(i);
@@ -1208,6 +1206,9 @@ public class LoopManiaWorldController {
         else if (i instanceof Armour) {
             Armour a = (Armour) i;
             onLoad(a);
+        }else if (i instanceof TreeStump) {
+            TreeStump a = (TreeStump) i;
+            onLoad(a);
         }
         else if (i instanceof Shield) {
             Shield a = (Shield) i;
@@ -1219,10 +1220,7 @@ public class LoopManiaWorldController {
         } else if (i instanceof Anduril) {
             Anduril a = (Anduril) i;
             onLoad(a);
-        } else if (i instanceof TreeStump) {
-            TreeStump a = (TreeStump) i;
-            onLoad(a);
-        } else if (i instanceof DoggieCoin) {
+        }  else if (i instanceof DoggieCoin) {
             DoggieCoin a = (DoggieCoin) i;
             onLoad(a);
         }
@@ -1918,23 +1916,28 @@ public class LoopManiaWorldController {
         JSONObject json = new JSONObject(new JSONTokener(new FileReader(path)));
         System.out.println(world.getCharacter().shouldExist().get());
         world.readFromJSON(json);
-        for (Card c: world.getCardEntities()) {
+        List<Card> cards = world.getCardEntities();
+        for (Card c: cards) {
             onLoad(c);
         }
-        for (Building b: world.getBuildingEntities()) {
+        List<Building> buildings = world.getBuildingEntities();
+        for (Building b: buildings) {
             onLoad(b);
         }
-        for (Item i: world.getSpawnItems()) {
+        List<Item> spawn = world.getSpawnItems();
+        for (Item i: spawn) {
             if (i instanceof Potion) {
                 onLoadPick((Potion) i);
             } else {
-                onLoad(i);
+                onLoad((Gold) i);
             }
         }
-        for (Item i: world.getInventory()) {
+        List<Item> inventory = world.getInventory();
+        for (Item i: inventory) {
             onLoad(i);
         }
-        for (Enemy e: world.getEnemies()) {
+        List<Enemy> es = world.getEnemies();
+        for (Enemy e: es) {
             onLoad(e);
         }
         Armour b = world.getEquip().getArmour();
@@ -1994,7 +1997,7 @@ public class LoopManiaWorldController {
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
 
-    public void setConfusing() {
-        world.setConfusing();
+    public void setMode(int mode) {
+        world.setMode(mode);
     }
 }

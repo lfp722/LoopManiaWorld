@@ -2,8 +2,6 @@ package unsw.loopmania;
 import unsw.loopmania.goal.FinalGoal;
 import unsw.loopmania.items.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -14,13 +12,9 @@ import java.util.Random;
 import org.javatuples.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.items.Item;
-import unsw.loopmania.items.Potion;
-import unsw.loopmania.items.Sword;
 
 
 /**
@@ -47,6 +41,13 @@ public class LoopManiaWorld {
 
     public static final int ringHeight = 0;
     public static final int ringWidth = 0;
+
+    public static int NORMAL = 0;
+    public static int BERSERKER = 1;
+    public static int SURVIVAL = 2;
+    public static int CONFUSING = 3;
+
+    private int mode = NORMAL;
 
     private SimpleIntegerProperty doggiePrice;
 
@@ -92,8 +93,6 @@ public class LoopManiaWorld {
     private List<Item> spawnItems;
 
     private SimpleIntegerProperty defeatedBoss;
-
-    private boolean confusing = false;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -161,6 +160,10 @@ public class LoopManiaWorld {
 
     public void setPath(String path) {
         this.pathOfMap = path;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 
     public String getPath() {
@@ -1505,12 +1508,8 @@ public class LoopManiaWorld {
         defeatedBoss.set(defeatedBoss.get()+1);
     }
 
-    public void setConfusing() {
-        confusing = true;
-    }
-
     public boolean isConfusing() {
-        return confusing;
+        return mode == CONFUSING;
     }
     //write and read JSON files for saving games
     public void writeToJSON () {
@@ -1545,6 +1544,9 @@ public class LoopManiaWorld {
             JSONObject doggie = new JSONObject();
             doggie.put("doggiePrice", this.doggiePrice.get());
             JSONObject world = new JSONObject();
+            
+            world.put("mode", mode);
+            world.put("defeats", getDefeatedBoss().get());
             world.put("character", character);
             world.put("enemies", enemies);
             world.put("cards", cards);
@@ -1586,6 +1588,8 @@ public class LoopManiaWorld {
         this.theOneRingExist = json.getBoolean("theonering");
         this.andurilExist = json.getBoolean("anduril");
         this.treeStumpExist = json.getBoolean("treestump");
+        this.defeatedBoss.set(json.getInt("defeats"));
+        this.mode = json.getInt("mode");
     }
 
     public void reloadBag(JSONObject json) {
@@ -1598,33 +1602,43 @@ public class LoopManiaWorld {
                 case "Potion":
                     Item i0 = new Potion(x, y);
                     unequippedInventoryItems.add(i0);
+                    break;
                 case "Sword":
                     Item i1 = new Sword(x, y);
                     unequippedInventoryItems.add(i1);
+                    break;
                 case "Shield":
                     Item i2 = new Shield(x, y);
                     unequippedInventoryItems.add(i2);
+                    break;
                 case "Armour":
                     Item i3 = new Armour(x, y);
                     unequippedInventoryItems.add(i3);
+                    break;
                 case "Helmet":
                     Item i4 = new Helmet(x, y);
                     unequippedInventoryItems.add(i4);
+                    break;
                 case "Anduril":
                     Item i5 = new Anduril(x, y, isConfusing());
                     unequippedInventoryItems.add(i5);
+                    break;
                 case "TreeStump":
                     Item i6 = new TreeStump(x, y, isConfusing());
                     unequippedInventoryItems.add(i6);
+                    break;
                 case "DoggieCoin":
                     Item i7 = new DoggieCoin(x, y, this.doggiePrice);
                     unequippedInventoryItems.add(i7);
+                    break;
                 case "Staff":
                     Item i8 = new Staff(x, y);
                     unequippedInventoryItems.add(i8);
+                    break;
                 case "Stake":
                     Item i9 = new Stake(x, y);
                     unequippedInventoryItems.add(i9);
+                    break;
                 default:
                     break;
             }
@@ -1642,18 +1656,23 @@ public class LoopManiaWorld {
                 case "Slug":
                     Enemy e = new Slug(position, lv);
                     this.enemies.add(e);
+                    break;
                 case "Zombie":
                     Enemy en = new Zombie(position, lv);
                     this.enemies.add(en);
+                    break;
                 case "Vampire":
                     Enemy ene = new Vampire(position, lv);
                     this.enemies.add(ene);
+                    break;
                 case "Doggie":
                     Enemy enem = new Doggie(position, lv);
                     this.enemies.add(enem);
+                    break;
                 case "Elan":
                     Enemy enemys = new ElanMuske(position, lv);
                     this.enemies.add(enemys);
+                    break;
                 default:
                     break;
             }
@@ -1704,27 +1723,93 @@ public class LoopManiaWorld {
             SimpleIntegerProperty x = new SimpleIntegerProperty(weapon.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(weapon.getInt("y"));
             int level = weapon.getInt("level");
-            Weapon a = new Weapon(x, y);
-            for (int i = 0; i < level - 1; i++) {
-                a.levelUp();
+            switch (weapon.getString("type")) {
+                case "Anduril":
+                    Anduril anduril = new Anduril(x, y, isConfusing());
+                    int rareType = shield.getInt("raretype");
+                    if (rareType == Item.DEFENCE) {
+                        anduril.setSe((LoopManiaWorld world, Enemy e)->EffectFactory.treeStump(world, e));
+                        anduril.setSecondValue(EffectFactory.treeStump);
+                        rareType = Item.DEFENCE;
+                    }
+                    else if (rareType == Item.HEALTH) {
+                        anduril.setSe((LoopManiaWorld world, Enemy e)->EffectFactory.theOneRing(world));
+                        rareType = Item.HEALTH;
+                    }
+                    for (int i = 0; i < level - 1; i++) {
+                        anduril.levelUp();
+                    }
+                    equippedItems.equipWeapon((Weapon) anduril);
+                    break;
+                case "Sword":
+                    Weapon sword = new Sword(x, y);
+                    for (int i = 0; i < level - 1; i++) {
+                        sword.levelUp();
+                    }
+                    equippedItems.equipWeapon(sword);
+                    break;
+                case "Staff":
+                    Weapon staff = new Staff(x, y);
+                    for (int i = 0; i < level - 1; i++) {
+                        staff.levelUp();
+                    }
+                    equippedItems.equipWeapon(staff);
+                    break;
+                case "Stake":
+                    Weapon stake = new Stake(x, y);
+                    for (int i = 0; i < level - 1; i++) {
+                        stake.levelUp();
+                    }
+                    equippedItems.equipWeapon(stake);
+                    break;
+                default:
+                    break;
             }
-            equippedItems.equipWeapon(a);
+            
         }
         if (!shield.isEmpty()) {
             SimpleIntegerProperty x = new SimpleIntegerProperty(shield.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(shield.getInt("y"));
             int level = shield.getInt("level");
-            Shield a = new Shield(x, y);
-            for (int i = 0; i < level - 1; i++) {
-                a.levelUp();
+            if (shield.getString("type").equals("TreeStump")) {
+                TreeStump tree = new TreeStump(x, y, isConfusing());
+                int rareType = shield.getInt("raretype");
+                if (rareType == Item.ATTACK) {
+                    tree.setSe((LoopManiaWorld world, Enemy e)->EffectFactory.anduril(world, e));
+                    tree.setSecondValue(EffectFactory.anduril);
+                    rareType = Item.ATTACK;
+                }
+                else if (rareType == Item.HEALTH) {
+                    tree.setSe((LoopManiaWorld world, Enemy e)->EffectFactory.theOneRing(world));
+                    rareType = Item.HEALTH;
+                }
+                for (int i = 0; i < level - 1; i++) {
+                    tree.levelUp();
+                }
+                equippedItems.equipShield((Shield) tree);
+            } else {
+                Shield a = new Shield(x, y);
+                for (int i = 0; i < level - 1; i++) {
+                    a.levelUp();
+                }
+                equippedItems.equipShield(a);
             }
-            equippedItems.equipShield(a);
+            
+            
         }
         if (!ring.isEmpty()) {
             SimpleIntegerProperty x = new SimpleIntegerProperty(ring.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(ring.getInt("y"));
-            
+            int rareType = ring.getInt("raretype");
             TheOneRing a = new TheOneRing(x, y, isConfusing());
+            if (rareType == 1) {
+                a.setSe((LoopManiaWorld world, Enemy e)->EffectFactory.anduril(world, e));
+                a.setSecondValue(EffectFactory.anduril);
+            } else if (rareType == 2) {
+                a.setSe((LoopManiaWorld world, Enemy e)->EffectFactory.treeStump(world, e));
+                a.setSecondValue(EffectFactory.treeStump);
+            }
+            a.setRareType(rareType);
             
             equippedItems.equipRing(a);
         }
@@ -1739,13 +1824,15 @@ public class LoopManiaWorld {
             SimpleIntegerProperty y = new SimpleIntegerProperty(item.getInt("y"));
             
             switch (item.getString("type")) {
-                case "potion":
+                case "Potion":
                     Item potion = new Potion(x, y);
                     spawnItems.add(potion);
-                case "gold":
+                    break;
+                case "Gold":
                     int value = item.getInt("valueingold");
                     Item gold = new Gold(x, y, value);
                     spawnItems.add(gold);
+                    break;
                 default:
                     break;
             }
@@ -1764,24 +1851,31 @@ public class LoopManiaWorld {
                 case "Barrack":
                     Building b = new Barrack(x, y);
                     this.buildingEntities.add(b);
+                    break;
                 case "Campfire":
                     Building c = new CampFire(x, y);
                     this.buildingEntities.add(c);
+                    break;
                 case "Tower":
                     Building d = new Tower(x, y);
                     this.buildingEntities.add(d);
+                    break;
                 case "Trap":
                     Building e = new Trap(x, y);
                     this.buildingEntities.add(e);
+                    break;
                 case "VampireCastle":
                     Building v = new VampireCastle(x, y);
                     this.buildingEntities.add(v);
+                    break;
                 case "Village":
                     Building f = new Village(x, y);
                     this.buildingEntities.add(f);
+                    break;
                 case "ZombiePit":
                     Building z = new ZombiePit(x, y);
                     this.buildingEntities.add(z);
+                    break;
                 default:
                     break;
             
@@ -1801,24 +1895,31 @@ public class LoopManiaWorld {
                 case "BarrackCard":
                     Card b = new BarrackCard(x, y);
                     this.cardEntities.add(b);
+                    break;
                 case "CampfireCard":
                     Card c = new CampFireCard(x, y);
                     this.cardEntities.add(c);
+                    break;
                 case "TowerCard":
                     Card d = new TowerCard(x, y);
                     this.cardEntities.add(d);
+                    break;
                 case "TrapCard":
                     Card e = new TrapCard(x, y);
                     this.cardEntities.add(e);
+                    break;
                 case "VampireCard":
                     Card v = new VampireCastleCard(x, y);
                     this.cardEntities.add(v);
+                    break;
                 case "VillageCard":
                     Card f = new VillageCard(x, y);
                     this.cardEntities.add(f);
+                    break;
                 case "ZombieCard":
                     Card z = new ZombiePitCard(x, y);
                     this.cardEntities.add(z);
+                    break;
                 default:
                     break;
             }
@@ -1838,6 +1939,18 @@ public class LoopManiaWorld {
         this.character.getAttr().getCurHealth().set(curHealth);
         this.character.getPosition().setCurrentPositionInPath(curPosition);
         this.character.shouldExist().set(true);
+        int att = json.getInt("attpoints");
+        int def = json.getInt("defpoints");
+        int health = json.getInt("healthpoints");
+        character.getAttackPoints().set(att);
+        if (att > 10) {
+            character.setRage();
+        }
+        character.getDefencePoints().set(def);
+        if (def > 10) {
+            character.setMiss();
+        }
+        character.getHealthPoints().set(health);
     }
 
     public List<Soldier> reloadSoldier(JSONObject json, Character ch) {

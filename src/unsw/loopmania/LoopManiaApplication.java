@@ -1,6 +1,5 @@
 package unsw.loopmania;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -157,21 +156,27 @@ public class LoopManiaApplication extends Application {
 
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
         mainMenuController.setNormalGameSwitcher(() -> {
+            mainController.setMode(LoopManiaWorld.NORMAL);
+
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
         mainMenuController.setBerserkerGameSwitcher(() -> {
+            mainController.setMode(LoopManiaWorld.BERSERKER);
+
             storeController.setLimitOfOutfit(1);
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
         mainMenuController.setSurvivalGameSwitcher(() -> {
+            mainController.setMode(LoopManiaWorld.SURVIVAL);
+
             storeController.setLimitOfPotion(1);
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
         mainMenuController.setConfusingGameSwitcher(()->{
-            mainController.setConfusing();
+            mainController.setMode(LoopManiaWorld.CONFUSING);
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });

@@ -14,7 +14,7 @@ public class TreeStump extends Shield{
         isRare = true;
 
         if (isConfusing) {
-            int possibility = 1;//new Random().nextInt(10);
+            int possibility = new Random().nextInt(10);//possibility = 1;
             if (possibility == Item.ATTACK) {
                 setSe((LoopManiaWorld world, Enemy e)->EffectFactory.anduril(world, e));
                 setSecondValue(EffectFactory.anduril);
@@ -34,12 +34,12 @@ public class TreeStump extends Shield{
 
     @Override
     public int nextLevelUpPrice() {
-        return (int) Math.pow((100 * (this.level.get())),2) + 5000;
+        return (int) Math.pow((300 * (this.level.get())),2) + 5000;
     }
 
     @Override
     public int currentPrice() {
-        return (int) Math.pow((100 * (this.level.get() - 1)),2) + 5000;
+        return (int) Math.pow((300 * (this.level.get() - 1)),2) + 5000;
     }
     //TODO: check if enemy is boss and increase Defense
     @Override
@@ -59,6 +59,7 @@ public class TreeStump extends Shield{
         i.put("x", this.getX());
         i.put("y", this.getY());
         i.put("level", this.getLevel());
+        i.put("raretype", rareType);
         return i;
     }
 }

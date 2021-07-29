@@ -73,4 +73,8 @@ public class Item extends StaticEntity {
     public int getSecondType() {
         return rareType;
     }
+
+    public void setRareType(int type) {
+        this.rareType = type;
+    }
 }

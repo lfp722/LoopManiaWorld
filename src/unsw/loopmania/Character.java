@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -61,7 +60,7 @@ public class Character extends MovingEntity{
         stakeVampireBuff.set(1);
         debuff.set(1);
         level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(3000).get())+1, experience));
-        next_expr.bind(Bindings.createDoubleBinding(()->Math.pow(level.get()+1,2)*3000, level));
+        next_expr.bind(Bindings.createDoubleBinding(()->(Math.pow(level.get(),2)+1)*3000, level));
 
         techPoints = new SimpleIntegerProperty();
         attackPoints = new SimpleIntegerProperty(1);
@@ -284,6 +283,23 @@ public class Character extends MovingEntity{
         return gold;
     }
 
+    
+
+    public SimpleIntegerProperty getAttackPoints() {
+        return attackPoints;
+    }
+
+
+    public SimpleIntegerProperty getDefencePoints() {
+        return defencePoints;
+    }
+
+
+    public SimpleIntegerProperty getHealthPoints() {
+        return healthPoints;
+    }
+
+
     /**
      * getter
      * @return
@@ -329,11 +345,9 @@ public class Character extends MovingEntity{
         }
         character.put("army", army);
         character.put("position", this.getPosition().getCurrentPositionInPath());
-        // JSONArray tranced = new JSONArray();
-        // for (Enemy e: this.tranced) {
-        //     tranced.put(e.toJSON());
-        // }
-        // character.put("tranced", tranced);
+        character.put("attpoints", attackPoints.get());
+        character.put("defpoints", defencePoints.get());
+        character.put("healthpoints", healthPoints.get());
         return character;
     }
 
@@ -391,8 +405,4 @@ public class Character extends MovingEntity{
             startMiss();
         }
     }
-
-
-
-
 }

@@ -39,6 +39,7 @@ public class TheOneRing extends Item {
         i.put("type", "TheOneRing");
         i.put("x", this.getX());
         i.put("y", this.getY());
+        i.put("raretype", rareType);
         return i;
     }
     

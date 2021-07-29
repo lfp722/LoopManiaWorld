@@ -2,7 +2,7 @@
   "width": 8,
   "height": 14,
   "rare_items": ["Anduril", "TreeStump"],
-  "goal-condition": {"goal": "boss", "quantity": 5 },
+  "goal-condition": {"goal": "boss", "quantity": 50 },
   "entities": [
     {"x": 0, "y": 0, "type": "hero_castle"}
   ],

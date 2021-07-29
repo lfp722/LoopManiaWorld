@@ -14,7 +14,7 @@ public class Anduril extends Weapon{
         //this.damage.set(5);
         isRare = true;
         if (isConfusing) {
-            int possibility = 0;
+            int possibility = (new Random()).nextInt(10);
             if (possibility == Item.DEFENCE) {
                 setSe((LoopManiaWorld world, Enemy e)->EffectFactory.treeStump(world, e));
                 setSecondValue(EffectFactory.treeStump);
@@ -34,12 +34,12 @@ public class Anduril extends Weapon{
 
     @Override
     public int nextLevelUpPrice() {
-        return (int) Math.pow((100 * (this.level.get())),2) + 5000;
+        return (int) Math.pow((300 * (this.level.get())),2) + 5000;
     }
 
     @Override
     public int currentPrice() {
-        return (int) Math.pow((100 * (this.level.get() - 1)),2) + 5000;
+        return (int) Math.pow((300 * (this.level.get() - 1)),2) + 5000;
     }
 
     @Override
@@ -59,6 +59,7 @@ public class Anduril extends Weapon{
         i.put("x", this.getX());
         i.put("y", this.getY());
         i.put("level", this.getLevel());
+        i.put("raretype", rareType);
         return i;
     }
 }
