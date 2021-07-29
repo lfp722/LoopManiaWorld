@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -137,7 +139,10 @@ public class LoopManiaApplication extends Application {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            String newPath = "/tmp_amd/glass/export/glass/3/z5271819/comp2511/proj/techT/21T2-cs2511-project/worlds/"+json.getString("path");
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            String newPath = s + "/worlds/"+json.getString("path");
+            System.out.println(newPath);
             setMainController(newPath);
             try {
                 mainController.reload(path);

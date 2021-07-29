@@ -1,6 +1,8 @@
 package unsw.loopmania;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,7 +35,10 @@ public class LoadMenuController {
 
     @FXML
     public void initialize() {
-        String path = "/tmp_amd/glass/export/glass/3/z5271819/comp2511/proj/techT/21T2-cs2511-project/archive";
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+
+        String path = s + "/archive";
         final File folder = new File(path);
         int rowIndex = 0;
         int columnIndex = 0;

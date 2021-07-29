@@ -473,10 +473,14 @@ public class LoopManiaWorldController {
      */
     public void startTimer(){
         System.out.println("starting timer");
+        
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
             //System.out.println(world.checkGoal());
+            System.out.println(world.getCharacter().getAttr().getCurHealth().get());
+            System.out.println(world.getCharacter().shouldExist().get());
+            System.out.println(world.getCharacter().getAttr().getHealth().get());
             if (world.checkGoal()) {
                 System.out.println("winning game");
                 switchToWin();
@@ -508,29 +512,33 @@ public class LoopManiaWorldController {
                 }
                 
             }
+            System.out.println(world.getCharacter().getPosition().getCurrentPositionInPath());
             List<Enemy> defeatedEnemies = world.runBattles();
-            if (!world.getCharacter().shouldExist().get()) {
-                if (world.getEquip().getRing() != null) {
-                    world.getEquip().getRing().rebirth(world);
-                    world.getEquip().getRing().destroy();
-                    world.getEquip().dropRing();
-                } 
-                else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
-                    Item i = world.getEquip().getSecondHealth().get(0);
-                    i.secondEffect(world, null);
-                    if (i instanceof Shield) {
-                        world.getEquip().dropShield();
-                    }
-                    else if (i instanceof Weapon) {
-                        world.getEquip().dropWeapon();
-                    }
-                }
-                else {
-                    System.out.println("losing game");
-                    switchToLose();
-                }
+            System.out.println(world.getCharacter().getAttr().getCurHealth().get());
+            System.out.println(world.getCharacter().shouldExist().get());
+            System.out.println(world.getCharacter().getAttr().getHealth().get());
+            // if (!world.getCharacter().shouldExist().get()) {
+            //     if (world.getEquip().getRing() != null) {
+            //         world.getEquip().getRing().rebirth(world);
+            //         world.getEquip().getRing().destroy();
+            //         world.getEquip().dropRing();
+            //     } 
+            //     else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
+            //         Item i = world.getEquip().getSecondHealth().get(0);
+            //         i.secondEffect(world, null);
+            //         if (i instanceof Shield) {
+            //             world.getEquip().dropShield();
+            //         }
+            //         else if (i instanceof Weapon) {
+            //             world.getEquip().dropWeapon();
+            //         }
+            //     }
+            //     else {
+            //         System.out.println("losing game");
+            //         switchToLose();
+            //     }
                 
-            }
+            // }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {
                 onLoad(i);
@@ -1899,6 +1907,7 @@ public class LoopManiaWorldController {
 
     public void reload(String path) throws FileNotFoundException {
         JSONObject json = new JSONObject(new JSONTokener(new FileReader(path)));
+        System.out.println(world.getCharacter().shouldExist().get());
         world.readFromJSON(json);
         for (Card c: world.getCardEntities()) {
             onLoad(c);
@@ -1940,7 +1949,7 @@ public class LoopManiaWorldController {
             onEquip(h);
         }
         Shield s = world.getEquip().getShield();
-        if (a != null) {
+        if (s != null) {
             if (s instanceof TreeStump) {
                 onEquip((TreeStump) s);
             } else {
@@ -1955,10 +1964,10 @@ public class LoopManiaWorldController {
         
     }
 
-    public JSONObject getJSON(String path) throws FileNotFoundException {
-        JSONObject json = new JSONObject(new JSONTokener(new FileReader("archive/" + path)));
-        return json;
-    }
+    // public JSONObject getJSON(String path) throws FileNotFoundException {
+    //     JSONObject json = new JSONObject(new JSONTokener(new FileReader("archive/" + path)));
+    //     return json;
+    // }
 
 
 

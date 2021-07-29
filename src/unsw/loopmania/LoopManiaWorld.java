@@ -494,7 +494,7 @@ public class LoopManiaWorld {
                 t.attackIfInRadius(battleEnemies);
             }
         }
-
+        System.out.println("battle enemy size: " + battleEnemies.size());
         battle(battleEnemies, defeatedEnemies, character);
         character.getStakeVampireBuff().set(1);
         for (Enemy e: defeatedEnemies){
@@ -1575,14 +1575,14 @@ public class LoopManiaWorld {
     public void readFromJSON(JSONObject json) {
         reloadCharacter(json);
         reloadCard(json);
-        this.doggiePrice = new SimpleIntegerProperty(json.getJSONObject("doggie").getInt("doggiePrice"));
+        this.doggiePrice.set(json.getJSONObject("doggie").getInt("doggiePrice"));
         reloadBuilding(json);
         reloadSpawnItem(json);
         reloadEquippedItem(json);
         reloadEnemies(json);
         reloadGoal(json);
         reloadBag(json);
-        this.cycle = new SimpleIntegerProperty(json.getJSONObject("cycle").getInt("cycle"));
+        this.cycle.set(json.getJSONObject("cycle").getInt("cycle"));
         this.theOneRingExist = json.getBoolean("theonering");
         this.andurilExist = json.getBoolean("anduril");
         this.treeStumpExist = json.getBoolean("treestump");
@@ -1837,6 +1837,7 @@ public class LoopManiaWorld {
         this.character.getExperience().set(exp);
         this.character.getAttr().getCurHealth().set(curHealth);
         this.character.getPosition().setCurrentPositionInPath(curPosition);
+        this.character.shouldExist().set(true);
     }
 
     public List<Soldier> reloadSoldier(JSONObject json, Character ch) {
