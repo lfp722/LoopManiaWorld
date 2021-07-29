@@ -1747,6 +1747,15 @@ public class LoopManiaWorldController {
         case H:
             world.consumePotion();  
             break;
+        case A:
+            world.getCharacter().addAttackPoints();
+            break;
+        case S:
+            world.getCharacter().addHealthPoints();
+            break;
+        case D:
+            world.getCharacter().addDefencePoints();
+            break;
         default:
             break;
         }
