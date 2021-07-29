@@ -59,7 +59,6 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
         this.detectRange = d;
     }
     
-
     /**
      * 
      * @return
@@ -83,6 +82,8 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
     public EntityAttribute getAttribute() {
         return attribute;
     }
+
+    
 
     /**
      * 

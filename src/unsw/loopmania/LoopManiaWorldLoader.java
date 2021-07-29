@@ -30,6 +30,14 @@ public abstract class LoopManiaWorldLoader {
 
     public LoopManiaWorldLoader(String filename) throws FileNotFoundException {
         this.filename = filename;
+        // System.out.println(filename);
+        // URL url = getClass().getResource(filename);
+        // System.out.println(url.getPath());
+        // //File file = new File(url.getPath());
+        // File directory = new File("./");
+        // System.out.println(directory.getAbsolutePath());
+        // Path currentDir = Paths.get(".");
+        // System.out.println(currentDir.toAbsolutePath().toString());
         json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
         
     }
