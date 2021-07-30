@@ -130,7 +130,6 @@ public class LoopManiaApplication extends Application {
             JSONObject json = new JSONObject();
             try {
                 json = new JSONObject(new JSONTokener(new FileReader(path)));
-                System.out.println("json");
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -149,6 +148,14 @@ public class LoopManiaApplication extends Application {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            mainController.setMode(json.getInt("mode"));
+            if (json.getInt("mode") == LoopManiaWorld.BERSERKER) {
+                storeController.setLimitOfOutfit(1);
+            }
+            else if (json.getInt("mode") == LoopManiaWorld.SURVIVAL) {
+                storeController.setLimitOfPotion(1);
+            }
+
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
             

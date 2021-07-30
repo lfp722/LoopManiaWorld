@@ -774,6 +774,9 @@ public class LoopManiaWorld {
         Pair<Integer, Integer> pos0 = orderedPath.get(0);
         character.moveDownPath();
         if (character.getX() == pos0.getValue0() && character.getY() == pos0.getValue1()) {
+            if (character.isHeal()) {
+                character.heal(50);
+            }
             cycle.set(cycle.get()+1);
         }
         moveBasicEnemies();
