@@ -38,6 +38,7 @@ public class Character extends MovingEntity{
 
     private SimpleIntegerProperty rage;
     private SimpleBooleanProperty miss;
+    private boolean healAbility;
 
     private boolean counterMiss = false;
 
@@ -78,6 +79,7 @@ public class Character extends MovingEntity{
         tranced = new ArrayList<>();
         isStunned = false;
 
+        healAbility = false;
     }
 
     /**
@@ -411,6 +413,9 @@ public class Character extends MovingEntity{
             return;
         }
         healthPoints.set(healthPoints.get()+1);
+        if (healthPoints.get() == 10) {
+            setHeal();
+        }
     }
 
     public void addDefencePoints() {
@@ -421,5 +426,13 @@ public class Character extends MovingEntity{
         if (defencePoints.get() == 10) {
             startMiss();
         }
+    }
+
+    public void setHeal() {
+        healAbility = true;
+    }
+
+    public boolean isHeal() {
+        return healAbility;
     }
 }

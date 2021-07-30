@@ -24,7 +24,7 @@ public class Potion extends Item{
     public void recoverHealth(Character ch) {
         SimpleIntegerProperty curH = ch.getAttr().getCurHealth();
         SimpleIntegerProperty maxH = ch.getAttr().getHealth();
-        curH.set(curH.get() + (int)(maxH.get() * this.recoverRate.get()));
+        curH.set(curH.get() + 20);
         if (curH.get() >= maxH.get()) {
             curH.set(maxH.get());
         }
