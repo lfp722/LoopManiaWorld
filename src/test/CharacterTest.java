@@ -111,7 +111,7 @@ public class CharacterTest {
         int expectedPoint = 10;
         int expectedattr = 25;
         int expectedDefence = 2;
-        //int expectedHealth = 55;
+        int expectedHealth = 55;
         int expectedRage = 1;
         int expectedAngry = 2;
         assertEquals(expectedPoint, ch.getTechPoints().get());
@@ -137,19 +137,19 @@ public class CharacterTest {
         assertFalse(!cha.isCounterMiss());
 
 
-        // Character chara = new Character(position, world);
-        // chara.getExperience().set(300000);
-        // expectedPoint = 10;
-        // expectedHealth = 64;
-        // assertEquals(expectedPoint, chara.getTechPoints().get());
-        // for (int i = 0; i < 10; i++) {
-        //     chara.addAttackPoints();
-        // }
-        // assertEquals(expectedHealth, chara.getAttr().getHealth().get());
-        // assertEquals(expectedPoint - 10, chara.getTechPoints().get());
-        // assertEquals(expectedRage, ch.getRage().get());
-        // ch.getAttr().getCurHealth().set(1);
-        // assertEquals(expectedAngry, ch.getRage().get());
+        Character chara = new Character(position, world);
+        chara.getExperience().set(300000);
+        expectedPoint = 10;
+        expectedHealth = 64;
+        assertEquals(expectedPoint, chara.getTechPoints().get());
+        for (int i = 0; i < 10; i++) {
+            chara.addHealthPoints();
+        }
+        assertEquals(expectedHealth, chara.getAttr().getHealth().get());
+        assertEquals(expectedPoint - 10, chara.getTechPoints().get());
+        assertEquals(expectedRage, ch.getRage().get());
+        ch.getAttr().getCurHealth().set(1);
+        assertEquals(expectedAngry, ch.getRage().get());
 
 
         // ch.addDefencePoints();
