@@ -20,7 +20,7 @@ public class Staff extends Weapon {
 
     @Override
     public int nextDamage() {
-        return (int) 0.85 * this.level.get() + 1;
+        return (int) (0.85 * this.level.get() + 1);
     }
     
     @Override
