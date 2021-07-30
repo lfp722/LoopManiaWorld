@@ -43,10 +43,11 @@ public class Soldier extends StaticEntity{
      */
     public void underAttack(int attack) {
         if (attack > attr.getCurHealth().get() || attack == attr.getCurHealth().get()) {
+            attr.getCurHealth().set(0);
             this.dead();
         }
         else {
-            attr.getCurHealth().subtract(attack);
+            attr.getCurHealth().set(attr.getCurHealth().get() - attack);
         }
     }
 

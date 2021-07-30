@@ -194,10 +194,12 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
      * @param damage damage suffered during an attack
      */
     public void underAttack(int damage) {
-        this.attribute.getCurHealth().set(this.attribute.getCurHealth().get()-damage);
-        if (!checkHealth()) {
+        if (damage >= attribute.getCurHealth().get()) {
+            attribute.getCurHealth().set(0);
             destroy();
+            return;
         }
+        this.attribute.getCurHealth().set(this.attribute.getCurHealth().get()-damage);
     }
 
     /** 

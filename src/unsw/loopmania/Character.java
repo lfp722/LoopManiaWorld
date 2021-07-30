@@ -104,6 +104,10 @@ public class Character extends MovingEntity{
      * @param enemy
      */
     public void attack(Enemy enemy) {
+        if (isStunned) {
+            isStunned = false;
+            return;
+        }
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
         equipped.specialAttack(enemy, world);
         enemy.underAttack(actualAttack);
