@@ -49,7 +49,6 @@ public class Item extends StaticEntity {
         return null;
     }
 
-
     public void secondEffect(LoopManiaWorld world, Enemy e) {
         se.secondEffect(world, e);
     }

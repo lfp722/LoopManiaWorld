@@ -19,18 +19,20 @@ public class ZombiePit extends Building {
      * @return
      */
     public Zombie produceZombie(LoopManiaWorld world) {
+        if (((new Random()).nextInt(100)) < 20) {
+            return produce(world);
+        }
+        return null;
+    }
 
+    public Zombie produce(LoopManiaWorld world) {
         if (world.getMaxNumTotal().get() == world.getEnemies().size()) {
             return null;
         }
-        if (((new Random()).nextInt(100)) < 20) {
-            PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
-            Zombie zombie = new Zombie(pt, (new Random()).nextInt(world.getCycle().intValue()));
-            world.getEnemies().add(zombie);
-            return zombie;
-        }
-        return null;
-        
+        PathPosition pt = new PathPosition(world.getOrderedPath().indexOf(this.getNearestPathTile(world)), world.getOrderedPath());
+        Zombie zombie = new Zombie(pt, (new Random()).nextInt(world.getCycle().intValue()));
+        world.getEnemies().add(zombie);
+        return zombie;
     }
 
     @Override

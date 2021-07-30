@@ -157,6 +157,10 @@ public class Character extends MovingEntity{
         return attr;
     }
 
+    
+    public SimpleIntegerProperty getTechPoints() {
+        return techPoints;
+    }
 
     /**
      * getter
@@ -299,6 +303,19 @@ public class Character extends MovingEntity{
         return healthPoints;
     }
 
+    
+
+    public SimpleIntegerProperty getRage() {
+        return rage;
+    }
+
+    public SimpleBooleanProperty getMiss() {
+        return miss;
+    }
+
+    public boolean isCounterMiss() {
+        return counterMiss;
+    }
 
     /**
      * getter

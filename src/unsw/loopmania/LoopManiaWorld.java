@@ -124,7 +124,7 @@ public class LoopManiaWorld {
         cycle = new SimpleIntegerProperty(1);
         equippedItems = new Equipped(this);
         maxNumTotal = new SimpleIntegerProperty();
-        maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get()));
+        maxNumTotal.bind(Bindings.createIntegerBinding(()->getCycle().multiply(2).add(5).get(),cycle));
         goal = new FinalGoal();
         doggiePrice = new SimpleIntegerProperty(5000);
         defeatedBoss = new SimpleIntegerProperty(0);
