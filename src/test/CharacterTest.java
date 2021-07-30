@@ -138,18 +138,22 @@ public class CharacterTest {
 
 
         Character chara = new Character(position, world);
-        chara.getExperience().set(300000);
+        world.setCharacter(chara);
+        world.getCharacter().getExperience().set(300000);
         expectedPoint = 10;
-        expectedHealth = 64;
+        expectedHealth = 235;
         assertEquals(expectedPoint, chara.getTechPoints().get());
+        assertFalse(chara.isHeal());
         for (int i = 0; i < 10; i++) {
             chara.addHealthPoints();
         }
         assertEquals(expectedHealth, chara.getAttr().getHealth().get());
         assertEquals(expectedPoint - 10, chara.getTechPoints().get());
-        assertEquals(expectedRage, ch.getRage().get());
-        ch.getAttr().getCurHealth().set(1);
-        assertEquals(expectedAngry, ch.getRage().get());
+        assertFalse(!chara.isHeal());
+        world.getCharacter().getAttr().getCurHealth().set(1);
+        chara.getPosition().setCurrentPositionInPath(world.getOrderedPath().size() - 1);
+        world.runTickMoves();
+        assertEquals(51, chara.getAttr().getCurHealth().get());
 
 
         // ch.addDefencePoints();
