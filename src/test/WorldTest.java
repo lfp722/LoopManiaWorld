@@ -456,12 +456,12 @@ public class WorldTest {
         TrapCard tc1 = world.loadTrapCard();
         world.getHeroCastle();
         world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
-        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
-        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
-        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
-        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
-        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
-        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
+        world.convertCardToBuildingByCoordinates(b.getX(), b.getY(), 0, 1);
+        world.convertCardToBuildingByCoordinates(z.getX(), z.getY(), 1, 2);
+        world.convertCardToBuildingByCoordinates(vc.getX(), vc.getY(), 1, 3);
+        world.convertCardToBuildingByCoordinates(vi.getX(), vi.getY(), 0, 2);
+        world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 4);
+        world.convertCardToBuildingByCoordinates(tc.getX(), tc.getY(), 2, 1);
 
         json = world.toJSON();
         newWorld = Helper.createWorld();
