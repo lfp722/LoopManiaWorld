@@ -162,6 +162,12 @@ public class LoopManiaWorld {
         this.pathOfMap = path;
     }
 
+    
+
+    public int getMode() {
+        return mode;
+    }
+
     public void setMode(int mode) {
         this.mode = mode;
     }
@@ -177,7 +183,7 @@ public class LoopManiaWorld {
 
     public TheOneRing addEquippedRing() {
         if (equippedItems.getRing() != null) {
-            equippedItems.getRing().destroy();
+            equippedItems.dropRing();
         }
         TheOneRing ring = new TheOneRing(new SimpleIntegerProperty(ringWidth), new SimpleIntegerProperty(ringHeight), isConfusing());
         equippedItems.equipRing(ring);
@@ -1360,29 +1366,29 @@ public class LoopManiaWorld {
 
     }
 
-    /**
-     * prevent concurrency exception
-     * @param nodeX
-     * @param nodeY
-     */
-    public void consumePotion(int nodeX, int nodeY) {
-        if (battleLock.get() == 0) {
-            return;
-        }
-        battleLock.set(0);
-        List<Entity> copied = new ArrayList<>();
-        for (Entity e: unequippedInventoryItems) {
-            copied.add(e);
-        }
-        for (Entity e: copied) {
-            if (e.getX() == nodeX && e.getY() == nodeY && e instanceof Potion) {
-                Potion a = (Potion) e;
-                a.recoverHealth(character);
-                removeUnequippedInventoryItem(e);
-            }
-        }
-        battleLock.set(1);
-    }
+    // /**
+    //  * prevent concurrency exception
+    //  * @param nodeX
+    //  * @param nodeY
+    //  */
+    // public void consumePotion(int nodeX, int nodeY) {
+    //     if (battleLock.get() == 0) {
+    //         return;
+    //     }
+    //     battleLock.set(0);
+    //     List<Entity> copied = new ArrayList<>();
+    //     for (Entity e: unequippedInventoryItems) {
+    //         copied.add(e);
+    //     }
+    //     for (Entity e: copied) {
+    //         if (e.getX() == nodeX && e.getY() == nodeY && e instanceof Potion) {
+    //             Potion a = (Potion) e;
+    //             a.recoverHealth(character);
+    //             removeUnequippedInventoryItem(e);
+    //         }
+    //     }
+    //     battleLock.set(1);
+    // }
 
     /**
      * prevent concurrency exception
@@ -1459,9 +1465,6 @@ public class LoopManiaWorld {
     public void restart() {
         doggiePrice.set(5000);
         battleLock.set(1);
-        theOneRingExist = false;
-        andurilExist = false;
-        treeStumpExist = false;
         defeatedBoss.set(0);
         
         for (Enemy i: enemies){

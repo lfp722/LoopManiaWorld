@@ -104,6 +104,7 @@ public class ItemTest {
         assertEquals(expectedDefence, sh.getDefense());
         assertEquals(expectedDefence, sh.getDefenceProperty().get());
         assertEquals(expectedPrice, sh.getValueInGold());
+        assertEquals(10250, sh.nextLevelUpPrice());
         sh.levelUp();
         expectedPrice = 10250;
         expectedDefence = 13;
@@ -121,6 +122,7 @@ public class ItemTest {
         assertEquals(expectedAttack, staff.getAttack().get());
         assertEquals(expectedAttack, staff.getDamage());
         assertEquals(expectedPrice, staff.getValueInGold());
+        assertEquals(1, staff.nextDamage());
         staff.levelUp();
         expectedPrice = 40400;
         expectedAttack = 2;
@@ -137,6 +139,8 @@ public class ItemTest {
         assertEquals(expectedAttack, stake.getAttack().get());
         assertEquals(expectedAttack, stake.getDamage());
         assertEquals(expectedPrice, stake.getValueInGold());
+        assertEquals(expectedPrice, stake.currentPrice());
+        assertEquals(10250, stake.getLevelUpPrice());
         stake.levelUp();
         expectedPrice = 10250;
         expectedAttack = 3;
@@ -195,6 +199,96 @@ public class ItemTest {
         assertEquals(expectedHealth, ch.getAttr().getCurHealth().get());
         expected = new String("{\"x\":0,\"y\":1,\"type\":\"TheOneRing\",\"raretype\":-1}");
         assertEquals(expected, ring.toJSON().toString());
+
+    }
+
+    @Test
+    public void testConfusing() throws InterruptedException{
+        this.world = Helper.createWorld();
+        PathPosition position = new PathPosition(0, world.getOrderedPath());
+        ElanMuske elan = new ElanMuske(position, 1);
+        Slug slug = new Slug(position, 1);
+        Character ch = new Character(position, world);
+        int originalAttack = ch.getAttr().getAttack().get();
+        world.setCharacter(ch);
+        world.setMode(LoopManiaWorld.CONFUSING);
+        boolean se1 = false;
+        boolean se2 = false;
+        for (int i = 0; i < 100; i++) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(0);
+            SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+            TheOneRing ring = new TheOneRing(x, y, true);
+            
+            world.getEquip().equipRing(ring);
+            
+            if (ring.getSecondType() == Item.DEFENCE &&
+                    ring.getSecondValue() == EffectFactory.treeStump) {
+                int expected = world.getEquip().getDefence().get() * 3;
+                ring.secondEffect(world, elan);
+                assertEquals(expected, world.getEquip().getDefence().get());
+                se1 = true;
+                ring.secondEffect(world, slug);
+            } else if (ring.getSecondType() == Item.ATTACK &&
+                    ring.getSecondValue() == EffectFactory.anduril) {
+                ring.secondEffect(world, elan);
+                assertEquals(originalAttack * 3, world.getCharacter().getAttr().getAttack().get());
+                se2 = true;
+                ring.secondEffect(world, slug);
+            }
+            world.getEquip().dropRing();
+            
+        }
+        assertFalse(!se1 || !se2);
+        se1 = false;
+        se2 = false;
+        for (int i = 0; i < 100; i++) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(0);
+            SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+            Anduril ring = new Anduril(x, y, true);
+            world.getEquip().equipWeapon(ring);
+            if (ring.getSecondType() == Item.DEFENCE &&
+                    ring.getSecondValue() == EffectFactory.treeStump) {
+                
+                int expected = world.getEquip().getDefence().get() * 3;
+                ring.secondEffect(world, elan);
+                assertEquals(expected, world.getEquip().getDefence().get());
+                ring.secondEffect(world, slug);
+                se1 = true;
+            } else if (ring.getSecondType() == Item.HEALTH) {
+                world.getCharacter().getAttr().getCurHealth().set(0);
+                world.getCharacter().shouldExist().set(false);
+                ring.secondEffect(world, elan);
+                int expected = world.getCharacter().getAttr().getHealth().get();
+                assertEquals(expected, world.getCharacter().getAttr().getCurHealth().get());
+                assertFalse(!world.getCharacter().shouldExist().get());
+                se2 = true;
+            }
+            world.getEquip().dropWeapon();
+        }
+        assertFalse(!se1 || !se2);
+        se1 = false;
+        se2 = false;
+        for (int i = 0; i < 100; i++) {
+            SimpleIntegerProperty x = new SimpleIntegerProperty(0);
+            SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+            TreeStump ring = new TreeStump(x, y, true);
+            world.getEquip().equipShield(ring);
+            if (ring.getSecondType() == Item.ATTACK &&
+                    ring.getSecondValue() == EffectFactory.anduril) {
+                ring.secondEffect(world, elan);
+                assertEquals(originalAttack * 3, world.getCharacter().getAttr().getAttack().get());
+                se2 = true;
+            } else if (ring.getSecondType() == Item.HEALTH) {
+                world.getCharacter().getAttr().getCurHealth().set(0);
+                world.getCharacter().shouldExist().set(false);
+                ring.secondEffect(world, elan);
+                int expected = world.getCharacter().getAttr().getHealth().get();
+                assertEquals(expected, world.getCharacter().getAttr().getCurHealth().get());
+                assertFalse(!world.getCharacter().shouldExist().get());
+                se2 = true;
+            }
+            world.getEquip().dropShield();
+        }
 
     }
 }

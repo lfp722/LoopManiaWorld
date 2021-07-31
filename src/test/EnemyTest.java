@@ -20,6 +20,12 @@ public class EnemyTest {
         this.world = Helper.createWorld();
         PathPosition position = new PathPosition(1, world.getOrderedPath());
         Enemy slug = new Slug(position, 0);
+        Enemy doggie = new Doggie(position, 10);
+        assertEquals(40, doggie.getCritRate());
+        Enemy zombie = new Zombie(position, 10);
+        assertEquals(60, zombie.getCritRate());
+        Vampire vampire = new Vampire(position, 10);
+        assertEquals(60, vampire.getCritRate());
         int expected = 10;
         slug.setSupportRange(expected);
         assertEquals(expected, slug.getSupportRange());
@@ -41,6 +47,9 @@ public class EnemyTest {
         assertEquals(expectedCurHealth, slug.getAttribute().getCurHealth().get());
         int expectLv = 1;
         assertEquals(expectLv, slug.getLv());
+        int expectedRadi = 1;
+        vampire.setRadusCampfire(1);
+        assertEquals(expectedRadi, vampire.getRadusCampfire());
 
 
     }
@@ -116,5 +125,17 @@ public class EnemyTest {
         Enemy elan = new ElanMuske(position, 0);
         String expectedElan = new String("{\"lv\":1,\"position\":1,\"type\":\"Elan\"}");
         assertEquals(expectedElan, elan.toJSON().toString());
+    }
+
+    @Test
+    public void testElanEffect() {
+        this.world = Helper.createWorld();
+        PathPosition position = new PathPosition(1, world.getOrderedPath());
+        ElanMuske elan = new ElanMuske(position, 1);
+        world.getDoggiePrice().set(4000);
+        elan.increaseDoggiePrice(world);
+        assertEquals(12000, world.getDoggiePrice().get());
+        elan.decreaseDoggiePrice(world);
+        assertEquals(3000, world.getDoggiePrice().get());
     }
 }

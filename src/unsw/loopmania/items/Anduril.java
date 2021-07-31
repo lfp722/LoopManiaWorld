@@ -22,7 +22,7 @@ public class Anduril extends Weapon{
             }
             else if (possibility == Item.HEALTH) {
                 setSe((LoopManiaWorld world, Enemy e)->EffectFactory.theOneRing(world));
-                rareType = Item.HEALTH;
+                setRareType(Item.HEALTH);
             }
         }    
     }

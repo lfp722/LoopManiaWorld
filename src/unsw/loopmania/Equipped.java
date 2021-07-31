@@ -32,7 +32,7 @@ public class Equipped {
     public Equipped(LoopManiaWorld world) {
         this.world = world;
         Tsbuff = new SimpleIntegerProperty(1);
-        equipDefense.bind(Bindings.createIntegerBinding(()->equipArmourDefence.get()+equipHelmetDefence.get()+equipShieldDefence.get()*Tsbuff.get()+confusingDefence.get(), equipArmourDefence, equipHelmetDefence, equipShieldDefence, Tsbuff, confusingDefence));
+        equipDefense.bind(Bindings.createIntegerBinding(()->(equipArmourDefence.get()+equipHelmetDefence.get()+equipShieldDefence.get()+confusingDefence.get())*Tsbuff.get(), equipArmourDefence, equipHelmetDefence, equipShieldDefence, Tsbuff, confusingDefence));
         equipAttack.bind(Bindings.createIntegerBinding(()->equipWeaponAttack.get()+confusingAttack.get(), equipWeaponAttack, confusingAttack));
     }
 
