@@ -353,27 +353,27 @@ public class WorldTest {
         List<Enemy> all = new ArrayList<>(world.getEnemies());
 
         PathPosition pos = new PathPosition(0, world.getOrderedPath());
-        Slug s0 = new Slug(pos, 0);
+        Slug s0 = new Slug(pos, 8);
         all.add(s0);
-        Slug s1 = new Slug(pos, 0);
+        Slug s1 = new Slug(pos, 8);
         all.add(s1);
-        Slug s2 = new Slug(pos, 0);
+        Slug s2 = new Slug(pos, 8);
         all.add(s2);
-        Slug s3 = new Slug(pos, 0);
+        Slug s3 = new Slug(pos, 8);
         all.add(s3);
-        Slug s4 = new Slug(pos, 0);
+        Slug s4 = new Slug(pos, 8);
         all.add(s4);
-        Slug s5 = new Slug(pos, 0);
+        Slug s5 = new Slug(pos, 8);
         all.add(s5);
-        Slug s6 = new Slug(pos, 0);
+        Slug s6 = new Slug(pos, 8);
         all.add(s6);
-        Slug s7 = new Slug(pos, 0);
+        Slug s7 = new Slug(pos, 8);
         all.add(s7);
-        Slug s8 = new Slug(pos, 0);
+        Slug s8 = new Slug(pos, 8);
         all.add(s8);
-        Slug s9 = new Slug(pos, 0);
+        Slug s9 = new Slug(pos, 8);
         all.add(s9);
-        Slug s10 = new Slug(pos, 0);
+        Slug s10 = new Slug(pos, 8);
         all.add(s10);
         all.remove(1);
 
@@ -437,7 +437,13 @@ public class WorldTest {
 
     @Test
     public void testRunBattle() {
-
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Tower tower = new Tower(x, y);
+        world.getBuildingEntities().add(tower);
+        List<Enemy> defeated = world.runBattles();
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
 
 
