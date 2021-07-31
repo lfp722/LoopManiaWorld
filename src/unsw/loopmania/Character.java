@@ -355,6 +355,10 @@ public class Character extends MovingEntity{
         defencePoints.set(1);
 
         isStunned = false;
+
+        rage.unbind();
+        counterMiss = false;
+        healAbility = false;
     }
 
     
