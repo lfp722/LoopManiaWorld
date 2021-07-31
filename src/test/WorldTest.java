@@ -3,9 +3,12 @@ package test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
@@ -62,4 +65,88 @@ public class WorldTest {
     public void testJSON() {
         
     }
+
+    public void battleBuilder() {
+        this.world = Helper.createWorld();
+        PathPosition pos = new PathPosition(0, world.getOrderedPath());
+        Character ch = new Character(pos, world);
+        world.setCharacter(ch);
+
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+
+        Soldier so1 = new Soldier(x, y, ch);
+        ch.addSoldier(so1);
+        Soldier so2 = new Soldier(x, y, ch);
+        ch.addSoldier(so2);
+        Soldier so3 = new Soldier(x, y, ch);
+        ch.addSoldier(so3);
+
+        Enemy slug = new Slug(pos, 1);
+        world.getEnemies().add(slug);
+        Enemy zombie = new Zombie(pos, 2);
+        world.getEnemies().add(zombie);
+        Enemy vampire = new Vampire(pos, 2);
+        world.getEnemies().add(vampire);
+        Enemy doggie = new Doggie(pos, 1);
+        world.getEnemies().add(doggie);
+        Enemy elan = new ElanMuske(pos, 1);
+        world.getEnemies().add(elan);
+    }
+
+    @Test 
+    public void testBattleWithSword() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Sword sword = new Sword(x, y);
+        world.getEquip().equipWeapon(sword);
+        List<Enemy> defeated = new ArrayList<>();
+        world.battle(world.getEnemies(), defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get());
+        assertTrue(world.getEnemies().size() > defeated.size());
+    }
+
+    @Test
+    public void testBattleWithStake() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Stake stake= new Stake(x, y);
+        world.getEquip().equipWeapon(stake);
+        List<Enemy> defeated = new ArrayList<>();
+        world.battle(world.getEnemies(), defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get());
+        assertTrue(world.getEnemies().size() > defeated.size());
+    }
+
+    @Test
+    public void testBattleWithStaff() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Staff staff = new Staff(x, y);
+        world.getEquip().equipWeapon(staff);
+        List<Enemy> defeated = new ArrayList<>();
+        world.battle(world.getEnemies(), defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get());
+        assertTrue(world.getEnemies().size() > defeated.size());
+    }
+
+    @Test
+    public void testBattleWithAnduril() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Anduril anduril = new Anduril(x, y, false);
+        world.getEquip().equipWeapon(anduril);
+        List<Enemy> defeated = new ArrayList<>();
+        world.battle(world.getEnemies(), defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get());
+        assertTrue(world.getEnemies().size() > defeated.size());
+        assertTrue(world.getCharacter().getArmy().isEmpty());
+        System.out.println(world.getEnemies().size());
+    }
+
+    
 }
