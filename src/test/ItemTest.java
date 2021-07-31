@@ -212,6 +212,7 @@ public class ItemTest {
         int originalAttack = ch.getAttr().getAttack().get();
         world.setCharacter(ch);
         world.setMode(LoopManiaWorld.CONFUSING);
+        assertEquals(0, world.getEquip().getSecondHealth().size());
         boolean se1 = false;
         boolean se2 = false;
         for (int i = 0; i < 100; i++) {

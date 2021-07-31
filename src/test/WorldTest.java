@@ -57,4 +57,9 @@ public class WorldTest {
         world.getCharacter().moveDownPath();
         assertFalse(world.atHeroCastle());
     }
+
+    @Test
+    public void testJSON() {
+        
+    }
 }
