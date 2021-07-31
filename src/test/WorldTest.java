@@ -134,7 +134,7 @@ public class WorldTest {
         List<Enemy> all = new ArrayList<>(world.getEnemies());
         all.remove(1);
         world.battle(all, defeated, world.getCharacter());
-        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 4);
     }
 
     @Test
