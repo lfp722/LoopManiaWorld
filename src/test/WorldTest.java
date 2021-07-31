@@ -351,9 +351,38 @@ public class WorldTest {
         world.getEquip().equipWeapon(staff);
         List<Enemy> defeated = new ArrayList<>();
         List<Enemy> all = new ArrayList<>(world.getEnemies());
+
+        PathPosition pos = new PathPosition(0, world.getOrderedPath());
+        Slug s0 = new Slug(pos, 0);
+        all.add(s0);
+        Slug s1 = new Slug(pos, 0);
+        all.add(s1);
+        Slug s2 = new Slug(pos, 0);
+        all.add(s2);
+        Slug s3 = new Slug(pos, 0);
+        all.add(s3);
+        Slug s4 = new Slug(pos, 0);
+        all.add(s4);
+        Slug s5 = new Slug(pos, 0);
+        all.add(s5);
+        Slug s6 = new Slug(pos, 0);
+        all.add(s6);
+        Slug s7 = new Slug(pos, 0);
+        all.add(s7);
+        Slug s8 = new Slug(pos, 0);
+        all.add(s8);
+        Slug s9 = new Slug(pos, 0);
+        all.add(s9);
+        Slug s10 = new Slug(pos, 0);
+        all.add(s10);
         all.remove(1);
+
+        //System.out.println(defeated.size());
+
         world.battle(all, defeated, world.getCharacter());
-        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 4);
+
+
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 15);
     }
 
     @Test
