@@ -337,7 +337,6 @@ public class Character extends MovingEntity{
         this.getPosition().setCurrentPositionInPath(0);
         experience.set(0);
         System.out.println(this.shouldExist().get());
-        attr.getCurHealth().set(attr.getHealth().get());
         gold.set(0);
 
         for  (Soldier s: army) {
@@ -353,8 +352,13 @@ public class Character extends MovingEntity{
         attackPoints.set(1);
         healthPoints.set(1);
         defencePoints.set(1);
+        attr.getCurHealth().set(attr.getHealth().get());
 
         isStunned = false;
+
+        rage.unbind();
+        counterMiss = false;
+        healAbility = false;
     }
 
     
