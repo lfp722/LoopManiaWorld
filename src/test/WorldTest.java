@@ -231,12 +231,35 @@ public class WorldTest {
         world.setCharacter(ch);
         spawnGold();
         assertFalse(world.getSpawnItems().size() < 1);
+        world.getSpawnItems().clear();
+        spawnPotion();
+        assertFalse(world.getSpawnItems().size() < 1);
+        world.getSpawnItems().clear();
     }
 
     public void spawnGold() {
         for (int i = 0; i < 100; i++) {
             world.possiblySpawnGold();
         }
+    }
+
+    public void spawnPotion() {
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnPotion();
+        }
+    }
+
+    @Test
+    public void testInventory() {
+        this.world = Helper.createWorld();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(0);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(0);
+        assertEquals(0, world.getInventory().size());
+        Potion p = world.addPotion();
+        assertEquals(1, world.getInventory().size());
+        assertEquals(p, world.getInventory().get(0));
+        Anduril an = world.addUnequippedAnduril();
+
     }
 
     @Test
