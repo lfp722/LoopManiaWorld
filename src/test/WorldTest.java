@@ -633,5 +633,59 @@ public class WorldTest {
         assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
 
+    @Test
+    public void testRestart() {
+        battleBuilder();
+        world.restart();
+        assertTrue(world.getEnemies().isEmpty());
+        assertTrue(world.getCharacter().getArmy().isEmpty());
+    }
+
+    @Test
+    public void testAcademy() {
+        world = Helper.createWorld();
+        PathPosition pos = new PathPosition(0, world.getOrderedPath());
+        Character ch = new Character(pos, world);
+        world.setCharacter(ch);
+        world.getAcademy();
+        for (int i = 0; i < world.getOrderedPath().size()/2; i++) {
+            world.runTickMoves();
+        }
+
+        assertTrue(world.checkAcademy());
+        world.runTickMoves();
+
+        assertFalse(world.checkAcademy());
+    }
+
+    @Test
+    public void testConsumePotion() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Potion p0 = new Potion(x,y);
+        world.getInventory().add(p0);
+        Potion p1 = new Potion(x,y);
+        world.getInventory().add(p1);
+        Potion p2 = new Potion(x,y);
+        world.getInventory().add(p2);
+        Potion p3 = new Potion(x,y);
+        world.getInventory().add(p3);
+        Potion p4 = new Potion(x,y);
+        world.getInventory().add(p4);
+        Potion p5 = new Potion(x,y);
+        world.getInventory().add(p5);
+        Potion p6 = new Potion(x,y);
+        world.getInventory().add(p6);
+
+        assertTrue(world.getInventory().size() == 7);
+        for (int i = 0; i < 7; i++) {
+            world.consumePotion();
+        }
+
+        assertTrue(world.getInventory().isEmpty());
+
+    }
+
 
 }

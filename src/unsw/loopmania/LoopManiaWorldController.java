@@ -221,6 +221,7 @@ public class LoopManiaWorldController {
     private Image doggieCoinImage;
     private Image andurilImage;
     private Image treeStumpImage;
+    private Image academyImage;
 
 
     private Text expLabel;
@@ -275,6 +276,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher loseSwitcher;
 
+    private MenuSwitcher academySwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -315,6 +318,7 @@ public class LoopManiaWorldController {
         doggieCoinImage = new Image((new File("src/images/doggiecoin.png")).toURI().toString());
         andurilImage = new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString());
         treeStumpImage = new Image((new File("src/images/tree_stump.png")).toURI().toString());
+        academyImage = new Image((new File("src/images/academy_new.png")).toURI().toString());
 
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
@@ -370,6 +374,7 @@ public class LoopManiaWorldController {
         anchorPaneRoot.getChildren().add(draggedEntity);
         setLabel();
         onLoad(world.getHeroCastle());
+        onLoad(world.getAcademy());
     }
 
     /**
@@ -487,6 +492,9 @@ public class LoopManiaWorldController {
             if (world.atHeroCastle()) {
                 System.out.println("Switching to store");
                 switchToStore();
+            }
+            if (world.checkAcademy()) {
+                switchToAcademy();
             }
             if (!world.getBoughtItem().isEmpty()) {
                 for (Item i: world.getBoughtItem()) {
@@ -1179,6 +1187,9 @@ public class LoopManiaWorldController {
         } else if (newBuilding instanceof Tower) {
             Tower a = (Tower) newBuilding;
             onLoad(a);
+        } else if (newBuilding instanceof Academy) {
+            Academy a = (Academy) newBuilding;
+            onLoad(a);
         }
     }
 
@@ -1291,6 +1302,13 @@ public class LoopManiaWorldController {
         addEntity(building, view);
         squares.getChildren().add(view);
     }
+
+    private void onLoad(Academy building){
+        ImageView view = new ImageView(academyImage);
+        addEntity(building, view);
+        squares.getChildren().add(view);
+    }
+
 
     private void onEquip(Sword s) {
         ImageView view = new ImageView(swordImage);
@@ -1746,13 +1764,19 @@ public class LoopManiaWorldController {
             world.consumePotion();  
             break;
         case A:
-            world.getCharacter().addAttackPoints();
+            if (world.checkAcademy()) {
+                world.getCharacter().addAttackPoints();
+            }
             break;
         case S:
-            world.getCharacter().addHealthPoints();
+            if (world.checkAcademy()) {
+                world.getCharacter().addHealthPoints();
+            }
             break;
         case D:
-            world.getCharacter().addDefencePoints();
+            if (world.checkAcademy()) {
+                world.getCharacter().addDefencePoints();
+            }
             break;
         default:
             break;
@@ -1999,5 +2023,14 @@ public class LoopManiaWorldController {
 
     public void setMode(int mode) {
         world.setMode(mode);
+    }
+
+    public void setAcademySwitcher(MenuSwitcher switcher) {
+        academySwitcher = switcher;
+    }
+
+    public void switchToAcademy() {
+        pause();
+        academySwitcher.switchMenu();
     }
 }

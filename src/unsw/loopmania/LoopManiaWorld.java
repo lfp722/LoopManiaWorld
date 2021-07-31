@@ -1242,6 +1242,25 @@ public class LoopManiaWorld {
         return a;
     }
 
+    public Academy getAcademy() {
+        Pair<Integer, Integer> pos = orderedPath.get(orderedPath.size()/2);
+        SimpleIntegerProperty x = new SimpleIntegerProperty(pos.getValue0());
+        SimpleIntegerProperty y = new SimpleIntegerProperty(pos.getValue1());
+
+        Academy a = new Academy(x, y); 
+        buildingEntities.add(a);
+
+        return a;
+    }
+
+    public boolean checkAcademy() {
+        Pair<Integer, Integer> pos = orderedPath.get(orderedPath.size()/2);
+        if (character.getX() == pos.getValue0() && character.getY() == pos.getValue1()) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * get some reward after the item is destroyed
      * @param i

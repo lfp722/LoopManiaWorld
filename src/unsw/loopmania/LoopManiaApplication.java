@@ -113,8 +113,16 @@ public class LoopManiaApplication extends Application {
         exitLoader.setController(exitController);
         Parent exitRoot = exitLoader.load();
 
+        FXMLLoader aboutLoader = new FXMLLoader(getClass().getResource("About.fxml"));
+        Parent aboutRoot = aboutLoader.load();
+
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(startMenuRoot);
+
+        AcademyController academyController = new AcademyController(mainController.getWorld());
+        FXMLLoader academyLoader = new FXMLLoader(getClass().getResource("Academy.fxml"));
+        academyLoader.setController(academyController);
+        Parent academyRoot = academyLoader.load();
 
         //Scene scene = new Scene(storeRoot);
         
@@ -123,6 +131,8 @@ public class LoopManiaApplication extends Application {
         startController.setNewSwitcher(()->{switchToRoot(scene, mainMenuRoot, primaryStage);});
 
         startController.setLoadSwitcher(()->{switchToRoot(scene, loadMenuRoot, primaryStage);});
+
+        startController.setAboutSwitcher(()->{switchToRoot(scene, aboutRoot, primaryStage);});
 
         loadController.setStartSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
 
@@ -192,6 +202,15 @@ public class LoopManiaApplication extends Application {
             storeController.initialize();
             mainController.pause();
             switchToRoot(scene, storeRoot, primaryStage);
+        });
+        mainController.setAcademySwitcher(() -> {
+            academyController.initialize();
+            mainController.pause();
+            switchToRoot(scene, academyRoot, primaryStage);
+        });
+        academyController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
         });
         mainController.setWinSwitcher(() -> {
             switchToRoot(scene, winRoot, primaryStage);
