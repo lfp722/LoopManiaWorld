@@ -145,10 +145,7 @@ public class WorldTest {
         world.getEquip().equipWeapon(anduril);
         List<Enemy> defeated = new ArrayList<>();
         world.battle(world.getEnemies(), defeated, world.getCharacter());
-        assertTrue(!world.getCharacter().shouldExist().get());
-        assertTrue(world.getEnemies().size() > defeated.size());
-        assertTrue(world.getCharacter().getArmy().isEmpty());
-        System.out.println(world.getEnemies().size());
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
 
     @Test
@@ -167,10 +164,7 @@ public class WorldTest {
         world.getEquip().equipWeapon(anduril);
         List<Enemy> defeated = new ArrayList<>();
         world.battle(world.getEnemies(), defeated, world.getCharacter());
-        assertTrue(!world.getCharacter().shouldExist().get());
-        assertTrue(world.getEnemies().size() > defeated.size());
-        assertTrue(world.getCharacter().getArmy().isEmpty());
-        System.out.println(world.getEnemies().size());
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
 
     @Test
@@ -192,8 +186,10 @@ public class WorldTest {
         assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
 
-    // @Test
-    // public void test
+    @Test
+    public void testRunBattle() {
+
+    }
 
 
 }
