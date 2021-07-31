@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,6 @@ public class WorldTest {
     public void testBasic() {
         this.world = Helper.createWorld();
         PathPosition position = new PathPosition(0, world.getOrderedPath());
-        //PathPosition position1 = new PathPosition(1, world.getOrderedPath());
 
         Character ch = new Character(position, world);
         world.setCharacter(ch);
@@ -59,7 +60,131 @@ public class WorldTest {
     }
 
     @Test
+    public void testIntegration() {
+        this.world = Helper.createWorld();
+
+    }
+
+    @Test
+    public void testLoadCard() {
+        this.world = Helper.createWorld();
+        assertEquals(0, world.getCardEntities().size());
+        VampireCastleCard vc = world.loadVampireCard();
+        assertEquals(1, world.getCardEntities().size());
+        VillageCard vic = world.loadVillageCard();
+        assertEquals(2, world.getCardEntities().size());
+        BarrackCard bc = world.loadBarrackCard();
+        assertEquals(3, world.getCardEntities().size());
+        ZombiePitCard zc = world.loadZombieCard();
+        assertEquals(4, world.getCardEntities().size());
+        TowerCard tc = world.loadTowerCard();
+        assertEquals(5, world.getCardEntities().size());
+        TrapCard trc = world.loadTrapCard();
+        assertEquals(6, world.getCardEntities().size());
+        CampFireCard cfc = world.loadCampFireCard();
+        assertEquals(7, world.getCardEntities().size());
+        world.loadVampireCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(vc, world.getCardEntities().get(0));
+        world.loadVillageCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(vic, world.getCardEntities().get(0));
+        world.loadBarrackCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(bc, world.getCardEntities().get(0));
+        world.loadZombieCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(zc, world.getCardEntities().get(0));
+        world.loadTowerCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(tc, world.getCardEntities().get(0));
+        world.loadTrapCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(trc, world.getCardEntities().get(0));
+        world.loadCampFireCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(cfc, world.getCardEntities().get(0));
+    }
+
+    @Test
+    public void testCardToBuilding() {
+        initializeWorld();
+        assertEquals(7, world.getCardEntities().size());
+        //vampire castle
+        Card c = world.getCardEntities().get(0);
+        Building b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 0);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 1);
+        assertEquals(1, world.getBuildingEntities().size());
+        assertEquals(6, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+        //village
+        c = world.getCardEntities().get(0);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 1);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 0);
+        assertEquals(2, world.getBuildingEntities().size());
+        assertEquals(5, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+        //
+        c = world.getCardEntities().get(0);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 1);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 5, 0);
+        assertEquals(3, world.getBuildingEntities().size());
+        assertEquals(4, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+        c = world.getCardEntities().get(0);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 0);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 1);
+        assertEquals(4, world.getBuildingEntities().size());
+        assertEquals(3, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+        c = world.getCardEntities().get(0);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 3, 1);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 3, 0);
+        assertEquals(5, world.getBuildingEntities().size());
+        assertEquals(2, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+        c = world.getCardEntities().get(0);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 2, 1);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 2, 0);
+        assertEquals(1, world.getBuildingEntities().size());
+        assertEquals(6, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+        c = world.getCardEntities().get(0);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 0, 7);
+        assertFalse(b != null);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 7);
+        assertEquals(0, world.getBuildingEntities().size());
+        assertEquals(7, world.getCardEntities().size());
+        assertFalse(c.shouldExist().get());
+    }
+
+    @Test
     public void testJSON() {
-        
+
+    }
+
+    public void initializeWorld() {
+        this.world = Helper.createWorld();
+        assertEquals(0, world.getCardEntities().size());
+        world.loadVampireCard();
+        assertEquals(1, world.getCardEntities().size());
+        world.loadVillageCard();
+        assertEquals(2, world.getCardEntities().size());
+        world.loadBarrackCard();
+        assertEquals(3, world.getCardEntities().size());
+        world.loadZombieCard();
+        assertEquals(4, world.getCardEntities().size());
+        world.loadTowerCard();
+        assertEquals(5, world.getCardEntities().size());
+        world.loadTrapCard();
+        assertEquals(6, world.getCardEntities().size());
+        world.loadCampFireCard();
+        assertEquals(7, world.getCardEntities().size());
     }
 }
