@@ -326,6 +326,8 @@ public class BattleTest {
 
         assertTrue(miss);
 
+        ch.initialize();
+
         
     }
 
