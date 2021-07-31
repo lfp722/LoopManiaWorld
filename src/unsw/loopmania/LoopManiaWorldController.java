@@ -1763,21 +1763,21 @@ public class LoopManiaWorldController {
         case H:
             world.consumePotion();  
             break;
-        case A:
-            if (world.checkAcademy()) {
-                world.getCharacter().addAttackPoints();
-            }
-            break;
-        case S:
-            if (world.checkAcademy()) {
-                world.getCharacter().addHealthPoints();
-            }
-            break;
-        case D:
-            if (world.checkAcademy()) {
-                world.getCharacter().addDefencePoints();
-            }
-            break;
+        // case A:
+        //     if (world.checkAcademy()) {
+        //         world.getCharacter().addAttackPoints();
+        //     }
+        //     break;
+        // case S:
+        //     if (world.checkAcademy()) {
+        //         world.getCharacter().addHealthPoints();
+        //     }
+        //     break;
+        // case D:
+        //     if (world.checkAcademy()) {
+        //         world.getCharacter().addDefencePoints();
+        //     }
+        //     break;
         default:
             break;
         }
