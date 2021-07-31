@@ -84,7 +84,7 @@ public class WorldTest {
         assertEquals(6, world.getCardEntities().size());
         CampFireCard cfc = world.loadCampFireCard();
         assertEquals(7, world.getCardEntities().size());
-        world.loadVampireCard();
+        VampireCastleCard vc1 = world.loadVampireCard();
         assertEquals(8, world.getCardEntities().size());
         assertEquals(vc, world.getCardEntities().get(0));
         world.loadVillageCard();
@@ -105,11 +105,17 @@ public class WorldTest {
         world.loadCampFireCard();
         assertEquals(8, world.getCardEntities().size());
         assertEquals(cfc, world.getCardEntities().get(0));
+        world.loadVampireCard();
+        assertEquals(8, world.getCardEntities().size());
+        assertEquals(vc1, world.getCardEntities().get(0));
     }
 
     @Test
     public void testCardToBuilding() {
         initializeWorld();
+        PathPosition position = new PathPosition(3, world.getOrderedPath());
+        Character ch = new Character(position, world);
+        world.setCharacter(ch);
         assertEquals(7, world.getCardEntities().size());
         //vampire castle
         Card c = world.getCardEntities().get(0);
@@ -127,7 +133,7 @@ public class WorldTest {
         assertEquals(2, world.getBuildingEntities().size());
         assertEquals(5, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
-        //
+        //Barrack
         c = world.getCardEntities().get(0);
         b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 1);
         assertFalse(b != null);
@@ -135,6 +141,7 @@ public class WorldTest {
         assertEquals(3, world.getBuildingEntities().size());
         assertEquals(4, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
+        //ZombiePit
         c = world.getCardEntities().get(0);
         b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 0);
         assertFalse(b != null);
@@ -142,6 +149,7 @@ public class WorldTest {
         assertEquals(4, world.getBuildingEntities().size());
         assertEquals(3, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
+        //Tower
         c = world.getCardEntities().get(0);
         b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 3, 1);
         assertFalse(b != null);
@@ -149,20 +157,85 @@ public class WorldTest {
         assertEquals(5, world.getBuildingEntities().size());
         assertEquals(2, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
+        //Trap
         c = world.getCardEntities().get(0);
-        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 2, 1);
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 2, 2);
         assertFalse(b != null);
-        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 2, 0);
-        assertEquals(1, world.getBuildingEntities().size());
-        assertEquals(6, world.getCardEntities().size());
+        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 2, 1);
+        assertEquals(6, world.getBuildingEntities().size());
+        assertEquals(1, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
+        //CampFire
         c = world.getCardEntities().get(0);
         b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 0, 7);
         assertFalse(b != null);
         b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 7);
-        assertEquals(0, world.getBuildingEntities().size());
-        assertEquals(7, world.getCardEntities().size());
+        assertEquals(7, world.getBuildingEntities().size());
+        assertEquals(0, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
+        //spawnenemy
+        spawnEnemy();
+        assertFalse(world.getEnemies().size() < 1);
+        world.getEnemies().clear();
+        world.getCycle().set(50);
+        spawnElan();
+        assertFalse(world.getEnemies().size() < 1);
+        world.getEnemies().clear();
+        spawnZombie();
+        assertFalse(world.getEnemies().size() < 1);
+        world.getEnemies().clear();
+        spawnDoggie();
+        assertFalse(world.getEnemies().size() < 1);
+        world.getEnemies().clear();
+        spawnVampire();
+        assertFalse(world.getEnemies().size() < 1);
+        world.getEnemies().clear();
+    }
+
+    public void spawnEnemy() {
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnEnemies();
+        }
+    }
+
+    public void spawnElan() {
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnElans();
+        }
+    }
+
+    public void spawnZombie() {
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnZombies();
+        }
+    }
+
+    public void spawnDoggie() {
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnDoggies();
+        }
+    }
+
+    public void spawnVampire() {
+        for (int i = 0; i < 1000; i++) {
+            world.possiblySpawnVampire();
+        }
+    }
+
+    @Test
+    public void testSpawnItem() {
+        this.world = Helper.createWorld();
+        PathPosition position = new PathPosition(0, world.getOrderedPath());
+        Character ch = new Character(position, world);
+        world.setCharacter(ch);
+        spawnGold();
+        assertFalse(world.getSpawnItems().size() < 1);
+    }
+
+    public void spawnGold() {
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnGold();
+        }
     }
 
     @Test

@@ -70,7 +70,7 @@ public class EnemyTest {
         Enemy vampire = new Vampire(position, 0);
         world.addEnemy(vampire);
         vampire.move(world);
-        assertFalse((world.getEnemies().get(2).getPosition().getCurrentPositionInPath() - prevPosition) == 2);
+        assertFalse((world.getEnemies().get(2).getPosition().getCurrentPositionInPath() - prevPosition) > 3);
     }
     
     @Test
