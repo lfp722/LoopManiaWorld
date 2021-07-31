@@ -251,7 +251,7 @@ public class BattleTest {
             if (ch.getAttr().getHealth().get() - ch.getAttr().getCurHealth().get() == 2) {
                 norA = true;
             }
-            else if (ch.isStunned()) {
+            if (ch.isStunned()) {
                 criA = true;
             }
         }
@@ -286,7 +286,9 @@ public class BattleTest {
         elan_copy.getAttribute().getCurHealth().set(1);
         enimies.add(elan_copy);
 
-        elan.healEnemy(enimies);
+        for (int i = 0; i < 100; i++) {
+            elan.healEnemy(enimies);
+        }
 
         assertEquals(1, elan.getAttribute().getCurHealth().get());
         assertEquals(slug.getAttribute().getHealth().get(), slug.getAttribute().getCurHealth().get());
