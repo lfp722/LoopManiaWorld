@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -87,6 +88,24 @@ public class AcademyController {
         
 
 
+    }
+
+    @FXML
+    public void handleKeyPress(KeyEvent event) {
+        // TODO = handle additional key presses, e.g. for consuming a health potion
+        switch (event.getCode()) {
+        case A:
+            world.getCharacter().addAttackPoints();
+            break;
+        case S:
+            world.getCharacter().addHealthPoints();
+            break;
+        case D:
+            world.getCharacter().addDefencePoints();
+            break;
+        default:
+            break;
+        }
     }
 
 
