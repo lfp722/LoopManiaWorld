@@ -132,6 +132,7 @@ public class WorldTest {
         world.getEquip().equipWeapon(staff);
         List<Enemy> defeated = new ArrayList<>();
         List<Enemy> all = new ArrayList<>(world.getEnemies());
+        all.remove(1);
         world.battle(all, defeated, world.getCharacter());
         assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
