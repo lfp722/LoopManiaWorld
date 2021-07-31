@@ -485,6 +485,7 @@ public class LoopManiaWorld {
                     // fight...
                     battleEnemies.add(e);
                 }
+                continue;
             }
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < e.getDetectRange()){
                 // fight...
