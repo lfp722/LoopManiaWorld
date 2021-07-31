@@ -59,18 +59,22 @@ public class EnemyTest {
         this.world = Helper.createWorld();
         int prevPosition = 1;
         PathPosition position = new PathPosition(prevPosition + 1, world.getOrderedPath());
+        PathPosition position1 = new PathPosition(prevPosition + 1, world.getOrderedPath());
+        PathPosition position2 = new PathPosition(prevPosition + 1, world.getOrderedPath());
+
+        System.out.println(position.getCurrentPositionInPath());
         Enemy slug = new Slug(position, 0);
         world.addEnemy(slug);
         slug.move(world);
         assertFalse(Math.abs(world.getEnemies().get(0).getPosition().getCurrentPositionInPath() - prevPosition) > 3);
-        Enemy zombie = new Zombie(position, 0);
+        Enemy zombie = new Zombie(position1, 0);
         world.addEnemy(zombie);
         zombie.move(world);
         assertFalse(Math.abs(world.getEnemies().get(1).getPosition().getCurrentPositionInPath() - prevPosition) > 3);
-        Enemy vampire = new Vampire(position, 0);
+        Enemy vampire = new Vampire(position2, 0);
         world.addEnemy(vampire);
         vampire.move(world);
-        assertFalse((world.getEnemies().get(2).getPosition().getCurrentPositionInPath() - prevPosition) > 3);
+        assertFalse(world.getEnemies().get(2).getPosition().getCurrentPositionInPath() > 3);
     }
     
     @Test
