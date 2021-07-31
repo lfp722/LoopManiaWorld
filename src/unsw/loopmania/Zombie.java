@@ -5,7 +5,7 @@ import java.util.Random;
 import org.json.JSONObject;
 
 public class Zombie extends Enemy {
-    private int critRateLimit = 90;
+    private int critRateLimit = 60;
     private int cycle;
 
     public Zombie(PathPosition position, int cycle) {
@@ -49,12 +49,12 @@ public class Zombie extends Enemy {
 
     @Override
     public void criticalAttack(Character object) {
-        object.underAttack(this, this.getAttribute().getAttack().get() * (new Random().nextInt(10) + 5) / 100);
+        object.underAttack(this, (int) (this.getAttribute().getAttack().get() * 1.5));
     }
 
     @Override
     public void criticalAttack(Enemy object) {
-        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(10) + 5) / 100);
+        object.underAttack((int) (this.getAttribute().getAttack().get() * 1.2));
     }
 
     @Override
