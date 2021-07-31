@@ -394,6 +394,10 @@ public class LoopManiaWorld {
                 }
             }
 
+            if (battleEnemies.isEmpty()) {
+                break;
+            }
+
 
             for (Enemy s: ch.getTranced()) {
                 Enemy target = battleEnemies.get(0);
@@ -408,6 +412,9 @@ public class LoopManiaWorld {
                         break; 
                     }
                 }
+            }
+            if (battleEnemies.isEmpty()) {
+                break;
             }
             // for (Enemy e: ch.getTranced()) {
             //     e.attack(target);
