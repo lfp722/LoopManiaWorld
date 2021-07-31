@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.javatuples.Pair;
+import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -76,6 +77,7 @@ public class WorldTest {
         SimpleIntegerProperty y = new SimpleIntegerProperty(1);
 
         Soldier so1 = new Soldier(x, y, ch);
+        // so1.setAttr(new EntityAttribute(0, 0, 20000));
         ch.addSoldier(so1);
         Soldier so2 = new Soldier(x, y, ch);
         ch.addSoldier(so2);
@@ -123,14 +125,15 @@ public class WorldTest {
     @Test
     public void testBattleWithStaff() {
         battleBuilder();
+        world.getCharacter().getArmy().get(0).setAttr(new EntityAttribute(0, 0, 50000));
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(1);
         Staff staff = new Staff(x, y);
         world.getEquip().equipWeapon(staff);
         List<Enemy> defeated = new ArrayList<>();
-        world.battle(world.getEnemies(), defeated, world.getCharacter());
-        assertTrue(!world.getCharacter().shouldExist().get());
-        assertTrue(world.getEnemies().size() > defeated.size());
+        List<Enemy> all = new ArrayList<>(world.getEnemies());
+        world.battle(all, defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
     }
 
     @Test
@@ -148,5 +151,49 @@ public class WorldTest {
         System.out.println(world.getEnemies().size());
     }
 
-    
+    @Test
+    public void testBattleWithOutfit() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Anduril anduril = new Anduril(x, y, false);
+        Helmet helmet = new Helmet(x,y);
+        Shield shield = new Shield(x,y);
+        Armour armour = new Armour(x,y);
+
+        world.getEquip().equipArmour(armour);
+        world.getEquip().equipShield(shield);
+        world.getEquip().equipHelmet(helmet);
+        world.getEquip().equipWeapon(anduril);
+        List<Enemy> defeated = new ArrayList<>();
+        world.battle(world.getEnemies(), defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get());
+        assertTrue(world.getEnemies().size() > defeated.size());
+        assertTrue(world.getCharacter().getArmy().isEmpty());
+        System.out.println(world.getEnemies().size());
+    }
+
+    @Test
+    public void testBattleWithTreeStump() {
+        battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Anduril anduril = new Anduril(x, y, false);
+        Helmet helmet = new Helmet(x,y);
+        Shield treestump = new TreeStump(x,y, false);
+        Armour armour = new Armour(x,y);
+
+        world.getEquip().equipArmour(armour);
+        world.getEquip().equipShield(treestump);
+        world.getEquip().equipHelmet(helmet);
+        world.getEquip().equipWeapon(anduril);
+        List<Enemy> defeated = new ArrayList<>();
+        world.battle(world.getEnemies(), defeated, world.getCharacter());
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 5);
+    }
+
+    // @Test
+    // public void test
+
+
 }

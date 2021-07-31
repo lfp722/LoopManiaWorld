@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -375,6 +377,7 @@ public class LoopManiaWorld {
         // if (!ch.shouldExist().get()) {
         //     System.out.println("I am dead!");
         // }
+        Collections.sort(battleEnemies);
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
             for (Soldier s: ch.getArmy()) {
@@ -391,13 +394,6 @@ public class LoopManiaWorld {
                 }
             }
 
-            if (battleEnemies.isEmpty()) {
-                for (Enemy e: ch.getTranced()) {
-                    e.destroy();
-                    defeatedEnemies.add(e);
-                }
-                ch.getTranced().clear();
-            }
 
             for (Enemy s: ch.getTranced()) {
                 Enemy target = battleEnemies.get(0);
@@ -413,58 +409,57 @@ public class LoopManiaWorld {
                     }
                 }
             }
-
-            if (battleEnemies.isEmpty()) {
-                for (Enemy e: ch.getTranced()) {
-                    e.destroy();
-                    defeatedEnemies.add(e);
-                }
-                ch.getTranced().clear();;
-            }
             // for (Enemy e: ch.getTranced()) {
             //     e.attack(target);
             // }
-            if (!battleEnemies.isEmpty()) {
-                Enemy target = battleEnemies.get(0);
-                ch.attack(target);
-                //System.out.println("Character attack enemy");
-                if (!target.shouldExist().get()) {
-                    battleEnemies.remove(target);
-                    defeatedEnemies.add(target);
-                    //System.out.println("Enemy defeated");
-                }
+            Enemy target = battleEnemies.get(0);
+            ch.attack(target);
+            //System.out.println("Character attack enemy");
+            if (!enemies.contains(target)) {
+                battleEnemies.remove(target);
+            }
+            else if (!target.shouldExist().get()) {
+                battleEnemies.remove(target);
+                defeatedEnemies.add(target);
+                //System.out.println("Enemy defeated");
             }
 
-            if (battleEnemies.isEmpty()) {
-                for (Enemy e: ch.getTranced()) {
-                    e.destroy();
-                    defeatedEnemies.add(e);
-                }
-                ch.getTranced().clear();
-            }
+ 
 
             List<Enemy> battleCopy = new ArrayList<>(battleEnemies);
             for (Enemy e: battleCopy) {
-                if (ch.getArmy().isEmpty()) {
-                    e.attack(ch);
-                    if (e instanceof ElanMuske) {
-                        ElanMuske elan = (ElanMuske) e;
-                        elan.healEnemy(battleCopy);
+                if (!ch.getTranced().isEmpty()) {
+                    Enemy brave = ch.getTranced().get(0);
+                    e.attack(brave);
+                    if (!brave.shouldExist().get()) {
+                        character.getTranced().remove(brave);
+                        defeatedEnemies.add(brave);
                     }
-                    //System.out.println("Enemy attack character");
                 }
-                else{
+
+                else if (!ch.getArmy().isEmpty()) {
                     Soldier brave = ch.getArmy().get(0);
                     e.attack(brave, this);
-                    if (e instanceof ElanMuske) {
-                        ElanMuske elan = (ElanMuske) e;
-                        elan.healEnemy(battleCopy);
-                    }
+                    //System.out.println("Enemy attack character");
+                }
+
+                else{
+                    e.attack(ch);
                     //System.out.println("Enemy attack soldier");
+                }
+                
+                if (e instanceof ElanMuske) {
+                    ElanMuske elan = (ElanMuske) e;
+                    elan.healEnemy(battleCopy);
                 }
             }
 
         }
+        for (Enemy e: ch.getTranced()) {
+            e.destroy();
+            defeatedEnemies.add(e);
+        }
+        ch.getTranced().clear();
     }
 
     /**
