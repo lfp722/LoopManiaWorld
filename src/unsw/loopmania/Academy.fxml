@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" onKeyPressed="#handleKeyPress">
    <children>
       <Text layoutX="199.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome To Academy!" wrappingWidth="224.389892578125">
          <fill>
