@@ -44,7 +44,7 @@ public class AcademyController {
     public void initialize() {
         Text techP = new Text("0");
         techP.textProperty().bind(world.getCharacter().getTechPoints().asString());
-        squares.add(techP, 1, 0);
+        squares.add(techP, 2, 0);
 
         Text attackP = new Text("0");
         attackP.textProperty().bind(world.getCharacter().getAttackPoints().asString());
