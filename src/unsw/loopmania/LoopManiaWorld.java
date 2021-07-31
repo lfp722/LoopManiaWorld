@@ -371,7 +371,7 @@ public class LoopManiaWorld {
      * @param defeatedEnemies
      * @param ch
      */
-    private void battle(List<Enemy> battleEnemies, List<Enemy> defeatedEnemies, Character ch) {
+    public void battle(List<Enemy> battleEnemies, List<Enemy> defeatedEnemies, Character ch) {
         // if (!ch.shouldExist().get()) {
         //     System.out.println("I am dead!");
         // }
@@ -443,12 +443,13 @@ public class LoopManiaWorld {
                 ch.getTranced().clear();
             }
 
-            for (Enemy e: battleEnemies) {
+            List<Enemy> battleCopy = new ArrayList<>(battleEnemies);
+            for (Enemy e: battleCopy) {
                 if (ch.getArmy().isEmpty()) {
                     e.attack(ch);
                     if (e instanceof ElanMuske) {
                         ElanMuske elan = (ElanMuske) e;
-                        elan.healEnemy(battleEnemies);
+                        elan.healEnemy(battleCopy);
                     }
                     //System.out.println("Enemy attack character");
                 }
@@ -457,7 +458,7 @@ public class LoopManiaWorld {
                     e.attack(brave, this);
                     if (e instanceof ElanMuske) {
                         ElanMuske elan = (ElanMuske) e;
-                        elan.healEnemy(battleEnemies);
+                        elan.healEnemy(battleCopy);
                     }
                     //System.out.println("Enemy attack soldier");
                 }
