@@ -417,6 +417,7 @@ public class LoopManiaWorld {
             //System.out.println("Character attack enemy");
             if (!enemies.contains(target)) {
                 battleEnemies.remove(target);
+                defeatedEnemies.add(target);
             }
             else if (!target.shouldExist().get()) {
                 battleEnemies.remove(target);
@@ -433,7 +434,6 @@ public class LoopManiaWorld {
                     e.attack(brave);
                     if (!brave.shouldExist().get()) {
                         character.getTranced().remove(brave);
-                        defeatedEnemies.add(brave);
                     }
                 }
 
@@ -447,7 +447,7 @@ public class LoopManiaWorld {
                     e.attack(ch);
                     //System.out.println("Enemy attack soldier");
                 }
-                
+
                 if (e instanceof ElanMuske) {
                     ElanMuske elan = (ElanMuske) e;
                     elan.healEnemy(battleCopy);
@@ -457,7 +457,6 @@ public class LoopManiaWorld {
         }
         for (Enemy e: ch.getTranced()) {
             e.destroy();
-            defeatedEnemies.add(e);
         }
         ch.getTranced().clear();
     }
