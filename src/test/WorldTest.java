@@ -447,13 +447,7 @@ public class WorldTest {
         VillageCard vi = world.loadVillageCard();
         TowerCard bc = world.loadTowerCard();
         TrapCard tc = world.loadTrapCard();
-        BarrackCard b1 = world.loadBarrackCard();
-        CampFireCard c1 = world.loadCampFireCard();
-        ZombiePitCard z1 = world.loadZombieCard();
-        VampireCastleCard vc1 = world.loadVampireCard();
-        VillageCard vi1 = world.loadVillageCard();
-        TowerCard bc1 = world.loadTowerCard();
-        TrapCard tc1 = world.loadTrapCard();
+        
         world.getHeroCastle();
         world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
         world.convertCardToBuildingByCoordinates(b.getX(), b.getY(), 0, 1);
@@ -462,7 +456,13 @@ public class WorldTest {
         world.convertCardToBuildingByCoordinates(vi.getX(), vi.getY(), 0, 2);
         world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 1, 4);
         world.convertCardToBuildingByCoordinates(tc.getX(), tc.getY(), 2, 1);
-
+        BarrackCard b1 = world.loadBarrackCard();
+        CampFireCard c1 = world.loadCampFireCard();
+        ZombiePitCard z1 = world.loadZombieCard();
+        VampireCastleCard vc1 = world.loadVampireCard();
+        VillageCard vi1 = world.loadVillageCard();
+        TowerCard bc1 = world.loadTowerCard();
+        TrapCard tc1 = world.loadTrapCard();
         json = world.toJSON();
         newWorld = Helper.createWorld();
         newWorld.getHeroCastle();
