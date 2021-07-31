@@ -7,7 +7,7 @@ import org.json.JSONObject;
 public class Vampire extends Enemy {
     
     private int radusCampfire;
-    private int critRateLimit = 90;
+    private int critRateLimit = 60;
 
     /**
      * 
@@ -113,17 +113,17 @@ public class Vampire extends Enemy {
 
     @Override
     public void criticalAttack(Character object) {
-        object.underAttack(this, this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+        object.underAttack(this, this.getAttribute().getAttack().get() * 2);
     }
     
     @Override
     public void criticalAttack(Soldier object, LoopManiaWorld world) {
-        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+        object.underAttack((int) (this.getAttribute().getAttack().get() * 1.5));
     }
 
     @Override
     public void criticalAttack(Enemy object) {
-        object.underAttack(this.getAttribute().getAttack().get() * (new Random().nextInt(30) + 10) / 100);
+        object.underAttack((int) (this.getAttribute().getAttack().get() * 1.5));
     }
 
     @Override
