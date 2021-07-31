@@ -1504,13 +1504,17 @@ public class LoopManiaWorld {
         }
         unequippedInventoryItems = new ArrayList<>();
 
-        for (Building i: buildingEntities){
+        List<Building> b_copy = new ArrayList<>(buildingEntities);
+        for (Building i: b_copy){
             if (i instanceof HeroCastle) {
                 continue;
             }
+            if (i instanceof Academy) {
+                continue;
+            }
             i.destroy();
+            buildingEntities.remove(i);
         }
-        buildingEntities = new ArrayList<>();
 
         for (Item i: spawnItems){
             i.destroy();

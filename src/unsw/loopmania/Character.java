@@ -350,6 +350,10 @@ public class Character extends MovingEntity{
         debuff.set(1);
         shouldExist().set(true);
 
+        attackPoints.set(1);
+        healthPoints.set(1);
+        defencePoints.set(1);
+
         isStunned = false;
     }
 
