@@ -12,6 +12,7 @@ public class TheOneRing extends Item {
         isRare = true;
 
         if (isConfusing) {
+            //int possibility = Item.DEFENCE;
             int possibility = new Random().nextInt(10);
             if (possibility == Item.DEFENCE) {
                 setSe((LoopManiaWorld world, Enemy e)->EffectFactory.treeStump(world, e));

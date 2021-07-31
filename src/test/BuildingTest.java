@@ -85,12 +85,19 @@ public class BuildingTest {
         this.world = Helper.createWorld();
         PathPosition position = new PathPosition(2, world.getOrderedPath());
         SimpleIntegerProperty x = new SimpleIntegerProperty(position.getOrderedPath().get(position.getCurrentPositionInPath()).getValue0());
-        SimpleIntegerProperty y = new SimpleIntegerProperty(position.getOrderedPath().get(position.getCurrentPositionInPath()).getValue1() + 1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(position.getOrderedPath().get(position.getCurrentPositionInPath()).getValue1() + 2);
         
         Tower b = new Tower(x, y);
         world.getBuildingEntities().add(b);
-        String expected = new String("{\"x\":2,\"y\":1,\"type\":\"Tower\"}");
+        String expected = new String("{\"x\":2,\"y\":2,\"type\":\"Tower\"}");
         assertEquals(expected, b.toJSON().toString());
+
+        Enemy slug = new Slug(position, 0);
+        assertFalse(!b.isInRadius(slug));
+        for (int i = 0; i < 14; i++) {
+            slug.moveDownPath();
+        }
+        assertFalse(b.isInRadius(slug));
 
     }
 

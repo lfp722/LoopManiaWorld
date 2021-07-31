@@ -68,7 +68,7 @@ public class Item extends StaticEntity {
     public boolean isRare() {
         return isRare;
     }
-
+    
     public int getSecondType() {
         return rareType;
     }

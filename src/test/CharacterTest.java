@@ -155,14 +155,6 @@ public class CharacterTest {
         world.runTickMoves();
         assertEquals(51, chara.getAttr().getCurHealth().get());
 
-
-        // ch.addDefencePoints();
-        // assertEquals(expectedDefence, ch.getAttr().getDefence().get());
-        // assertEquals(expectedPoint - 2, ch.getTechPoints().get());
-        // ch.addHealthPoints();
-        // assertEquals(expectedHealth, ch.getAttr().getHealth().get());
-        // assertEquals(expectedPoint - 3, ch.getTechPoints().get());
-
     }
 
     @Test
