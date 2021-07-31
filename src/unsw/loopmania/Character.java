@@ -131,12 +131,9 @@ public class Character extends MovingEntity{
      */
     public void underAttack(Enemy e, int attack) {
         if (counterMiss) {
+            setMiss();
             if (miss.get()) {
-                setMiss();
                 return;
-            }
-            else {
-                setMiss();
             }
         }
         equipped.specialDefence(e, world);

@@ -253,6 +253,7 @@ public class BattleTest {
             }
             if (ch.isStunned()) {
                 criA = true;
+                ch.attack(doggie);
             }
         }
 
@@ -298,6 +299,35 @@ public class BattleTest {
         assertEquals(elan_copy.getAttribute().getHealth().get(), elan_copy.getAttribute().getCurHealth().get());
     }
 
+    @Test
+    public void testOtherAttack() {
+        this.world = Helper.createWorld();
+        PathPosition pos = new PathPosition(0, world.getOrderedPath());
+        Character ch = new Character(pos, world);
+        ch.getDefencePoints().set(9);
+        ch.getExperience().set(300000);
+        ch.addDefencePoints();
+
+        Enemy doggie = new Doggie(pos, 0);
+
+        world.getEnemies().add(doggie);
+
+        assertEquals(1, world.getEnemies().size());
+
+        boolean miss = false;
+
+        for (int i = 0; i < 100; i++) {
+            ch.heal(20);
+            doggie.attack(ch);
+            if (ch.getAttr().getHealth().get() - ch.getAttr().getCurHealth().get() == 0) {
+                miss = true;
+            }
+        }
+
+        assertTrue(miss);
+
+        
+    }
 
 
     
