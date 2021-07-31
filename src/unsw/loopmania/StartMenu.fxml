@@ -86,7 +86,7 @@
                   </LinearGradient>
                </textFill>
             </Button>
-            <Button fx:id="returnToMainMenu2" mnemonicParsing="false" prefHeight="59.0" prefWidth="665.0" text="About" GridPane.rowIndex="2">
+            <Button fx:id="returnToMainMenu2" mnemonicParsing="false" onAction="#switchToAbout" prefHeight="59.0" prefWidth="665.0" text="About" GridPane.rowIndex="2">
                <font>
                   <Font name="Tamil MN" size="31.0" />
                </font>
