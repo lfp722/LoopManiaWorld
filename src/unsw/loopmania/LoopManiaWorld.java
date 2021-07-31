@@ -1517,60 +1517,65 @@ public class LoopManiaWorld {
     public void writeToJSON () {
         try {
             FileWriter writer = new FileWriter("archive/" + LocalDateTime.now().toString() + ".json");
-            JSONObject character = this.character.characterToJson();
-            JSONArray enemies = new JSONArray();
-            for (Enemy e: this.getEnemies()) {
-               enemies.put(e.toJSON()); 
-            }
-            JSONArray cards = new JSONArray();
-            for (Card c: this.cardEntities) {
-                cards.put(c.toJSON());
-            }
-            JSONArray buildings = new JSONArray();
-            for (Building b: this.buildingEntities) {
-                buildings.put(b.toJSON());
-            }
-            JSONArray spawnItems = new JSONArray();
-            for (Item i: this.spawnItems) {
-                spawnItems.put(i.toJSON());
-            }
-            JSONArray bag = new JSONArray();
-            for (Item i: this.unequippedInventoryItems) {
-                bag.put(i.toJSON());
-            }
-            JSONObject equippedItems = this.equippedItems.toJSON();
-            JSONObject cycle = new JSONObject();
-            cycle.put("cycle", this.cycle.get());
-            JSONObject goal = new JSONObject();
-            goal.put("goal", this.goal.toJSON());
-            JSONObject doggie = new JSONObject();
-            doggie.put("doggiePrice", this.doggiePrice.get());
-            JSONObject world = new JSONObject();
-            
-            world.put("mode", mode);
-            world.put("defeats", getDefeatedBoss().get());
-            world.put("character", character);
-            world.put("enemies", enemies);
-            world.put("cards", cards);
-            world.put("buildings", buildings);
-            world.put("spawnitems", spawnItems);
-            world.put("equippeditems", equippedItems);
-            world.put("cycle", cycle);
-            world.put("goal", goal);
-            world.put("doggie", doggie);
-            world.put("theonering", theOneRingExist);
-            world.put("anduril", andurilExist);
-            world.put("treestump", treeStumpExist);
-            world.put("height", getHeight());
-            world.put("width", getWidth());
-            world.put("path", pathOfMap);
-            world.put("bag", bag);
+            JSONObject world = toJSON();
             writer.write(world.toString());
             writer.close();
             
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public JSONObject toJSON() {
+        JSONObject character = this.character.characterToJson();
+        JSONArray enemies = new JSONArray();
+        for (Enemy e: this.getEnemies()) {
+            enemies.put(e.toJSON()); 
+        }
+        JSONArray cards = new JSONArray();
+        for (Card c: this.cardEntities) {
+            cards.put(c.toJSON());
+        }
+        JSONArray buildings = new JSONArray();
+        for (Building b: this.buildingEntities) {
+            buildings.put(b.toJSON());
+        }
+        JSONArray spawnItems = new JSONArray();
+        for (Item i: this.spawnItems) {
+            spawnItems.put(i.toJSON());
+        }
+        JSONArray bag = new JSONArray();
+        for (Item i: this.unequippedInventoryItems) {
+            bag.put(i.toJSON());
+        }
+        JSONObject equippedItems = this.equippedItems.toJSON();
+        JSONObject cycle = new JSONObject();
+        cycle.put("cycle", this.cycle.get());
+        JSONObject goal = new JSONObject();
+        goal.put("goal", this.goal.toJSON());
+        JSONObject doggie = new JSONObject();
+        doggie.put("doggiePrice", this.doggiePrice.get());
+        JSONObject world = new JSONObject();
+
+        world.put("mode", mode);
+        world.put("defeats", getDefeatedBoss().get());
+        world.put("character", character);
+        world.put("enemies", enemies);
+        world.put("cards", cards);
+        world.put("buildings", buildings);
+        world.put("spawnitems", spawnItems);
+        world.put("equippeditems", equippedItems);
+        world.put("cycle", cycle);
+        world.put("goal", goal);
+        world.put("doggie", doggie);
+        world.put("theonering", theOneRingExist);
+        world.put("anduril", andurilExist);
+        world.put("treestump", treeStumpExist);
+        world.put("height", getHeight());
+        world.put("width", getWidth());
+        world.put("path", pathOfMap);
+        world.put("bag", bag);
+        return world;
     }
 
     
@@ -1656,23 +1661,23 @@ public class LoopManiaWorld {
             PathPosition position = new PathPosition(x, orderedPath);
             switch (enemy.getString("type")) {
                 case "Slug":
-                    Enemy e = new Slug(position, lv);
+                    Enemy e = new Slug(position, lv - 1);
                     this.enemies.add(e);
                     break;
                 case "Zombie":
-                    Enemy en = new Zombie(position, lv);
+                    Enemy en = new Zombie(position, lv - 1);
                     this.enemies.add(en);
                     break;
                 case "Vampire":
-                    Enemy ene = new Vampire(position, lv);
+                    Enemy ene = new Vampire(position, lv - 1);
                     this.enemies.add(ene);
                     break;
                 case "Doggie":
-                    Enemy enem = new Doggie(position, lv);
+                    Enemy enem = new Doggie(position, lv - 1);
                     this.enemies.add(enem);
                     break;
                 case "Elan":
-                    Enemy enemys = new ElanMuske(position, lv);
+                    Enemy enemys = new ElanMuske(position, lv - 1);
                     this.enemies.add(enemys);
                     break;
                 default:
@@ -1843,12 +1848,12 @@ public class LoopManiaWorld {
 
     public void reloadBuilding(JSONObject json) {
         JSONArray buildings = json.getJSONArray("buildings");
-
+        //System.out.println("reading building");
         for (int i = 1; i < buildings.length(); i++) {
             JSONObject building = buildings.getJSONObject(i);
             SimpleIntegerProperty x = new SimpleIntegerProperty(building.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(building.getInt("y"));
-
+            
             switch (building.getString("type")) {
                 case "Barrack":
                     Building b = new Barrack(x, y);

@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.javatuples.Pair;
+import org.json.JSONObject;
 import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -231,9 +232,25 @@ public class WorldTest {
         world.setCharacter(ch);
         spawnGold();
         assertFalse(world.getSpawnItems().size() < 1);
+        world.pickUp();
+        assertEquals(0, world.getInventory().size());
+        int x = world.getSpawnItems().get(0).getX();
+        int y = world.getSpawnItems().get(0).getY();
+        ch.getPosition().getX().set(x);
+        ch.getPosition().getY().set(y);
+        world.pickUp();
+        assertFalse(world.getCharacter().getGold() < 1);
         world.getSpawnItems().clear();
         spawnPotion();
         assertFalse(world.getSpawnItems().size() < 1);
+        world.pickUp();
+        assertEquals(0, world.getInventory().size());
+        x = world.getSpawnItems().get(0).getX();
+        y = world.getSpawnItems().get(0).getY();
+        ch.getPosition().getX().set(x);
+        ch.getPosition().getY().set(y);
+        world.pickUp();
+        assertFalse(world.getInventory().size() < 1);
         world.getSpawnItems().clear();
     }
 
@@ -252,19 +269,189 @@ public class WorldTest {
     @Test
     public void testInventory() {
         this.world = Helper.createWorld();
-        SimpleIntegerProperty x = new SimpleIntegerProperty(0);
-        SimpleIntegerProperty y = new SimpleIntegerProperty(0);
+        PathPosition position = new PathPosition(0, world.getOrderedPath());
+        Character ch = new Character(position, world);
+        world.setCharacter(ch);
         assertEquals(0, world.getInventory().size());
         Potion p = world.addPotion();
         assertEquals(1, world.getInventory().size());
         assertEquals(p, world.getInventory().get(0));
         Anduril an = world.addUnequippedAnduril();
+        assertEquals(2, world.getInventory().size());
+        assertEquals(an, world.getInventory().get(1));
+        Armour ar = world.addUnequippedArmour();
+        assertEquals(3, world.getInventory().size());
+        assertEquals(ar, world.getInventory().get(2));
+        DoggieCoin d = world.addDoggie();
+        assertEquals(4, world.getInventory().size());
+        assertEquals(d, world.getInventory().get(3));
+        Helmet h = world.addUnequippedHelmet();
+        assertEquals(5, world.getInventory().size());
+        assertEquals(h, world.getInventory().get(4));
+        Shield sh = world.addUnequippedShield();
+        assertEquals(6, world.getInventory().size());
+        assertEquals(sh, world.getInventory().get(5));
+        Staff staff = world.addUnequippedStaff();
+        assertEquals(7, world.getInventory().size());
+        assertEquals(staff, world.getInventory().get(6));
+        Stake stake = world.addUnequippedStake();
+        assertEquals(8, world.getInventory().size());
+        assertEquals(stake, world.getInventory().get(7));
+        Sword sword = world.addUnequippedSword();
+        assertEquals(9, world.getInventory().size());
+        assertEquals(sword, world.getInventory().get(8));
+        TreeStump ts = world.addUnequippedTreeStump();
+        assertEquals(10, world.getInventory().size());
+        assertEquals(ts, world.getInventory().get(9));
+        for (int i = 0; i < 6; i++) {
+            DoggieCoin dg = world.addDoggie();
+            assertEquals(dg, world.getInventory().get(10 + i));
+        }
+        for (int i = 0; i < 10; i++) {
+            Item it = world.getInventory().get(1);
+            world.addDoggie();
+            assertEquals(it, world.getInventory().get(0));
+        }
+        world.getInventory().clear();
+    }
 
+    @Test
+    public void testEquip() {
+        this.world = Helper.createWorld();
+        PathPosition position  = new PathPosition(0, world.getOrderedPath());
+        Character ch = new Character(position, world);
+        world.setCharacter(ch);        
+        Potion p = world.addPotion();
+        assertEquals(1, world.getInventory().size());
+        assertEquals(p, world.getInventory().get(0));
+        Anduril an = world.addUnequippedAnduril();
+        assertEquals(2, world.getInventory().size());
+        assertEquals(an, world.getInventory().get(1));
+        Armour ar = world.addUnequippedArmour();
+        assertEquals(3, world.getInventory().size());
+        assertEquals(ar, world.getInventory().get(2));
+        DoggieCoin d = world.addDoggie();
+        assertEquals(4, world.getInventory().size());
+        assertEquals(d, world.getInventory().get(3));
+        Helmet h = world.addUnequippedHelmet();
+        assertEquals(5, world.getInventory().size());
+        assertEquals(h, world.getInventory().get(4));
+        Shield sh = world.addUnequippedShield();
+        assertEquals(6, world.getInventory().size());
+        assertEquals(sh, world.getInventory().get(5));
+        Staff staff = world.addUnequippedStaff();
+        assertEquals(7, world.getInventory().size());
+        assertEquals(staff, world.getInventory().get(6));
+        Stake stake = world.addUnequippedStake();
+        assertEquals(8, world.getInventory().size());
+        assertEquals(stake, world.getInventory().get(7));
+        Sword sword = world.addUnequippedSword();
+        assertEquals(9, world.getInventory().size());
+        assertEquals(sword, world.getInventory().get(8));
+        TreeStump ts = world.addUnequippedTreeStump();
+        assertEquals(10, world.getInventory().size());
+        assertEquals(ts, world.getInventory().get(9));
+        Sword s = world.addUnequippedSword();
+        Shield shield = world.addUnequippedShield();
+        Armour armour = world.addUnequippedArmour();
+        Helmet helmet = world.addUnequippedHelmet();
+        assertFalse(world.covertEquippedToEquipped(0, 0) != null);
+        world.covertEquippedToEquipped(an.getX(), an.getY());
+        assertFalse(!(world.getEquip().getWeapon() instanceof Anduril));
+        world.covertEquippedToEquipped(sword.getX(), sword.getY());
+        assertFalse(!(world.getEquip().getWeapon() instanceof Sword));
+        world.covertEquippedToEquipped(stake.getX(), stake.getY());
+        assertFalse(!(world.getEquip().getWeapon() instanceof Stake));
+        world.covertEquippedToEquipped(staff.getX(), staff.getY());
+        assertFalse(!(world.getEquip().getWeapon() instanceof Staff));
+        world.covertEquippedToEquipped(h.getX(), h.getY());
+        assertFalse(!(world.getEquip().getHelmet() instanceof Helmet));
+        world.covertEquippedToEquipped(helmet.getX(), helmet.getY());
+        assertFalse(!(world.getEquip().getHelmet() instanceof Helmet));
+        world.covertEquippedToEquipped(ar.getX(), ar.getY());
+        assertFalse(!(world.getEquip().getArmour() instanceof Armour));
+        world.covertEquippedToEquipped(armour.getX(), armour.getY());
+        assertFalse(!(world.getEquip().getArmour() instanceof Armour));
+        world.covertEquippedToEquipped(sh.getX(), sh.getY());
+        assertFalse(!(world.getEquip().getShield() instanceof Shield));
+        world.covertEquippedToEquipped(ts.getX(), ts.getY());
+        assertFalse(!(world.getEquip().getShield() instanceof TreeStump));
+        world.covertEquippedToEquipped(shield.getX(), shield.getY());
+        assertFalse(!(world.getEquip().getShield() instanceof Shield));
     }
 
     @Test
     public void testJSON() {
+        battleBuilder();
+        Potion p = world.addPotion();
+        Anduril an = world.addUnequippedAnduril();
+        Armour ar = world.addUnequippedArmour();
+        DoggieCoin d = world.addDoggie();
+        Helmet h = world.addUnequippedHelmet();
+        Shield sh = world.addUnequippedShield();
+        Staff staff = world.addUnequippedStaff();
+        Stake stake = world.addUnequippedStake();
+        Sword sword = world.addUnequippedSword();
+        TreeStump ts = world.addUnequippedTreeStump();
+        world.covertEquippedToEquipped(ar.getX(), ar.getY());
+        world.covertEquippedToEquipped(sword.getX(), sword.getY());
+        world.covertEquippedToEquipped(h.getX(), h.getY());
+        world.covertEquippedToEquipped(sh.getX(), sh.getY());
+        
+        world.getDoggiePrice().set(10);
+        world.getCycle().set(10);
+        spawnPotion();
+        world.getSpawnItems().remove(world.getSpawnItems().size() - 1);
+        spawnGold();
+        JSONObject json = world.toJSON();
+        LoopManiaWorld newWorld = Helper.createWorld();
+        PathPosition position = new PathPosition(0, newWorld.getOrderedPath());
+        Character ch = new Character(position, newWorld);
 
+        newWorld.setCharacter(ch);
+        newWorld.readFromJSON(json);
+        assertEquals(world.toJSON().toString(), newWorld.toJSON().toString());
+        
+        world.covertEquippedToEquipped(staff.getX(), staff.getY());
+        world.covertEquippedToEquipped(ts.getX(), ts.getY());
+        json = world.toJSON();
+        newWorld = Helper.createWorld();
+        newWorld.setCharacter(ch);
+        newWorld.readFromJSON(json);
+        assertEquals(world.toJSON().toString(), newWorld.toJSON().toString());
+        
+        world.covertEquippedToEquipped(stake.getX(), stake.getY());
+        world.covertEquippedToEquipped(ts.getX(), ts.getY());
+        json = world.toJSON();
+        newWorld = Helper.createWorld();
+        newWorld.setCharacter(ch);
+        newWorld.readFromJSON(json);
+        assertEquals(world.toJSON().toString(), newWorld.toJSON().toString());
+
+        world.covertEquippedToEquipped(an.getX(), an.getY());
+        world.covertEquippedToEquipped(ts.getX(), ts.getY());
+        json = world.toJSON();
+        newWorld = Helper.createWorld();
+        newWorld.setCharacter(ch);
+        newWorld.readFromJSON(json);
+        assertEquals(world.toJSON().toString(), newWorld.toJSON().toString());
+        
+        world.addUnequippedSword();
+        world.addUnequippedHelmet();
+        world.addUnequippedArmour();
+        world.addUnequippedShield();
+        TowerCard bc = world.loadTowerCard();
+        TrapCard tc = world.loadTrapCard();
+        world.getHeroCastle();
+        world.convertCardToBuildingByCoordinates(bc.getX(), bc.getY(), 1, 1);
+        json = world.toJSON();
+        newWorld = Helper.createWorld();
+        newWorld.getHeroCastle();
+        newWorld.setCharacter(ch);
+        newWorld.readFromJSON(json);
+        //assertEquals(world.getBuildingEntities().get(0).toJSON().toString(), newWorld.getBuildingEntities().get(0).toJSON().toString());
+        assertEquals(world.toJSON().toString(), newWorld.toJSON().toString());
+  
     }
 
     public void initializeWorld() {
