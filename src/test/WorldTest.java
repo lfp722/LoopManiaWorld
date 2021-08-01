@@ -126,9 +126,9 @@ public class WorldTest {
         assertEquals(7, world.getCardEntities().size());
         //vampire castle
         Card c = world.getCardEntities().get(0);
-        Building b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 0);
+        Building b = world.convertCardToBuildingByCoordinates(c.simpleX().get(), c.simpleY().get(), 6, 0);
         assertFalse(b != null);
-        b = world.convertCardToBuildingByCoordinates(c.getX(), c.getY(), 6, 1);
+        b = world.convertCardToBuildingByCoordinates(c.x().get(), c.y().get(), 6, 1);
         assertEquals(1, world.getBuildingEntities().size());
         assertEquals(6, world.getCardEntities().size());
         assertFalse(c.shouldExist().get());
