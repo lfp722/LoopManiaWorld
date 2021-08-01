@@ -36,6 +36,11 @@ public class EquippedTest {
         Staff staff = new Staff(x, y);
         Stake stake = new Stake(x, y);
         Sword sword = new Sword(x, y);
+        TheOneRing ring = new TheOneRing(x, y, false);
+
+        String expectedJSON = new String("{\"weapon\":{},\"shield\":{},\"ring\":{},\"helmet\":{},\"armour\":{}}");
+        assertEquals(expectedJSON, eq.toJSON().toString());
+
 
         int expectedAttack = 0;
         int expectedDefence = 0;
@@ -77,8 +82,10 @@ public class EquippedTest {
         eq.equipShield(tree);
         assertEquals(expectedDefence, eq.getDefence().get());
         assertEquals(tree, eq.getShield());
+        eq.equipRing(ring);
+        assertEquals(ring, eq.getRing());
 
-        String expected = new String("{\"weapon\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"Anduril\",\"raretype\":-1},\"shield\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"TreeStump\",\"raretype\":-1},\"ring\":{},\"helmet\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"Helmet\"},\"armour\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"Armour\"}}");
+        String expected = new String("{\"weapon\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"Anduril\",\"raretype\":-1},\"shield\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"TreeStump\",\"raretype\":-1},\"ring\":{\"x\":0,\"y\":1,\"type\":\"TheOneRing\",\"raretype\":-1},\"helmet\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"Helmet\"},\"armour\":{\"level\":1,\"x\":0,\"y\":1,\"type\":\"Armour\"}}");
         assertEquals(expected, eq.toJSON().toString());
     }
 
