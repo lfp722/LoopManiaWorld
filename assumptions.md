@@ -148,3 +148,31 @@ Extra Assumptions For M2:
 12. Once the one ring is obtained, it will be automatically generated.
 13. Zombie can only transfer soldiers into Zombie. If it critical bites on character or tranced enemies, more damage will be caused.
 14. If card are dragged the wrong area, it will be destroyed.
+
+
+Update for M3: 
+- doggie stunning will last for one loop only;
+- doggie will have critical rate of maximum 40%;
+- doggie critical attack entities other than character will only perform normal attack;
+- doggie attack = lv^2 * 2;
+- doggie health = lv^2 * 5;
+- doggie appear rate = 10%;
+- Elan attack = lv^2.5 * 2;
+- Elan health = lv^2 * 6;
+- Elan appear rate 5%;
+- doggie coin price influenced by Elan: when appears, price = 3*price; when defeated, price = price / 4;
+- equipped items are not to be sold;
+- sold item price as 70% of original;
+- boss will not be affected by staff;
+- Anduril and TreeStump will only be obtained after death of a boss;
+- saving games will only occur outside a battle;
+- world json will not change, making a new world will create a new json file;
+- boss goal is set to 10;
+- Elan will not heal himself, and will heal others enemies in battle after an attack;
+- Confusion mode:
+- other rare items with additional effect of the one ring will be destroyed after the effect is triggered;
+- effect of tree stump and anduril will only be triggered once, even if there will be other same effect triggered at the same time;
+- probability of getting a second effect: 20%;
+- vampire critical rate has been reset to 60%;
+- zombie critical rate has been reset to 60%;
+- in Academy, use "a", "s", "d" for adding attacking, health, defending points respectively;
