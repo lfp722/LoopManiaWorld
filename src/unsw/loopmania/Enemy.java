@@ -168,7 +168,7 @@ public abstract class Enemy extends MovingEntity implements Comparable<Enemy> {
             criticalAttack(object, world);
         } else {
             object.underAttack(this.attribute.getAttack().get());
-            String name = object.toJSON().getString("type") + world.getCharacter().getArmy().indexOf(object);
+            String name = "Soldier" + world.getCharacter().getArmy().indexOf(object);
             String eName = this.toJSON().getString("type") + world.getEnemies().indexOf(this);
             world.getBattleStatus().add(eName + " attacks " + name);
             world.getBattleStatus().add(name + " suffers " + this.getAttribute().getAttack().get() + "points of damage\n");
