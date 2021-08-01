@@ -71,6 +71,8 @@ public class LoopManiaWorld {
 
     private List<Item> boughtItems = new ArrayList<>();
 
+    private StringBuilder battleStatus;
+
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -130,6 +132,7 @@ public class LoopManiaWorld {
         goal = new FinalGoal();
         doggiePrice = new SimpleIntegerProperty(5000);
         defeatedBoss = new SimpleIntegerProperty(0);
+        battleStatus = new StringBuilder();
     }
 
     /**
@@ -380,10 +383,12 @@ public class LoopManiaWorld {
         Collections.sort(battleEnemies);
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
+            int soldierCount = 1;
             for (Soldier s: ch.getArmy()) {
                 Enemy target = battleEnemies.get(0);
                 s.attack(target);
                 //System.out.println("Soldier attack enemy");
+                battleStatus.append("Soldier " + soldierCount + " attacks " + target.toJSON().getString("type") + " " + enemies.indexOf(target));
                 if (!target.shouldExist().get()) {
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
@@ -392,7 +397,9 @@ public class LoopManiaWorld {
                         break; 
                     }
                 }
+                soldierCount++;
             }
+            soldierCount = 1;
 
             if (battleEnemies.isEmpty()) {
                 break;
