@@ -25,7 +25,7 @@ public class GoalTest {
         world.getGoal().setGoldGoal(10);
         
         int expected = 10;
-        assertFalse(world.getGoal().checkGoal(world));
+        assertFalse(world.checkGoal());
         //boss
         world.getDefeatedBoss().set(expected);
         assertFalse(world.getGoal().checkGoal(world));

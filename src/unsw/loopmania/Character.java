@@ -60,7 +60,7 @@ public class Character extends MovingEntity{
         campFireBuff.set(1);
         stakeVampireBuff.set(1);
         debuff.set(1);
-        level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(300).get())+1, experience));
+        level.bind(Bindings.createDoubleBinding(()->Math.sqrt((double)experience.divide(3000).get())+1, experience));
         next_expr.bind(Bindings.createDoubleBinding(()->(Math.pow(level.get(),2)+1)*3000, level));
 
         techPoints = new SimpleIntegerProperty();

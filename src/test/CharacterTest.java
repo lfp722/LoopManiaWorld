@@ -140,6 +140,8 @@ public class CharacterTest {
         Character chara = new Character(position, world);
         world.setCharacter(chara);
         world.getCharacter().getExperience().set(300000);
+        Enemy slug = new Slug(position, 0);
+        world.addEnemy(slug);
         expectedPoint = 10;
         expectedHealth = 235;
         assertEquals(expectedPoint, chara.getTechPoints().get());
@@ -152,6 +154,7 @@ public class CharacterTest {
         assertFalse(!chara.isHeal());
         world.getCharacter().getAttr().getCurHealth().set(1);
         chara.getPosition().setCurrentPositionInPath(world.getOrderedPath().size() - 1);
+        
         world.runTickMoves();
         assertEquals(51, chara.getAttr().getCurHealth().get());
 
