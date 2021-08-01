@@ -11,6 +11,8 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javafx.fxml.FXML;
+
 import org.javatuples.Pair;
 
 public class WorldBuildController {
@@ -24,28 +26,32 @@ public class WorldBuildController {
     public static int minHeight = 6;
     private JSONObject config = new JSONObject();
 
-    private int lastDire = NULL;
-    private String dire = null;
     private int width;
     private int height;
     private List<String> path;
     private Pair<Integer, Integer> start;
-    private Pair<Integer, Integer> curPos;
     private List<Pair<Integer, Integer>> generated;
-    private int step;
 
-    Graph<Pair<Integer, Integer>> graph;
+    private Graph<Pair<Integer, Integer>> graph;
+
+    private MenuSwitcher menuSwitcher;
+
+    public void setMenuSwitcher(MenuSwitcher switcher) {
+        menuSwitcher = switcher;
+    }
+
+    @FXML
+    public void switchToMenu() {
+        menuSwitcher.switchMenu();
+    }
 
 
     public void init() {
         width = new Random().nextInt(10)+minWidth;
         height = new Random().nextInt(10)+minHeight;
         path = new ArrayList<>();
-        generated = new ArrayList<>();
-        generated.add(start);
 
         start = new Pair(0,0);
-        curPos = new Pair(0, 0);
     }
 
 
@@ -83,7 +89,8 @@ public class WorldBuildController {
         }
     }
 
-    public void findPath() {
+    @FXML
+    public void generatePath() {
         generated = null;
         while (generated == null || generated.isEmpty()) {
             graph();
@@ -146,18 +153,6 @@ public class WorldBuildController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-    }
-
-
-    public static void main(String args[]) {
-        WorldBuildController wb = new WorldBuildController();
-        wb.findPath();
-
-        // Pair<Integer, Integer> a = new Pair(1,1);
-        // List<Pair<Integer, Integer>> b = new ArrayList<>();
-        // b.add(a);
-        // System.out.println(b.contains(new Pair(1,1)));
 
     }
     

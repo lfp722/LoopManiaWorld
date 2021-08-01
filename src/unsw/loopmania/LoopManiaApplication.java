@@ -34,7 +34,7 @@ public class LoopManiaApplication extends Application {
 
     private Parent gameRoot;
 
-    private String path = "worlds/world_with_twists_and_turns.json";
+    private String path = "world_with_twists_and_turns.json";
 
     public void setPath(String path) {
         this.path = path;
@@ -135,6 +135,11 @@ public class LoopManiaApplication extends Application {
         battleLoader.setController(battleController);
         Parent battleRoot = battleLoader.load();
 
+        WorldBuildController wbController = new WorldBuildController();
+        FXMLLoader wbLoader = new FXMLLoader(getClass().getResource("WorldBuilder.fxml"));
+        wbLoader.setController(wbController);
+        Parent wbRoot = wbLoader.load();
+
         
 
         // Scene scene = new Scene(storeRoot);
@@ -191,6 +196,10 @@ public class LoopManiaApplication extends Application {
             setMainController(path);
             switchToRoot(scene, mainMenuRoot, primaryStage);
         });
+
+        startController.setBuilderSwitcher(()->{switchToRoot(scene, wbRoot, primaryStage);});
+
+        wbController.setMenuSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
 
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
 
