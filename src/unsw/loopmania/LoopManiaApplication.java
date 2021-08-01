@@ -34,7 +34,7 @@ public class LoopManiaApplication extends Application {
 
     private Parent gameRoot;
 
-    private String path = "world_with_twists_and_turns.json";
+    private String path = "worlds/world_with_twists_and_turns.json";
 
     public void setPath(String path) {
         this.path = path;
