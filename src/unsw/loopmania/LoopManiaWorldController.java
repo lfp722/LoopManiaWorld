@@ -699,18 +699,9 @@ public class LoopManiaWorldController {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());
             int choice = new Random().nextInt(100);
-            if ((new Random()).nextInt(100) < 30) {
+            if ((new Random()).nextInt(100) < 10) {
                 loadCard();
             } 
-            if (world.isTheOneRing() && choice < 30) {
-                loadTheOneRing();
-            }
-            else if (world.isAnduril() && choice < 60) {
-                loadAnduril();
-            }
-            else if (world.isTreeStump() && choice < 90) {
-                loadTreeStump();
-            }
         } else if (enemy instanceof Vampire) {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());
@@ -848,26 +839,26 @@ public class LoopManiaWorldController {
      * load the card for different type
      */
     public void loadCard() {
-        int cardChoice = new Random().nextInt(7);
+        int cardChoice = new Random().nextInt(36);
         if (cardChoice == 0) {
             loadVampireCard();
         }
-        else if (cardChoice == 1) {
+        else if (cardChoice < 10) {
             loadZombieCard();    
         }
-        else if (cardChoice == 2) {
+        else if (cardChoice < 13) {
             loadVillageCard();    
         }
-        else if (cardChoice == 3) {
+        else if (cardChoice < 15) {
             loadBarrackCard();    
         }
-        else if (cardChoice == 4) {
+        else if (cardChoice < 18) {
             loadTowerCard();    
         }
-        else if (cardChoice == 5) {
+        else if (cardChoice < 34) {
             loadTrapCard();    
         }
-        else if (cardChoice == 6) {
+        else if (cardChoice < 36) {
             loadCampFireCard();    
         }
     }

@@ -990,9 +990,9 @@ public class LoopManiaWorld {
     }
 
     private Pair<Integer, Integer> possiblyGetDoggieSpawnPosition(){
-        // if (cycle.get() < 20) {
-        //     return null; 
-        // }
+        if (cycle.get() < 20) {
+            return null; 
+        }
         
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
@@ -1017,9 +1017,9 @@ public class LoopManiaWorld {
     }
 
     private Pair<Integer, Integer> possiblyGetElanSpawnPosition(){
-        // if (cycle.get() < 40 || character.getExp() < 10000) {
-        //     return null; 
-        // }
+        if (cycle.get() < 40 || character.getExp() < 10000) {
+            return null; 
+        }
         
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
@@ -1966,7 +1966,7 @@ public class LoopManiaWorld {
     public void reloadBuilding(JSONObject json) {
         JSONArray buildings = json.getJSONArray("buildings");
         //System.out.println("reading building");
-        for (int i = 1; i < buildings.length(); i++) {
+        for (int i = 2; i < buildings.length(); i++) {
             JSONObject building = buildings.getJSONObject(i);
             SimpleIntegerProperty x = new SimpleIntegerProperty(building.getInt("x"));
             SimpleIntegerProperty y = new SimpleIntegerProperty(building.getInt("y"));
