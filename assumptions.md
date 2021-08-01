@@ -126,7 +126,7 @@ Press “H” to take Health Potion.
 
 Assumption for Items Appearance:
 
-Only gold will appear when slugs are defeated.
+gold/exp/card will appear when slugs are defeated. appearance will be 10%.
 When zombie is killed, there must be gold, different chances for additional items(weapons, potions, outfits, card).
 Card and potion may appear on path tiles by a chance < 2%.
 When vampire is killed, there must be gold with one additional reward(any item). But chances for another additional item.
