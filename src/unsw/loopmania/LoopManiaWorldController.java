@@ -278,6 +278,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher academySwitcher;
 
+    private MenuSwitcher battleSwitcher;
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -518,32 +520,17 @@ public class LoopManiaWorldController {
                 }
                 
             }
-            System.out.println(world.getCharacter().getPosition().getCurrentPositionInPath());
+            // System.out.println(world.getCharacter().getPosition().getCurrentPositionInPath());
             List<Enemy> defeatedEnemies = world.runBattles();
-            System.out.println(world.getCharacter().getAttr().getCurHealth().get());
-            System.out.println(world.getCharacter().shouldExist().get());
-            System.out.println(world.getCharacter().getAttr().getHealth().get());
+            // System.out.println(world.getCharacter().getAttr().getCurHealth().get());
+            // System.out.println(world.getCharacter().shouldExist().get());
+            // System.out.println(world.getCharacter().getAttr().getHealth().get());
+            if (!defeatedEnemies.isEmpty() || !world.getCharacter().shouldExist().get()) {
+                switchToBattle();
+            }
             if (!world.getCharacter().shouldExist().get()) {
-                if (world.getEquip().getRing() != null) {
-                    world.getEquip().getRing().rebirth(world);
-                    world.getEquip().getRing().destroy();
-                    world.getEquip().dropRing();
-                } 
-                else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
-                    Item i = world.getEquip().getSecondHealth().get(0);
-                    i.secondEffect(world, null);
-                    if (i instanceof Shield) {
-                        world.getEquip().dropShield();
-                    }
-                    else if (i instanceof Weapon) {
-                        world.getEquip().dropWeapon();
-                    }
-                }
-                else {
-                    System.out.println("losing game");
-                    switchToLose();
-                }
-                
+                System.out.println("losing game");
+                switchToLose();               
             }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {
@@ -712,18 +699,9 @@ public class LoopManiaWorldController {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());
             int choice = new Random().nextInt(100);
-            if ((new Random()).nextInt(100) < 30) {
+            if ((new Random()).nextInt(100) < 10) {
                 loadCard();
             } 
-            if (world.isTheOneRing() && choice < 30) {
-                loadTheOneRing();
-            }
-            else if (world.isAnduril() && choice < 60) {
-                loadAnduril();
-            }
-            else if (world.isTreeStump() && choice < 90) {
-                loadTreeStump();
-            }
         } else if (enemy instanceof Vampire) {
             loadGold(enemy.getGoldAfterDeath());
             loadExp(enemy.getExpAfterDeath());
@@ -861,26 +839,26 @@ public class LoopManiaWorldController {
      * load the card for different type
      */
     public void loadCard() {
-        int cardChoice = new Random().nextInt(7);
+        int cardChoice = new Random().nextInt(36);
         if (cardChoice == 0) {
             loadVampireCard();
         }
-        else if (cardChoice == 1) {
+        else if (cardChoice < 10) {
             loadZombieCard();    
         }
-        else if (cardChoice == 2) {
+        else if (cardChoice < 13) {
             loadVillageCard();    
         }
-        else if (cardChoice == 3) {
+        else if (cardChoice < 15) {
             loadBarrackCard();    
         }
-        else if (cardChoice == 4) {
+        else if (cardChoice < 18) {
             loadTowerCard();    
         }
-        else if (cardChoice == 5) {
+        else if (cardChoice < 34) {
             loadTrapCard();    
         }
-        else if (cardChoice == 6) {
+        else if (cardChoice < 36) {
             loadCampFireCard();    
         }
     }
@@ -2032,5 +2010,14 @@ public class LoopManiaWorldController {
     public void switchToAcademy() {
         pause();
         academySwitcher.switchMenu();
+    }
+
+    public void setBattleSwitcher(MenuSwitcher switcher) {
+        battleSwitcher = switcher;
+    }
+
+    public void switchToBattle() {
+        pause();
+        battleSwitcher.switchMenu();
     }
 }

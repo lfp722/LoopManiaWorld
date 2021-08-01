@@ -32,6 +32,8 @@ public class TheOneRing extends Item {
         SimpleIntegerProperty maxH = world.getCharacter().getAttr().getHealth();
         curH.set(maxH.get());
         world.getCharacter().shouldExist().set(true);
+        String curHe = world.getCharacter().getAttr().getCurHealth().get() + "/" + world.getCharacter().getAttr().getHealth().get();
+        world.getBattleStatus().add("The one ring has saved your life! Come on and revenge! Your health is: " + curHe + "!\n");
     }
 
     @Override

@@ -34,7 +34,7 @@ public class LoopManiaApplication extends Application {
 
     private Parent gameRoot;
 
-    private String path = "world_with_twists_and_turns.json";
+    private String path = "2021-08-02T07:56:13.413039.json";
 
     public void setPath(String path) {
         this.path = path;
@@ -49,6 +49,7 @@ public class LoopManiaApplication extends Application {
             gameRoot = gameLoader.load();
         }
         catch (IOException e) {
+            System.out.println("lalala");
             return;
         }
 
@@ -73,15 +74,9 @@ public class LoopManiaApplication extends Application {
         loadLoader.setController(loadController);
         Parent loadMenuRoot = loadLoader.load();
 
-        
+
         setMainController(path);
 
-        // load the main game
-        // LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader(path);
-        // mainController = loopManiaLoader.loadController();
-        // FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
-        // gameLoader.setController(mainController);
-        // Parent gameRoot = gameLoader.load();
 
         // load the main menu
         MainMenuController mainMenuController = new MainMenuController();
@@ -124,11 +119,25 @@ public class LoopManiaApplication extends Application {
         academyLoader.setController(academyController);
         Parent academyRoot = academyLoader.load();
 
-        //Scene scene = new Scene(storeRoot);
+        BattleSceneController battleController = new BattleSceneController(mainController.getWorld());
+        FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("BattleScene.fxml"));
+        battleLoader.setController(battleController);
+        Parent battleRoot = battleLoader.load();
+
+        WorldBuildController wbController = new WorldBuildController();
+        FXMLLoader wbLoader = new FXMLLoader(getClass().getResource("WorldBuilder.fxml"));
+        wbLoader.setController(wbController);
+        Parent wbRoot = wbLoader.load();
+
+        
+
+        // Scene scene = new Scene(storeRoot);
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        startController.setNewSwitcher(()->{switchToRoot(scene, mainMenuRoot, primaryStage);});
+        startController.setNewSwitcher(()->{
+            switchToRoot(scene, mainMenuRoot, primaryStage);
+        });
 
         startController.setLoadSwitcher(()->{switchToRoot(scene, loadMenuRoot, primaryStage);});
 
@@ -171,7 +180,22 @@ public class LoopManiaApplication extends Application {
             
         });
 
+        startController.setBuilderSwitcher(()->{switchToRoot(scene, wbRoot, primaryStage);});
+
+        wbController.setMenuSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
+
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
+
+        mainController.setBattleSwitcher(() -> {
+            switchToRoot(scene, battleRoot, primaryStage);
+            battleController.startScene();
+        });
+
+        battleController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+
         mainMenuController.setNormalGameSwitcher(() -> {
             mainController.setMode(LoopManiaWorld.NORMAL);
 

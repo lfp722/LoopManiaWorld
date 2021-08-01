@@ -59,6 +59,7 @@ public class Zombie extends Enemy {
 
     @Override
     public void criticalAttack(Soldier object, LoopManiaWorld world) {
+        world.getBattleStatus().add("Soldier " + world.getCharacter().getArmy().indexOf(object) + "has been tranced into a Zombie!\n");
         EntityAttribute attr = object.dead();
         Zombie a = new Zombie(this.getPosition(), cycle, attr);
         world.getEnemies().add(a);

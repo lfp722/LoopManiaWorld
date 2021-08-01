@@ -6,6 +6,7 @@ public class StartMenuController {
     private MenuSwitcher newSwitcher;
     private MenuSwitcher loadSwitcher;
     private MenuSwitcher aboutSwitcher;
+    private MenuSwitcher builderSwitcher;
 
     public void setNewSwitcher(MenuSwitcher switcher) {
         newSwitcher = switcher;
@@ -17,6 +18,10 @@ public class StartMenuController {
 
     public void setAboutSwitcher(MenuSwitcher switcher) {
         aboutSwitcher = switcher;
+    }
+
+    public void setBuilderSwitcher(MenuSwitcher switcher) {
+        builderSwitcher = switcher;
     }
 
     @FXML
@@ -32,6 +37,11 @@ public class StartMenuController {
     @FXML
     private void switchToAbout() {
         aboutSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToBuilder() {
+        builderSwitcher.switchMenu();
     }
     
 }

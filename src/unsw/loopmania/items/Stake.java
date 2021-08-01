@@ -34,9 +34,13 @@ public class Stake extends Weapon {
     public void specialEffect(Enemy e, LoopManiaWorld world) {
         if (e instanceof Vampire) {
             world.getCharacter().getStakeVampireBuff().set(3);
+            world.getBattleStatus().add("Attacking a vampire, triple attacking buff triggered!\n");
+
         }
         else {
             world.getCharacter().getStakeVampireBuff().set(1);
+            world.getBattleStatus().add("Attacking a normal enemy, triple attacking buff cancelled!\n");
+
         }
     }
 
