@@ -71,7 +71,7 @@ public class LoopManiaWorld {
 
     private List<Item> boughtItems = new ArrayList<>();
 
-    private StringBuilder battleStatus;
+    private List<String> battleStatus;
 
     /**
      * generic entitites - i.e. those which don't have dedicated fields
@@ -132,7 +132,7 @@ public class LoopManiaWorld {
         goal = new FinalGoal();
         doggiePrice = new SimpleIntegerProperty(5000);
         defeatedBoss = new SimpleIntegerProperty(0);
-        battleStatus = new StringBuilder();
+        battleStatus = new ArrayList<String>();
     }
 
     /**
@@ -168,6 +168,11 @@ public class LoopManiaWorld {
     }
 
     
+
+    public List<String> getBattleStatus() {
+        return battleStatus;
+    }
+
 
     public int getMode() {
         return mode;
@@ -381,21 +386,30 @@ public class LoopManiaWorld {
         //     System.out.println("I am dead!");
         // }
         Collections.sort(battleEnemies);
+        battleStatus.add("Battle Starts!");
+        int soldierCount = character.getArmy().size();
+        int curDefeatedBoss = defeatedBoss.get();
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
-            int soldierCount = 1;
+            
+            battleStatus.add("It's your turn!'");
             for (Soldier s: ch.getArmy()) {
                 Enemy target = battleEnemies.get(0);
+                String name = target.toJSON().getString("type") + " " + enemies.indexOf(target);
                 s.attack(target);
                 //System.out.println("Soldier attack enemy");
-                battleStatus.append("Soldier " + soldierCount + " attacks " + target.toJSON().getString("type") + " " + enemies.indexOf(target));
+                battleStatus.add("Soldier " + character.getArmy().indexOf(s) + " attacks " + name + '\n');
+                battleStatus.add(name + " suffered " + s.getAttr().getAttack().get() + " points of damage\n");
                 if (!target.shouldExist().get()) {
+                    battleStatus.add(name + " has been defeated!\n");
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
                     //System.out.println("Enemy defeated");
                     if (battleEnemies.isEmpty()) { 
                         break; 
                     }
+                } else {
+                    battleStatus.add(name + " is still alive!\n");
                 }
                 soldierCount++;
             }
@@ -409,15 +423,23 @@ public class LoopManiaWorld {
             for (Enemy s: ch.getTranced()) {
                 Enemy target = battleEnemies.get(0);
                 s.attack(target);
+                String name = target.toJSON().getString("type");
+
                 //System.out.println("Tranced enemy attack enemy");
+                battleStatus.add("Tranced " + s.toJSON().getString("type") + ch.getTranced().indexOf(s) + " attacks " + name + "\n");
+                battleStatus.add(name + " suffered " + s.getAttribute().getAttack().get() + " points of damage\n");
+
                 if (!target.shouldExist().get()) {
-                    
+                    battleStatus.add(name + " has been defeated!\n");
+
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
                     //System.out.println("Enemy defeated");
                     if (battleEnemies.isEmpty()) { 
                         break; 
                     }
+                } else {
+                    battleStatus.add(name + " is still alive! Having health " + target.getAttribute().getCurHealth().get() + "/" + target.getAttribute().getHealth().get() + "\n"); 
                 }
             }
             if (battleEnemies.isEmpty()) {
@@ -428,6 +450,7 @@ public class LoopManiaWorld {
             // }
             Enemy target = battleEnemies.get(0);
             ch.attack(target);
+
             //System.out.println("Character attack enemy");
             if (!enemies.contains(target)) {
                 battleEnemies.remove(target);
@@ -436,18 +459,31 @@ public class LoopManiaWorld {
             else if (!target.shouldExist().get()) {
                 battleEnemies.remove(target);
                 defeatedEnemies.add(target);
+                String name = target.toJSON().getString("type") + " " + enemies.indexOf(target);
+                battleStatus.add(name + " has been defeated!\n");
+
                 //System.out.println("Enemy defeated");
             }
 
  
-
+            battleStatus.add("It's enemy's turn!\n");
             List<Enemy> battleCopy = new ArrayList<>(battleEnemies);
+            
             for (Enemy e: battleCopy) {
                 if (!ch.getTranced().isEmpty()) {
                     Enemy brave = ch.getTranced().get(0);
                     e.attack(brave);
+                    String name = brave.toJSON().getString("type") + ch.getTranced().indexOf(brave);
+                    String eName = e.toJSON().getString("type") + enemies.indexOf(e);
+                    battleStatus.add(eName + " attacks " + name);
+                    battleStatus.add("Tranced " + name + " suffers " + e.getAttribute().getAttack().get() + "points of damage\n");
+
                     if (!brave.shouldExist().get()) {
                         character.getTranced().remove(brave);
+                        battleStatus.add(name + " has been defeated!\n");
+
+                    } else {
+                        battleStatus.add(name + " is still alive! Having health " + brave.getAttribute().getCurHealth().get() + "/" + brave.getAttribute().getHealth().get() + "\n");
                     }
                 }
 
@@ -465,6 +501,7 @@ public class LoopManiaWorld {
                 if (e instanceof ElanMuske) {
                     ElanMuske elan = (ElanMuske) e;
                     elan.healEnemy(battleCopy);
+                    battleStatus.add("Elan uses his special ability \"Light of Heal\", all the enemies are healed!\n");
                 }
             }
 
@@ -473,6 +510,7 @@ public class LoopManiaWorld {
             e.destroy();
         }
         ch.getTranced().clear();
+        battleStatus.add("You win! Total enemies defeated: " + defeatedEnemies.size() + ", Bosses defeated: " + (defeatedBoss.get() - curDefeatedBoss) + ", Soldiers defeated: " + (character.getArmy().size() - soldierCount) + ". Current Health: " + character.getAttr().getCurHealth().get() + "/" + character.getAttr().getHealth().get() + "\n");
     }
 
     /**
@@ -612,6 +650,7 @@ public class LoopManiaWorld {
     private void removeCard(int index){
         Card c = cardEntities.get(index);
         int x = c.getX();
+        addGold((new Random()).nextInt(50) + 100);
         c.destroy();
         cardEntities.remove(index);
         shiftCardsDownFromXCoordinate(x);
@@ -971,7 +1010,7 @@ public class LoopManiaWorld {
         
         // has a chance spawning an item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
-        int choice = rand.nextInt(2); 
+        int choice = rand.nextInt(5); 
         if ((choice == 0) && (spawnItems.size() < 4)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
@@ -999,7 +1038,7 @@ public class LoopManiaWorld {
         
         // has a chance spawning an item on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
-        int choice = rand.nextInt(2); 
+        int choice = rand.nextInt(5); 
         if ((choice == 0) && (spawnItems.size() < 4)){
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));

@@ -46,9 +46,13 @@ public class TreeStump extends Shield{
     public void specialEffect(Enemy e, LoopManiaWorld world) {
         if (e.getBoss()) {
             world.getCharacter().getTsBuff().set(3);
+            world.getBattleStatus().add("Attacked by a boss, triple defending buff triggered!\n");
+
         }
         else {
             world.getCharacter().getTsBuff().set(1);
+            world.getBattleStatus().add("Attacked by normal enemy, triple attacking buff cancelled!\n");
+
         }
     }
 

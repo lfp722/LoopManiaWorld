@@ -46,9 +46,11 @@ public class Anduril extends Weapon{
     public void specialEffect(Enemy e, LoopManiaWorld world) {
         if (e.getBoss()) {
             world.getCharacter().getStakeVampireBuff().set(3);
+            world.getBattleStatus().add("Attacking a boss, triple attacking buff triggered!\n");
         }
         else {
             world.getCharacter().getStakeVampireBuff().set(1);
+            world.getBattleStatus().add("Attacking a normal enemy, triple attacking buff cancelled!\n");
         }
     }
 
