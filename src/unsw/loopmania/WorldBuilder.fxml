@@ -31,11 +31,11 @@
             <Font name="Bradley Hand Bold" size="25.0" />
          </font>
       </Text>
-      <Button layoutX="121.0" layoutY="101.0" mnemonicParsing="false" onAction="generatePath" prefHeight="121.0" prefWidth="359.0" text="Generate Path" textFill="#e61d1d">
+      <Button layoutX="121.0" layoutY="101.0" mnemonicParsing="false" onAction="#generatePath" prefHeight="121.0" prefWidth="359.0" text="Generate Path" textFill="#e61d1d">
          <font>
             <Font name="Luminari" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="239.0" layoutY="314.0" mnemonicParsing="false" onAction="switchToMenu" prefHeight="41.0" prefWidth="103.0" text="Back To Menu" />
+      <Button layoutX="239.0" layoutY="314.0" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="41.0" prefWidth="103.0" text="Back To Menu" />
    </children>
 </AnchorPane>
