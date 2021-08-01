@@ -191,9 +191,16 @@ public class LoopManiaApplication extends Application {
 
         mapController.setStartSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
 
-        mapController.setMapSwitcher((String path)->{
-            setPath(path);
-            setMainController(path);
+        mapController.setMapSwitcher((String spath)->{
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            String newPath = s + "/worlds/"+spath;
+            System.out.println(newPath);
+            //setPath(newPath);
+            setMainController(newPath);
+
+            // setPath(path);
+            // setMainController(path);
             switchToRoot(scene, mainMenuRoot, primaryStage);
         });
 
