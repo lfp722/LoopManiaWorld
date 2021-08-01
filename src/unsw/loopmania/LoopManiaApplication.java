@@ -187,6 +187,7 @@ public class LoopManiaApplication extends Application {
         mapController.setStartSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
 
         mapController.setMapSwitcher((String path)->{
+            setPath(path);
             setMainController(path);
             switchToRoot(scene, mainMenuRoot, primaryStage);
         });
