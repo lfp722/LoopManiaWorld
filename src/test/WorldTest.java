@@ -601,7 +601,7 @@ public class WorldTest {
 
         PathPosition pos = new PathPosition(0, world.getOrderedPath());
         world.getEnemies().clear();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             Enemy slug = new Slug(pos, 5);
             world.getEnemies().add(slug);
         }
