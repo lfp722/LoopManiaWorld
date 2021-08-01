@@ -529,26 +529,8 @@ public class LoopManiaWorldController {
                 switchToBattle();
             }
             if (!world.getCharacter().shouldExist().get()) {
-                // if (world.getEquip().getRing() != null) {
-                //     world.getEquip().getRing().rebirth(world);
-                //     world.getEquip().getRing().destroy();
-                //     world.getEquip().dropRing();
-                // } 
-                // else if (!world.getEquip().getSecondHealth().isEmpty() && world.isConfusing()) {
-                //     Item i = world.getEquip().getSecondHealth().get(0);
-                //     i.secondEffect(world, null);
-                //     if (i instanceof Shield) {
-                //         world.getEquip().dropShield();
-                //     }
-                //     else if (i instanceof Weapon) {
-                //         world.getEquip().dropWeapon();
-                //     }
-                // }
-
                 System.out.println("losing game");
-                switchToLose();
-
-                
+                switchToLose();               
             }
             List<Potion> picked = world.pickUp();
             for (Potion i: picked) {

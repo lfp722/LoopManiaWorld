@@ -59,6 +59,10 @@ public class BattleSceneController {
                 m.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
                 m.setFill(Color.GREEN);
             }
+            else if (des.equals("No battle enemies any more, Tranced enemy will be killed!/n")) {
+                m.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
+                m.setFill(Color.ROSYBROWN);
+            }
 
             squares.add(m, 0, rowNum);
             rowNum += 1;
