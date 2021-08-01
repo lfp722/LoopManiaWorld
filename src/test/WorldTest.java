@@ -591,44 +591,27 @@ public class WorldTest {
     public void testBattleWithStaff() {
         battleBuilder();
         world.getCharacter().getArmy().get(0).setAttr(new EntityAttribute(0, 0, 50000));
+        world.getCharacter().getArmy().remove(2);
+        world.getCharacter().getArmy().remove(1);
         SimpleIntegerProperty x = new SimpleIntegerProperty(1);
         SimpleIntegerProperty y = new SimpleIntegerProperty(1);
         Staff staff = new Staff(x, y);
         world.getEquip().equipWeapon(staff);
         List<Enemy> defeated = new ArrayList<>();
-        List<Enemy> all = new ArrayList<>(world.getEnemies());
 
         PathPosition pos = new PathPosition(0, world.getOrderedPath());
-        Slug s0 = new Slug(pos, 8);
-        all.add(s0);
-        Slug s1 = new Slug(pos, 8);
-        all.add(s1);
-        Slug s2 = new Slug(pos, 8);
-        all.add(s2);
-        Slug s3 = new Slug(pos, 8);
-        all.add(s3);
-        Slug s4 = new Slug(pos, 8);
-        all.add(s4);
-        Slug s5 = new Slug(pos, 8);
-        all.add(s5);
-        Slug s6 = new Slug(pos, 8);
-        all.add(s6);
-        Slug s7 = new Slug(pos, 8);
-        all.add(s7);
-        Slug s8 = new Slug(pos, 8);
-        all.add(s8);
-        Slug s9 = new Slug(pos, 8);
-        all.add(s9);
-        Slug s10 = new Slug(pos, 8);
-        all.add(s10);
-        all.remove(1);
+        world.getEnemies().clear();
+        for (int i = 0; i < 20; i++) {
+            Enemy slug = new Slug(pos, 5);
+            world.getEnemies().add(slug);
+        }
 
         //System.out.println(defeated.size());
-
+        List<Enemy> all = new ArrayList<>(world.getEnemies());
         world.battle(all, defeated, world.getCharacter());
 
 
-        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 15);
+        assertTrue(!world.getCharacter().shouldExist().get() || defeated.size() == 20);
     }
 
     @Test
@@ -698,9 +681,28 @@ public class WorldTest {
     @Test
     public void testRestart() {
         battleBuilder();
+        SimpleIntegerProperty x = new SimpleIntegerProperty(1);
+        SimpleIntegerProperty y = new SimpleIntegerProperty(1);
+        Building newB = new Tower(x, y);
+        world.getBuildingEntities().add(newB);
+        Card newC = new ZombiePitCard(x, y);
+        world.getCardEntities().add(newC);
+        for (int i = 0; i < 100; i++) {
+            world.possiblySpawnPotion();
+        }
+        for (int i = 0; i < 120; i++) {
+            world.runTickMoves();
+            if (!world.pickUp().isEmpty()) {
+                break;
+            }
+        }
         world.restart();
         assertTrue(world.getEnemies().isEmpty());
         assertTrue(world.getCharacter().getArmy().isEmpty());
+        assertTrue(world.getBuildingEntities().isEmpty());
+        assertTrue(world.getSpawnItems().isEmpty());
+        assertTrue(world.getInventory().isEmpty());
+        assertTrue(world.getCardEntities().isEmpty());
     }
 
     @Test
