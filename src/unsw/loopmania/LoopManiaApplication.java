@@ -75,6 +75,12 @@ public class LoopManiaApplication extends Application {
 
         
         setMainController(path);
+        
+        LoadMapController mapController = new LoadMapController();
+        FXMLLoader mapLoader = new FXMLLoader(getClass().getResource("LoadMap.fxml"));
+        mapLoader.setController(mapController);
+        Parent loadMapRoot = mapLoader.load();
+
 
         // load the main game
         // LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader(path);
@@ -129,11 +135,13 @@ public class LoopManiaApplication extends Application {
         battleLoader.setController(battleController);
         Parent battleRoot = battleLoader.load();
 
+        
+
         // Scene scene = new Scene(storeRoot);
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        startController.setNewSwitcher(()->{switchToRoot(scene, mainMenuRoot, primaryStage);});
+        startController.setNewSwitcher(()->{switchToRoot(scene, loadMapRoot, primaryStage);});
 
         startController.setLoadSwitcher(()->{switchToRoot(scene, loadMenuRoot, primaryStage);});
 
@@ -174,6 +182,13 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
             
+        });
+
+        mapController.setStartSwitcher(()->{switchToRoot(scene, startMenuRoot, primaryStage);});
+
+        mapController.setMapSwitcher((String path)->{
+            setMainController(path);
+            switchToRoot(scene, mainMenuRoot, primaryStage);
         });
 
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
