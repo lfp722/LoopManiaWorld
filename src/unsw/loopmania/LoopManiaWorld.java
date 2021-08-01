@@ -386,16 +386,17 @@ public class LoopManiaWorld {
         //     System.out.println("I am dead!");
         // }
         Collections.sort(battleEnemies);
-        battleStatus.add("Battle Starts!");
+        battleStatus.clear();
+        battleStatus.add("Battle Starts!\n");
         int soldierCount = character.getArmy().size();
-        int curDefeatedBoss = defeatedBoss.get();
+        int curDefeatedBoss = 0;
         
         while (!battleEnemies.isEmpty() && ch.shouldExist().get()) {
             
-            battleStatus.add("It's your turn!'");
+            battleStatus.add("It's your turn!\n");
             for (Soldier s: ch.getArmy()) {
                 Enemy target = battleEnemies.get(0);
-                String name = target.toJSON().getString("type") + " " + enemies.indexOf(target);
+                String name = target.toJSON().getString("type") + enemies.indexOf(target);
                 s.attack(target);
                 //System.out.println("Soldier attack enemy");
                 battleStatus.add("Soldier " + character.getArmy().indexOf(s) + " attacks " + name + '\n');
@@ -404,16 +405,17 @@ public class LoopManiaWorld {
                     battleStatus.add(name + " has been defeated!\n");
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
+                    if (target.getBoss()) {
+                        curDefeatedBoss += 1;
+                    }
                     //System.out.println("Enemy defeated");
                     if (battleEnemies.isEmpty()) { 
                         break; 
                     }
                 } else {
-                    battleStatus.add(name + " is still alive!\n");
+                    battleStatus.add(name + " is still alive! Having health " + target.getAttribute().getCurHealth().get() + "/" + target.getAttribute().getHealth().get() + "\n"); 
                 }
-                soldierCount++;
             }
-            soldierCount = 1;
 
             if (battleEnemies.isEmpty()) {
                 break;
@@ -434,6 +436,9 @@ public class LoopManiaWorld {
 
                     battleEnemies.remove(target);
                     defeatedEnemies.add(target);
+                    if (target.getBoss()) {
+                        curDefeatedBoss += 1;
+                    }
                     //System.out.println("Enemy defeated");
                     if (battleEnemies.isEmpty()) { 
                         break; 
@@ -457,12 +462,23 @@ public class LoopManiaWorld {
                 defeatedEnemies.add(target);
             }
             else if (!target.shouldExist().get()) {
+                if (target.getBoss()) {
+                    curDefeatedBoss += 1;
+                }
                 battleEnemies.remove(target);
                 defeatedEnemies.add(target);
-                String name = target.toJSON().getString("type") + " " + enemies.indexOf(target);
+                String name = target.toJSON().getString("type") + enemies.indexOf(target);
                 battleStatus.add(name + " has been defeated!\n");
 
                 //System.out.println("Enemy defeated");
+            }
+            else {
+                String name = target.toJSON().getString("type") + enemies.indexOf(target);
+                battleStatus.add(name + " is still alive! Having health " + target.getAttribute().getCurHealth().get() + "/" + target.getAttribute().getHealth().get() + "\n"); 
+            }
+
+            if (battleEnemies.isEmpty()) {
+                break;
             }
 
  
@@ -475,7 +491,7 @@ public class LoopManiaWorld {
                     e.attack(brave);
                     String name = brave.toJSON().getString("type") + ch.getTranced().indexOf(brave);
                     String eName = e.toJSON().getString("type") + enemies.indexOf(e);
-                    battleStatus.add(eName + " attacks " + name);
+                    battleStatus.add(eName + " attacks Tranced " + name);
                     battleStatus.add("Tranced " + name + " suffers " + e.getAttribute().getAttack().get() + "points of damage\n");
 
                     if (!brave.shouldExist().get()) {
@@ -495,6 +511,24 @@ public class LoopManiaWorld {
 
                 else{
                     e.attack(ch);
+                    if (!ch.shouldExist().get()) {
+                        if (getEquip().getRing() != null) {
+                            getEquip().getRing().rebirth(this);
+                            getEquip().getRing().destroy();
+                            getEquip().dropRing();
+                        } 
+                        else if (!getEquip().getSecondHealth().isEmpty() && isConfusing()) {
+                            Item i = getEquip().getSecondHealth().get(0);
+                            i.secondEffect(this, null);
+                            if (i instanceof Shield) {
+                                getEquip().dropShield();
+                            }
+                            else if (i instanceof Weapon) {
+                                getEquip().dropWeapon();
+                            }
+                        }
+                        
+                    }
                     //System.out.println("Enemy attack soldier");
                 }
 
@@ -506,11 +540,18 @@ public class LoopManiaWorld {
             }
 
         }
+        if (!character.getTranced().isEmpty()) {
+            battleStatus.add("No battle enemies any more, Tranced enemy will be killed!/n");
+        }
         for (Enemy e: ch.getTranced()) {
             e.destroy();
+            String name = e.toJSON().getString("type") + ch.getTranced().indexOf(e);
+            battleStatus.add("Tranced "+name+" is destroyed!\n");
         }
         ch.getTranced().clear();
-        battleStatus.add("You win! Total enemies defeated: " + defeatedEnemies.size() + ", Bosses defeated: " + (defeatedBoss.get() - curDefeatedBoss) + ", Soldiers defeated: " + (character.getArmy().size() - soldierCount) + ". Current Health: " + character.getAttr().getCurHealth().get() + "/" + character.getAttr().getHealth().get() + "\n");
+        if (character.shouldExist().get()) {
+            battleStatus.add("You win!\n Total enemies defeated: " + defeatedEnemies.size() + "\n Bosses defeated: " + curDefeatedBoss + "\n Soldiers defeated: " + (soldierCount - character.getArmy().size()) + "\n Current Health: " + character.getAttr().getCurHealth().get() + "/" + character.getAttr().getHealth().get() + "\n");
+        }    
     }
 
     /**

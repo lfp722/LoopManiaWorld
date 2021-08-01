@@ -109,9 +109,13 @@ public class Character extends MovingEntity{
             return;
         }
         equipped.specialAttack(enemy, world);
+        if (tranced.contains(enemy)) {
+            return;
+        }
         int actualAttack = attr.getAttack().get()+equipped.getAttack();
         enemy.underAttack(actualAttack);
         String name = enemy.toJSON().getString("type") + world.getEnemies().indexOf(enemy);
+        world.getBattleStatus().add("You" + " attacked " + name + "\n");
         world.getBattleStatus().add(name + " suffered " + actualAttack + " points of damage\n");
 
     }
@@ -133,7 +137,7 @@ public class Character extends MovingEntity{
      * @param attack
      */
     public void underAttack(Enemy e, int attack) {
-        world.getBattleStatus().add("You have been attacked by " + e.toJSON().getString("type") + " " + world.getEnemies().indexOf(e) + "!\n");
+        world.getBattleStatus().add("You have been attacked by " + e.toJSON().getString("type") + world.getEnemies().indexOf(e) + "!\n");
         if (counterMiss) {
             setMiss();
             if (miss.get()) {

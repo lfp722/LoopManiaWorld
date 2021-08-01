@@ -124,7 +124,12 @@ public class LoopManiaApplication extends Application {
         academyLoader.setController(academyController);
         Parent academyRoot = academyLoader.load();
 
-        //Scene scene = new Scene(storeRoot);
+        BattleSceneController battleController = new BattleSceneController(mainController.getWorld());
+        FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("BattleScene.fxml"));
+        battleLoader.setController(battleController);
+        Parent battleRoot = battleLoader.load();
+
+        // Scene scene = new Scene(storeRoot);
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
@@ -172,6 +177,17 @@ public class LoopManiaApplication extends Application {
         });
 
         mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, exitRoot, primaryStage);});
+
+        mainController.setBattleSwitcher(() -> {
+            switchToRoot(scene, battleRoot, primaryStage);
+            battleController.startScene();
+        });
+
+        battleController.setGameSwitcher(() -> {
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+
         mainMenuController.setNormalGameSwitcher(() -> {
             mainController.setMode(LoopManiaWorld.NORMAL);
 

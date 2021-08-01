@@ -29,7 +29,7 @@ public class Staff extends Weapon {
             return;
         }
         world.getCharacter().getTranced().add(enemy);
-        String name = enemy.toJSON().getString("type") + " " + world.getEnemies().indexOf(enemy);
+        String name = enemy.toJSON().getString("type") + world.getEnemies().indexOf(enemy);
         world.getBattleStatus().add(name + " has been tranced by staff, it joins your army!\n");
         world.getEnemies().remove(enemy);
     }
